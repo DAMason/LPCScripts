@@ -59,26 +59,29 @@ def main(argv):
      print ("providing the username is rather required")
      parser.print_help()
      sys.exit(1)
+     
+     
+     
+   context=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+   context.load_verify_locations(capath=options.capath)
+   context.load_cert_chain(options.cert)
        
+
+
    print("server: ",options.hosturl)  
    print("capath: ",options.capath)
    print("cert: ",options.cert)
    
    print("\nDisplaying details for user: ",options.username)
 
+   # first getUserInfo   
    
-   
-   testqueryurl=options.hosturl+"/getUserInfo?username="+options.username
-   
-   context=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-   context.load_verify_locations(capath=options.capath)
-   context.load_cert_chain(options.cert)
-
-   f=urllib2.urlopen(testqueryurl,context=context)
-
-   print (f.read())
-   
- 
+   queryUrl=options.hosturl+"/getUserInfo?username="+options.username
+   jsonReply=urllib2.urlopen(queryUrl,context=context).read()
+   print ("Full Name:       ",jsonReply[0][full_name])
+   print ("UID:             ",jsonReply[0][uid])
+   print ("Status:          ",jsonReply[0][status])
+   print ("Exp. Date        ",jsonReply[0][expiration_date])
  
  
  
