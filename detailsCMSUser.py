@@ -55,8 +55,8 @@ def main(argv):
    testqueryurl=options.hosturl+"/getUserGroups?username=dmason"
    
    context=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-   context.load_verify_locations(capath=mycapath)
-   context.load_cert_chain(mycert)
+   context.load_verify_locations(capath=options.capath)
+   context.load_cert_chain(options.cert)
 
    f=urllib2.urlopen(testqueryurl,context=context)
 
