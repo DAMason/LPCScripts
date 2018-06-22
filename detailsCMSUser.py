@@ -30,7 +30,7 @@ def main(argv):
    """
    usage = "Usage: %prog [options] thing\n"
    parser=OptionParser(usage=usage)
-   parser.add_option("-u", "--hosturl", action="store", type="string", 
+   parser.add_option("-s", "--server", action="store", type="string", 
                      default=FERRYHOSTURL, dest="hosturl", 
                      help="Server host URL")
    
@@ -43,16 +43,32 @@ def main(argv):
    parser.add_option("-c", "--cert", action="store", type="string",
                      default=defaultcertloc, dest="cert",
                      help="full path to cert")
+                     
+   parser.add_option("-u", "--username", action="store", type="string",
+                     default=None, dest="username",
+                     help="username to show details of")
    
    (options,args)=parser.parse_args()
    
-     
-   print("host: ",options.hosturl)  
+   
+   """
+   And here we go...
+   """   
+   
+   if not options.username:
+     print ("providing the username is rather required")
+     parser.print_help()
+     sys.exit(1)
+       
+   print("server: ",options.hosturl)  
    print("capath: ",options.capath)
    print("cert: ",options.cert)
+   
+   print("\nDisplaying details for user: ",options.username)
 
    
-   testqueryurl=options.hosturl+"/getUserGroups?username=dmason"
+   
+   testqueryurl=options.hosturl+"/getUserInfo?username="+options.username
    
    context=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
    context.load_verify_locations(capath=options.capath)
