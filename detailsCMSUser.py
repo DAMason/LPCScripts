@@ -2,6 +2,7 @@
 
 import os
 import sys
+import json
 import urllib.request as urllib2
 import ssl
 from optparse import OptionParser
@@ -77,11 +78,12 @@ def main(argv):
    # first getUserInfo   
    
    queryUrl=options.hosturl+"/getUserInfo?username="+options.username
-   jsonReply=urllib2.urlopen(queryUrl,context=context).read()
-   print ("Full Name:       ",jsonReply[0][full_name])
-   print ("UID:             ",jsonReply[0][uid])
-   print ("Status:          ",jsonReply[0][status])
-   print ("Exp. Date        ",jsonReply[0][expiration_date])
+   reply=urllib2.urlopen(queryUrl,context=context).read()
+   replyJson=json.loads(reply)
+   print ("Full Name:       ",replyJson[0][full_name])
+   print ("UID:             ",replyJson[0][uid])
+   print ("Status:          ",replyJson[0][status])
+   print ("Exp. Date        ",replyJson[0][expiration_date])
  
  
  
