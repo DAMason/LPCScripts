@@ -25,12 +25,24 @@ class FERRYTools(urllib2.HTTPSHandler):
 
 #getUser API call, returns dictionary
 
+    def genericFerryQuery(query):
+       replyJson={}
+       queryUrl=self.hosturl+query
+       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
+       replyJson=json.loads(str(reply))
+       if ("ferry_error" in replyJson.keys()):
+         print ("Ferry Error:" + replyJson['ferry_error'])
+         sys.exit(1)
+       return replyJson
+
     def getUserInfo(self,username):   
         
        replyJson={}
-       queryUrl=self.hosturl+"/getUserInfo?username="+username
-       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
-       replyJson=json.loads(str(reply))
+       query="/getUserInfo?username="+username
+       replyJson=genericFerryQuery(query)
+   #    queryUrl=self.hosturl+"/getUserInfo?username="+username
+   #    reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
+   #    replyJson=json.loads(str(reply))
        
        return replyJson
        
