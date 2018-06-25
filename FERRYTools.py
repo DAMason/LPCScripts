@@ -37,7 +37,7 @@ class FERRYTools(urllib2.HTTPSHandler):
     def getUserShellandHomedir(self,username):   
         
        replyJson={}
-       queryUrl=self.hosturl+"/getUserShellAndHomeDir?username="+username+"?resourcename="+DEFAULTSTORAGERESOURCE
+       queryUrl=self.hosturl+"/getUserShellAndHomeDir?username="+username+"&resourcename="+DEFAULTSTORAGERESOURCE
        reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
        replyJson=json.loads(str(reply))
        

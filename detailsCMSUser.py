@@ -84,7 +84,8 @@ def main(argv):
    print ("Exp. Date        ",replyJson[0]['expiration_date'])
 
    replyJson=Ferry.getUserShellandHomedir(options.username)
-   print (replyJson)
+   print ("Home dir         ",replyJson[0]['shell'])
+   print ("Shell            ",replyJson[0]['homedir'])
    
 if __name__=='__main__':
   main(sys.argv[1:])
