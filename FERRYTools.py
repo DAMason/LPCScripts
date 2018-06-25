@@ -25,7 +25,7 @@ class FERRYTools(urllib2.HTTPSHandler):
 
 #getUser API call, returns dictionary
 
-    def getUserInfo(username):   
+    def getUserInfo(self,username):   
         
        replyJson={}
        queryUrl=self.hosturl+"/getUserInfo?username="+username
@@ -33,6 +33,16 @@ class FERRYTools(urllib2.HTTPSHandler):
        replyJson=json.loads(str(reply))
        
        return replyJson
+       
+    def getUserShellandHomedir(self,username):   
+        
+       replyJson={}
+       queryUrl=self.hosturl+"/getUserShellAndHomeDir?username="+username+"?resourcename="+DEFAULTSTORAGERESOURCE
+       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
+       replyJson=json.loads(str(reply))
+       
+       return replyJson
+       
        
        
        

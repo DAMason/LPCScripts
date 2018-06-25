@@ -62,12 +62,6 @@ def main(argv):
      parser.print_help()
      sys.exit(1)
      
-   
-     
-#   context=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-#   context.load_verify_locations(capath=options.capath)
-#   context.load_cert_chain(options.cert)
-       
 
 
    print("server: ",options.hosturl)  
@@ -82,18 +76,15 @@ def main(argv):
 
    # first getUserInfo   
    
-   replyJson=Ferry.getUserInfo(username=options.username)
-   
-#   queryUrl=options.hosturl+"/getUserInfo?username="+options.username
-#   reply=urllib2.urlopen(queryUrl,context=context).read().decode('utf8')
-#   print (str(reply))
-#   replyJson=json.loads(str(reply))
+   replyJson=Ferry.getUserInfo(options.username)
+
    print ("Full Name:       ",replyJson[0]['full_name'])
    print ("UID:             ",replyJson[0]['uid'])
    print ("Status:          ",replyJson[0]['status'])
    print ("Exp. Date        ",replyJson[0]['expiration_date'])
 
- 
+   replyJson=Ferry.getUserShellandHomedir(options.username)
+   print (replyJson)
    
 if __name__=='__main__':
   main(sys.argv[1:])
