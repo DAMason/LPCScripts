@@ -75,7 +75,7 @@ def main(argv):
    print("cert: ",options.cert)
    
    
-   Ferry=FerryTools(hosturl=options.hosturl,cert=options.cert,capath=options.capath)  
+   Ferry=FERRYTools(hosturl=options.hosturl,cert=options.cert,capath=options.capath)  
 
    
    print("\nDisplaying details for user: ",options.username)
