@@ -7,6 +7,7 @@ import urllib.request as urllib2
 import ssl
 from optparse import OptionParser
 from LPCScriptsConfig import *
+from FERRYTools import *
 
 
 """
@@ -61,11 +62,11 @@ def main(argv):
      parser.print_help()
      sys.exit(1)
      
+   
      
-     
-   context=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-   context.load_verify_locations(capath=options.capath)
-   context.load_cert_chain(options.cert)
+#   context=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+#   context.load_verify_locations(capath=options.capath)
+#   context.load_cert_chain(options.cert)
        
 
 
@@ -73,14 +74,20 @@ def main(argv):
    print("capath: ",options.capath)
    print("cert: ",options.cert)
    
+   
+   Ferry=FerryTools(hosturl=options.hosturl,cert=options.cert,capath=options.capath)  
+
+   
    print("\nDisplaying details for user: ",options.username)
 
    # first getUserInfo   
    
-   queryUrl=options.hosturl+"/getUserInfo?username="+options.username
-   reply=urllib2.urlopen(queryUrl,context=context).read().decode('utf8')
-   print (str(reply))
-   replyJson=json.loads(str(reply))
+   replyJson=Ferry.getUserInfo(options.username)
+   
+#   queryUrl=options.hosturl+"/getUserInfo?username="+options.username
+#   reply=urllib2.urlopen(queryUrl,context=context).read().decode('utf8')
+#   print (str(reply))
+#   replyJson=json.loads(str(reply))
    print ("Full Name:       ",replyJson[0]['full_name'])
    print ("UID:             ",replyJson[0]['uid'])
    print ("Status:          ",replyJson[0]['status'])
