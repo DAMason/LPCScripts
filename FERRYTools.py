@@ -25,13 +25,13 @@ class FERRYTools(urllib2.HTTPSHandler):
 
 #getUser API call, returns dictionary
 
-    def genericFerryQuery(query):
+    def genericFerryQuery(self,query):
        replyJson={}
        queryUrl=self.hosturl+query
        reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
        replyJson=json.loads(str(reply))
-       if ("ferry_error" in replyJson.keys()):
-         print ("Ferry Error:" + replyJson['ferry_error'])
+       if (type(replyJson) is dict and "ferry_error" in replyJson.keys()):
+         print ("Ferry Error:    " + replyJson['ferry_error'])
          sys.exit(1)
        return replyJson
 
@@ -39,37 +39,33 @@ class FERRYTools(urllib2.HTTPSHandler):
         
        replyJson={}
        query="/getUserInfo?username="+username
-       replyJson=genericFerryQuery(query)
-   #    queryUrl=self.hosturl+"/getUserInfo?username="+username
-   #    reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
-   #    replyJson=json.loads(str(reply))
+       replyJson=self.genericFerryQuery(query)
+
        
        return replyJson
        
     def getUserShellandHomedir(self,username):   
         
        replyJson={}
-       queryUrl=self.hosturl+"/getUserShellAndHomeDir?username="+username+"&resourcename="+DEFAULTSTORAGERESOURCE
-       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
-       replyJson=json.loads(str(reply))
+       query="/getUserShellAndHomeDir?username="+username+"&resourcename="+DEFAULTSTORAGERESOURCE
+       replyJson=self.genericFerryQuery(query)
+
        
        return replyJson
        
     def getUserQuotas(self,username):   
         
        replyJson={}
-       queryUrl=self.hosturl+"/getUserAllStorageQuotas?username="+username
-       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
-       replyJson=json.loads(str(reply))
-       
+       query="/getUserAllStorageQuotas?username="+username
+       replyJson=self.genericFerryQuery(query)
+
        return replyJson
        
     def getUserDNs(self,username):   
         
        replyJson={}
-       queryUrl=self.hosturl+"/getUserCertificateDNs?username="+username
-       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
-       replyJson=json.loads(str(reply))
+       query="/getUserCertificateDNs?username="+username
+       replyJson=self.genericFerryQuery(query)
        
        return replyJson       
        
@@ -77,9 +73,9 @@ class FERRYTools(urllib2.HTTPSHandler):
     def getUserGroups(self,username):   
         
        replyJson={}
-       queryUrl=self.hosturl+"/getUserGroups?username="+username
-       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
-       replyJson=json.loads(str(reply))
+       query="/getUserGroups?username="+username
+       replyJson=self.genericFerryQuery(query)
+
        
        return replyJson          
        
