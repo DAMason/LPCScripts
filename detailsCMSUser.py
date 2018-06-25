@@ -82,7 +82,7 @@ def main(argv):
 
    # first getUserInfo   
    
-   replyJson=Ferry.getUserInfo(options.username)
+   replyJson=Ferry.getUserInfo(username=options.username)
    
 #   queryUrl=options.hosturl+"/getUserInfo?username="+options.username
 #   reply=urllib2.urlopen(queryUrl,context=context).read().decode('utf8')
