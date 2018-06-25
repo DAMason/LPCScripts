@@ -99,8 +99,8 @@ def main(argv):
    
    print ("\n DN\'s")
    replyJson=Ferry.getUserDNs(options.username)
-   for dn in replyJson:
-     print(dn['unitname'],dn['dn'],dn['issuer_ca'])
+   for dn in replyJson['certficiates']:
+     print(dn)
    
    
 if __name__=='__main__':
