@@ -97,10 +97,16 @@ def main(argv):
      
    print ("\nGroups")
    
+   replyJson=Ferry.getUserGroups(options.username)
+   for group in replyJson:
+     print (group['gid'].ljust(1),group['groupname'].ljust(2),group['grouptype'].ljust(3))
+   
    print ("\n DN\'s")
    replyJson=Ferry.getUserDNs(options.username)
    for dn in replyJson['certficiates']:
      print(dn)
+   
+   
    
    
 if __name__=='__main__':

@@ -62,7 +62,14 @@ class FERRYTools(urllib2.HTTPSHandler):
        return replyJson       
        
        
+    def getUserGroups(self,username):   
+        
+       replyJson={}
+       queryUrl=self.hosturl+"/getUserGroups?username="+username
+       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
+       replyJson=json.loads(str(reply))
        
+       return replyJson          
        
        
 if __name__=='__main__':
