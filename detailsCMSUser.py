@@ -89,7 +89,7 @@ def main(argv):
 
    print ("\nStorage Quotas:")
    
-      replyJson=Ferry.getUserQuotas(options.username)
+   replyJson=Ferry.getUserQuotas(options.username)
    for resource in replyJson:
      print (resource['resourcename'].ljust(10),end=' ')
      print (resource['value'].rjust(15),resource['unit'].ljust(5),end=' ')
@@ -101,7 +101,7 @@ def main(argv):
    print ("\nGroups")
 
    replyJson=Ferry.getUserGroups(options.username)
-   for group in replyJson
+   for group in replyJson:
      print (str(group['gid']).ljust(6),group['groupname'].rjust(20),group['grouptype'].ljust(10))
      
      
