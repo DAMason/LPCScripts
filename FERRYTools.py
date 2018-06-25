@@ -20,8 +20,8 @@ class FERRYTools(urllib2.HTTPSHandler):
        self.hosturl=hosturl
        
        self.context=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-       self.context.load_verify_locations(capath=options.capath)
-       self.context.load_cert_chain(options.cert)
+       self.context.load_verify_locations(capath=capath)
+       self.context.load_cert_chain(cert)
 
 #getUser API call, returns dictionary
 
