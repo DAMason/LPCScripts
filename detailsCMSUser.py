@@ -88,25 +88,29 @@ def main(argv):
    print ("Shell            ",replyJson[0]['homedir'])
 
    print ("\nStorage Quotas:")
-
-   replyJson=Ferry.getUserQuotas(options.username)
+   
+      replyJson=Ferry.getUserQuotas(options.username)
    for resource in replyJson:
-     print (resource['resourcename'].ljust(2),end=' ')
-     print (resource['value'].rjust(3),resource['unit'].ljust(4),end=' ')
-     print (resource['path'].ljust(5),resource['validuntil'].ljust(6))
+     print (resource['resourcename'].ljust(10),end=' ')
+     print (resource['value'].rjust(15),resource['unit'].ljust(5),end=' ')
+     print (resource['path'].ljust(30),resource['validuntil'].ljust(6))
      
+     
+     
+
    print ("\nGroups")
-   
+
    replyJson=Ferry.getUserGroups(options.username)
-   for group in replyJson:
-     print (group['gid'].ljust(1),group['groupname'].ljust(2),group['grouptype'].ljust(3))
-   
+   for group in replyJson
+     print (str(group['gid']).ljust(6),group['groupname'].rjust(20),group['grouptype'].ljust(10))
+     
+     
+
    print ("\n DN\'s")
    replyJson=Ferry.getUserDNs(options.username)
-   for dn in replyJson['certficiates']:
+   for dn in replyJson[0]['certificates']:
      print(dn)
-   
-   
+
    
    
 if __name__=='__main__':
