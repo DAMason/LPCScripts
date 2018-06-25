@@ -52,6 +52,16 @@ class FERRYTools(urllib2.HTTPSHandler):
        
        return replyJson
        
+    def getUserDNs(self,username):   
+        
+       replyJson={}
+       queryUrl=self.hosturl+"/getUserCertificateDNs?username="+username
+       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
+       replyJson=json.loads(str(reply))
+       
+       return replyJson       
+       
+       
        
        
        

@@ -91,9 +91,17 @@ def main(argv):
 
    replyJson=Ferry.getUserQuotas(options.username)
    for resource in replyJson:
-     print (resource['resourcename'].ljust(1),end=' ')
-     print (resource['value'].rjust(3),resource['unit'].ljust(3),end=' ')
-     print (resource['path'].ljust(4),resource['validuntil'].ljust(5))
+     print (resource['resourcename'].ljust(2),end=' ')
+     print (resource['value'].rjust(3),resource['unit'].ljust(4),end=' ')
+     print (resource['path'].ljust(5),resource['validuntil'].ljust(6))
+     
+   print ("\nGroups")
+   
+   print ("\n DN\'s")
+   replyJson=Ferry.getUserDNs(options.username)
+   for dn in replyJson:
+     print(dn['unitname'],dn['dn'],dn['issuer_ca'])
+   
    
 if __name__=='__main__':
   main(sys.argv[1:])
