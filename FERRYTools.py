@@ -43,6 +43,15 @@ class FERRYTools(urllib2.HTTPSHandler):
        
        return replyJson
        
+    def getUserQuotas(self,username):   
+        
+       replyJson={}
+       queryUrl=self.hosturl+"/getUserAllStorageQuotas?username="+username
+       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
+       replyJson=json.loads(str(reply))
+       
+       return replyJson
+       
        
        
        

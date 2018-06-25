@@ -86,6 +86,14 @@ def main(argv):
    replyJson=Ferry.getUserShellandHomedir(options.username)
    print ("Home dir         ",replyJson[0]['shell'])
    print ("Shell            ",replyJson[0]['homedir'])
+
+   print ("\nStorage Quotas:")
+
+   replyJson=Ferry.getUserQuotas(options.username)
+   for resource in replyJson:
+     print (resource['resourcename'].ljust(1),end=' ')
+     print (resource['value'].rjust(3),resource['unit'].ljust(3),end=' ')
+     print (resource['path'].ljust(4),resource['validuntil'].ljust(5))
    
 if __name__=='__main__':
   main(sys.argv[1:])
