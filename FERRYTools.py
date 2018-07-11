@@ -18,8 +18,11 @@ class FERRYTools(urllib2.HTTPSHandler):
        self.cert=cert
        self.capath=capath
        self.hosturl=hosturl
-       
-       self.context=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+
+#      from Robert Illingworth -- prior to v3.6:       
+       self.context=ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+#      and post 3.6 (untested):
+#      self.context=ssl.SSLContext(ssl.PROTOCOL_TLS)
        self.context.load_verify_locations(capath=self.capath)
        self.context.load_cert_chain(self.cert)
 
