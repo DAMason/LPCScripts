@@ -84,8 +84,8 @@ def main(argv):
    print ("Exp. Date        ",replyJson[0]['expiration_date'])
 
    replyJson=Ferry.getUserShellandHomedir(options.username)
-   print ("Home dir         ",replyJson[0]['shell'])
-   print ("Shell            ",replyJson[0]['homedir'])
+   print ("Home dir         ",replyJson[0]['homedir'])
+   print ("Shell            ",replyJson[0]['shell'])
 
    print ("\nStorage Quotas:")
    
@@ -93,7 +93,7 @@ def main(argv):
    for resource in replyJson:
      print (resource['resourcename'].ljust(10),end=' ')
      print (resource['value'].rjust(15),resource['unit'].ljust(5),end=' ')
-     print (resource['path'].ljust(30),resource['validuntil'].ljust(6))
+     print (resource['path'].ljust(30),resource['validuntil'].ljust(20))
      
      
      
