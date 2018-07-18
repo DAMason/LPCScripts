@@ -31,10 +31,19 @@ class FERRYTools(urllib2.HTTPSHandler):
     def genericFerryQuery(self,query):
        replyJson={}
        queryUrl=self.hosturl+query
-       reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
+       try:
+          reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
+       except urllib2.HTTPError as err:
+         print ("Failed to open: %s" % queryUrl)
+         print ("Error code %i" % err)
+         sys.exit(1)
        replyJson=json.loads(str(reply))
        if (type(replyJson) is dict and "ferry_error" in replyJson.keys()):
-         print ("Ferry Error:    " + replyJson['ferry_error'])
+         print ("Failure trying to deal with: %s" % queryUrl)
+         if (replyJson['ferry_error'] is not None):
+           print ("Ferry Error:    " + replyJson['ferry_error'])
+         else:
+           print (replyJson)
          sys.exit(1)
        return replyJson
 
