@@ -28,18 +28,34 @@ class FERRYTools(urllib2.HTTPSHandler):
 
 #getUser API call, returns dictionary
 
-    def genericFerryQuery(self,query):
+    def genericFerryQuery(self,query,debug=False):
        replyJson={}
        queryUrl=self.hosturl+query
+       if (debug):
+         print ("Request: %s" % queryUrl)
        try:
           reply=urllib2.urlopen(queryUrl,context=self.context).read().decode('utf8')
-       except urllib2.HTTPError as err:
+       except (urllib2.HTTPError) as err:
          print ("Failed to open: %s" % queryUrl)
          print ("Error code %i" % err)
          sys.exit(1)
+       except (ConnectionRefusedError) as err:
+         print ("Failed to open: %s" % queryUrl)
+         print ("Error code %i" % err)
+         sys.exit(1)
+
+       
+       if (debug): 
+         print ("Returns:")
+         print (reply)
        replyJson=json.loads(str(reply))
+       if (debug):
+         print ("Json:")
+         print ("replyJson")
+       # seems ferry errors are a dict independent of whatever you are expecting
        if (type(replyJson) is dict and "ferry_error" in replyJson.keys()):
          print ("Failure trying to deal with: %s" % queryUrl)
+         # dealing with {"ferry_error",None}
          if (replyJson['ferry_error'] is not None):
            print ("Ferry Error:    " + replyJson['ferry_error'])
          else:
@@ -47,46 +63,46 @@ class FERRYTools(urllib2.HTTPSHandler):
          sys.exit(1)
        return replyJson
 
-    def getUserInfo(self,username):   
+    def getUserInfo(self,username,debug=False):   
         
        replyJson={}
        query="/getUserInfo?username="+username
-       replyJson=self.genericFerryQuery(query)
+       replyJson=self.genericFerryQuery(query,debug)
 
        
        return replyJson
        
-    def getUserShellandHomedir(self,username):   
+    def getUserShellandHomedir(self,username,debug=False):   
         
        replyJson={}
        query="/getUserShellAndHomeDir?username="+username+"&resourcename="+DEFAULTSTORAGERESOURCE
-       replyJson=self.genericFerryQuery(query)
+       replyJson=self.genericFerryQuery(query,debug)
 
        
        return replyJson
        
-    def getUserQuotas(self,username):   
+    def getUserQuotas(self,username,debug=False):   
         
        replyJson={}
        query="/getUserAllStorageQuotas?username="+username
-       replyJson=self.genericFerryQuery(query)
+       replyJson=self.genericFerryQuery(query,debug)
 
        return replyJson
        
-    def getUserDNs(self,username):   
+    def getUserDNs(self,username,debug=False):   
         
        replyJson={}
        query="/getUserCertificateDNs?username="+username
-       replyJson=self.genericFerryQuery(query)
+       replyJson=self.genericFerryQuery(query,debug)
        
        return replyJson       
        
        
-    def getUserGroups(self,username):   
+    def getUserGroups(self,username,debug=False):   
         
        replyJson={}
        query="/getUserGroups?username="+username
-       replyJson=self.genericFerryQuery(query)
+       replyJson=self.genericFerryQuery(query,debug)
 
        
        return replyJson          

@@ -49,6 +49,9 @@ def main(argv):
    parser.add_option("-u", "--username", action="store", type="string",
                      default=None, dest="username",
                      help="username to show details of")
+                     
+   parser.add_option("-d", "--debug", action="store_true", dest="debug",
+                     help="debug output")
    
    (options,args)=parser.parse_args()
    
