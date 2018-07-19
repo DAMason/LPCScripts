@@ -66,10 +66,11 @@ def main(argv):
      sys.exit(1)
      
 
-
-   print("server: ",options.hosturl)  
-   print("capath: ",options.capath)
-   print("cert: ",options.cert)
+   if options.debug:
+     print("server: ",options.hosturl)  
+     print("capath: ",options.capath)
+     print("cert: ",options.cert)
+     print("debug: ", options.debug)
    
    
    Ferry=FERRYTools(hosturl=options.hosturl,cert=options.cert,capath=options.capath)  
@@ -79,20 +80,20 @@ def main(argv):
 
    # first getUserInfo   
    
-   replyJson=Ferry.getUserInfo(options.username)
+   replyJson=Ferry.getUserInfo(options.username,options.debug)
 
    print ("Full Name:       ",replyJson[0]['full_name'])
    print ("UID:             ",replyJson[0]['uid'])
    print ("Status:          ",replyJson[0]['status'])
    print ("Exp. Date        ",replyJson[0]['expiration_date'])
 
-   replyJson=Ferry.getUserShellandHomedir(options.username)
+   replyJson=Ferry.getUserShellandHomedir(options.username,options.debug)
    print ("Home dir         ",replyJson[0]['homedir'])
    print ("Shell            ",replyJson[0]['shell'])
 
    print ("\nStorage Quotas:")
    
-   replyJson=Ferry.getUserQuotas(options.username)
+   replyJson=Ferry.getUserQuotas(options.username,options.debug)
    for resource in replyJson:
      print (resource['resourcename'].ljust(10),end=' ')
      print (resource['value'].rjust(15),resource['unit'].ljust(5),end=' ')
@@ -103,14 +104,14 @@ def main(argv):
 
    print ("\nGroups")
 
-   replyJson=Ferry.getUserGroups(options.username)
+   replyJson=Ferry.getUserGroups(options.username,options.debug)
    for group in replyJson:
      print (str(group['gid']).ljust(6),group['groupname'].rjust(20),group['grouptype'].ljust(10))
      
      
 
    print ("\n DN\'s")
-   replyJson=Ferry.getUserDNs(options.username)
+   replyJson=Ferry.getUserDNs(options.username,options.debug)
    for dn in replyJson[0]['certificates']:
      print(dn)
 
