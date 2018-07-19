@@ -51,7 +51,7 @@ class FERRYTools(urllib2.HTTPSHandler):
        replyJson=json.loads(str(reply))
        if (debug):
          print ("Json:")
-         print ("replyJson")
+         print (replyJson)
        # seems ferry errors are a dict independent of whatever you are expecting
        if (type(replyJson) is dict and "ferry_error" in replyJson.keys()):
          print ("Failure trying to deal with: %s" % queryUrl)
