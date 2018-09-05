@@ -19,12 +19,26 @@ class FERRYTools(urllib2.HTTPSHandler):
        self.capath=capath
        self.hosturl=hosturl
 
-#      from Robert Illingworth -- prior to v3.6:       
-       self.context=ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-#      and post 3.6 (untested):
-#      self.context=ssl.SSLContext(ssl.PROTOCOL_TLS)
-       self.context.load_verify_locations(capath=self.capath)
-       self.context.load_cert_chain(self.cert)
+
+# if we have a cert (ether passed from arguments or found to exist in the standard place)
+# we'll go and try to establish a proper SSL context -- otherwise we punt and go
+# the unverified route -- this looks to be the way to go if operating from a whitelisted
+# host.  self.cert assumed to be None if we didn't get one.
+
+       if not self.cert==None:
+
+#        from Robert Illingworth -- prior to v3.6:       
+         self.context=ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+#        and post 3.6 (untested):
+#        self.context=ssl.SSLContext(ssl.PROTOCOL_TLS)
+         self.context.load_verify_locations(capath=self.capath)
+         self.context.load_cert_chain(self.cert)
+         
+       else:
+       
+         self.context= ssl._create_unverified_context()
+         
+         
 
 #getUser API call, returns dictionary
 
@@ -57,10 +71,12 @@ class FERRYTools(urllib2.HTTPSHandler):
          print ("Failure trying to deal with: %s" % queryUrl)
          # dealing with {"ferry_error",None}
          if (replyJson['ferry_error'] is not None):
-           print ("Ferry Error:    " + replyJson['ferry_error'])
+           print ("Ferry Error:    " + str(replyJson['ferry_error']))
          else:
            print (replyJson)
-         sys.exit(1)
+
+       # don't actually abort on FERRY errors
+       #  sys.exit(1)
        return replyJson
 
     def getUserInfo(self,username,debug=False):   
@@ -87,6 +103,12 @@ class FERRYTools(urllib2.HTTPSHandler):
        query="/getUserAllStorageQuotas?username="+username
        replyJson=self.genericFerryQuery(query,debug)
 
+       return replyJson
+       
+    def getLPCEOSQuota(self,username,debug=False):
+       replyJson=self.getUserQuotas(username,debug)
+       
+       
        return replyJson
        
     def getUserDNs(self,username,debug=False):   

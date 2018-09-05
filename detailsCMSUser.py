@@ -65,6 +65,10 @@ def main(argv):
      parser.print_help()
      sys.exit(1)
      
+   if not os.path.exists(options.cert):
+     print ("cert: ",options.cert, 
+            " not found -- proceeding to assume host is in whitelist...")
+     options.cert=None
 
    if options.debug:
      print("server: ",options.hosturl)  
@@ -106,14 +110,15 @@ def main(argv):
 
    replyJson=Ferry.getUserGroups(options.username,options.debug)
    for group in replyJson:
-     print (str(group['gid']).ljust(6),group['groupname'].rjust(20),group['grouptype'].ljust(10))
+      print (str(group['gid']).ljust(6),group['groupname'].rjust(20),group['grouptype'].ljust(10))
      
      
 
    print ("\n DN\'s")
    replyJson=Ferry.getUserDNs(options.username,options.debug)
-   for dn in replyJson[0]['certificates']:
-     print(dn)
+   if not "ferry_error" in replyJson:
+     for dn in replyJson[0]['certificates']:
+       print(dn)
 
    
    
