@@ -101,7 +101,7 @@ class FERRYTools(urllib2.HTTPSHandler):
 
         return replyJson
 
-    def getUserQuotas(self, username, debug=False):   
+    def getUserQuotas(self, username, debug=False):
 
         replyJson = {}
         query = "/getUserAllStorageQuotas?username="+username
@@ -127,6 +127,14 @@ class FERRYTools(urllib2.HTTPSHandler):
 
         replyJson = {}
         query = "/getUserGroups?username="+username
+        replyJson = self.genericFerryQuery(query, debug)
+
+        return replyJson
+
+    def getPasswordInfo(self, debug=False):
+
+        replyJson = {}
+        query = "/getPasswdFile&resourcename=lpcinteractive"
         replyJson = self.genericFerryQuery(query, debug)
 
         return replyJson
