@@ -61,7 +61,7 @@ def main(argv):
     if not "ferry_error" in replyJson:
 
         for user in replyJson["cms"]["resources"]["lpcinteractive"]:
-            print (user["username"],":x:",user["uid"],":",user["gid"],":",user["gecos"],":",user["homedir"],":",user["shell"])
+            print (user["username"] + ':x:' + user["uid"] + ':' + user["gid"] + ':' + user["gecos"] + ':' + user["homedir"] + ':' + user["shell"])
 
 
 if __name__ == '__main__':
