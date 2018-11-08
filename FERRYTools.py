@@ -143,8 +143,10 @@ class FERRYTools(urllib2.HTTPSHandler):
     def getGridMap(self, debug=False):
 
         replyJson = {}
-        query = "/getGridMapFile?resourcename=lpcinteractive"
+        query = "/getGridMapFile?unitname=cms"
         replyJson = self.genericFerryQuery(query, debug)
+
+        return replyJson
 
 
 
