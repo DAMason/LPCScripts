@@ -134,10 +134,18 @@ class FERRYTools(urllib2.HTTPSHandler):
     def getPasswordInfo(self, debug=False):
 
         replyJson = {}
-        query = "/getPasswdFile&resourcename=lpcinteractive"
+        query = "/getPasswdFile?resourcename=lpcinteractive"
         replyJson = self.genericFerryQuery(query, debug)
 
         return replyJson
+
+
+    def getGridMap(self, debug=False):
+
+        replyJson = {}
+        query = "/getGridMapFile?resourcename=lpcinteractive"
+        replyJson = self.genericFerryQuery(query, debug)
+
 
 
 if __name__ == '__main__':

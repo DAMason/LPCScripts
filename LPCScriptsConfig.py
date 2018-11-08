@@ -10,6 +10,10 @@ Configuration options for the LPC scripts
 FERRYHOSTURL = "https://fermicloud033.fnal.gov:8443"
 
 
+# CERN VOMS URL
+VOMSHOSTURL = "https://voms2.cern.ch:8443"
+
+
 # CA path
 CAPATH = "/etc/grid-security/certificates"
 
