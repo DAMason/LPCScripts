@@ -92,8 +92,16 @@ def main(argv):
     print("\nStorage Quotas:")
 
     replyJson = Ferry.getUserQuotas(options.username, options.debug)
-    for resource in replyJson:
-        print(resource['resourcename'].ljust(10), end=' ')
+#    for resource in replyJson:
+#        print(resource['resourcename'].ljust(10), end=' ')
+    if options.debug:
+        print ("replyJson[options.username]: %s" % replyJson[options.username])
+
+    for k,resource in replyJson[options.username].items():
+        if options.debug:
+            print ("resource %s" % resource)
+
+        print(k.ljust(10), end=' ')
         print(resource['value'].rjust(15), resource['unit'].ljust(5), end=' ')
         print(resource['path'].ljust(30), resource['validuntil'].ljust(20))
 

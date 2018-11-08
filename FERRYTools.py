@@ -104,7 +104,7 @@ class FERRYTools(urllib2.HTTPSHandler):
     def getUserQuotas(self, username, debug=False):
 
         replyJson = {}
-        query = "/getUserAllStorageQuotas?username="+username
+        query = "/getStorageQuotas?username="+username
         replyJson = self.genericFerryQuery(query, debug)
 
         return replyJson

@@ -19,3 +19,6 @@ CAPATH = "/etc/grid-security/certificates"
 
 # default storage resource
 DEFAULTSTORAGERESOURCE = "lpcinteractive"
+
+# pool username to map non FNAL users too
+CMSDEFAULTPOOLUSER = "cms-crab-user"
