@@ -13,6 +13,10 @@ FERRYHOSTURL = "https://fermicloud033.fnal.gov:8443"
 # CERN VOMS URL
 VOMSHOSTURL = "https://voms2.cern.ch:8443"
 
+# Host cert and key locations
+HOSTCERT = "/etc/grid-security/hostcert.pem"
+HOSTKEY = "/etc/grid-security/hostkey.pem"
+
 
 # CA path
 CAPATH = "/etc/grid-security/certificates"

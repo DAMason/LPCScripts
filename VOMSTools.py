@@ -35,7 +35,7 @@ class VOMSTools(urllib2.HTTPSHandler):
 #    and post 3.6 (untested):
 #    self.context=ssl.SSLContext(ssl.PROTOCOL_TLS)
         self.context.load_verify_locations(capath=self.capath)
-        self.context.load_cert_chain(self.cert)
+        self.context.load_cert_chain(HOSTCERT,HOSTKEY)
 
 
     def getDNs(self, debug=False):
