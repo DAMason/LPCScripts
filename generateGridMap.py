@@ -53,9 +53,9 @@ def main(argv):
     And here we go...
     """
 
-   if not os.path.exists(options.cert):
+    if not os.path.exists(options.cert):
         print("cert: ", options.cert,
-             " not found -- proceeding to assume host is in whitelist..        .")
+              " not found -- proceeding to assume host is in whitelist..        .")
         options.cert=None
 
 
@@ -72,8 +72,9 @@ def main(argv):
 
     if not "ferry_error" in replyJson:
 
-        for user in replyJson["cms"]["resources"]["lpcinteractive"]:
-            print (user["username"] + ':x:' + user["uid"] + ':' + user["gid"] + ':' + user["gecos"] + ':' + user["homedir"] + ':' + user["shell"])
+        if options.debug:
+            for user in replyJson:
+                print ("%s  %s" %(user['mapped_uname'], user['userdn']))
 
 
 
