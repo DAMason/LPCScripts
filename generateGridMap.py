@@ -46,6 +46,10 @@ def main(argv):
     parser.add_option("-d", "--debug", action="store_true", dest="debug",
                       help="debug output")
 
+    parser.add_option("-o", "--output", action="store", type="string",
+                      default="grid-mapfile", dest="outputfile",
+                      help="output file")
+
     (options,args) = parser.parse_args()
 
 
@@ -70,17 +74,41 @@ def main(argv):
 
     replyJson = Ferry.getGridMap(options.debug)
 
+    fnalmap = {}
+
     if not "ferry_error" in replyJson:
 
-        if options.debug:
-            for user in replyJson:
-                print ("%s  %s" %(user['mapped_uname'], user['userdn']))
+        for user in replyJson:
+
+#   important to strip off the cilogon certs
+
+           if not "cilogon" in user['userdn']:
+                fnalmap[user['userdn']]=user['mapped_uname']
+
+                if options.debug:
+                    print ("%s  %s" %(user['mapped_uname'], user['userdn']))
+
 
 
 
     Voms=VOMSTools(cert=options.cert, capath=options.capath)
 
     VomsDNList=Voms.getDNs(debug=options.debug)
+
+    for dn in VomsDNList:
+
+        if dn not in fnalmap:
+            fnalmap[dn]=CMSDEFAULTPOOLUSER
+
+
+    f = open('options.outputfile', 'w')
+
+    for dn,user in fnalmap.items():
+       print ('"%s" %s'%(dn,user),file=f)
+
+
+    f.close()
+
 
 
 if __name__ == '__main__':
