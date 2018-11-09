@@ -101,7 +101,7 @@ def main(argv):
             fnalmap[dn]=CMSDEFAULTPOOLUSER
 
 
-    f = open('options.outputfile', 'w')
+    f = open(options.outputfile, 'w')
 
     for dn,user in fnalmap.items():
        print ('"%s" %s'%(dn,user),file=f)
