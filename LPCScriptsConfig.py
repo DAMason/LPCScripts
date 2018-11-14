@@ -26,3 +26,6 @@ DEFAULTSTORAGERESOURCE = "lpcinteractive"
 
 # pool username to map non FNAL users too
 CMSDEFAULTPOOLUSER = "cms-crab-user"
+
+# supplemental gridmap for special DN mappings
+HARDWIREDGRIDMAP = "grid-mapfile-hardwires"

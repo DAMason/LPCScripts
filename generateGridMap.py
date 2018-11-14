@@ -10,6 +10,7 @@ import os
 import sys
 import json
 import ssl
+import re
 from optparse import OptionParser
 from LPCScriptsConfig import *
 from FERRYTools import *
@@ -50,6 +51,10 @@ def main(argv):
                       default="grid-mapfile", dest="outputfile",
                       help="output file")
 
+    parser.add_option("-i", "--input", action="store", type="string",
+                      default=HARDWIREDGRIDMAP, dest="inputfile",
+                      help="input file for hardwired gridmaps")
+
     (options,args) = parser.parse_args()
 
 
@@ -67,6 +72,8 @@ def main(argv):
         print("server: ", options.hosturl)
         print("capath: ", options.capath)
         print("cert: ", options.cert)
+        print("output: ", options.outputfile)
+        print("input: ", options.inputfile)
         print("debug: ", options.debug)
 
 
@@ -83,22 +90,39 @@ def main(argv):
 #   important to strip off the cilogon certs
 
            if not "cilogon" in user['userdn']:
-                fnalmap[user['userdn']]=user['mapped_uname']
+                fnalmap[user['userdn']] = user['mapped_uname']
 
                 if options.debug:
                     print ("%s  %s" %(user['mapped_uname'], user['userdn']))
 
 
 
-
     Voms=VOMSTools(cert=options.cert, capath=options.capath)
 
-    VomsDNList=Voms.getDNs(debug=options.debug)
+    VomsDNList = Voms.getDNs(debug=options.debug)
 
     for dn in VomsDNList:
 
         if dn not in fnalmap:
             fnalmap[dn]=CMSDEFAULTPOOLUSER
+
+#   pulling in the hardwired gridmap file if it exists.  Do this last since we're
+#   overriding what is in so far
+
+    hwmap = {}
+    if os.path.exists(options.inputfile):
+        with open(options.inputfile, 'r') as hwinput:
+            for line in hwinput:
+                hwdn=re.findall(r'\"(.+?)\"',line)
+                hwuname=line.split()[-1]
+                if options.debug:
+                  print ("user: %s, dn: %s" % (hwuname,hwdn))
+                fnalmap[hwdn] = hwuname
+
+    else:
+        print("No hardwired input file: %s found, proceeding without...", options.inputfile)
+
+
 
 
     f = open(options.outputfile, 'w')
