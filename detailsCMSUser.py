@@ -17,7 +17,6 @@ The meat of the thing
 def main(argv):
 
 
-    #print("whoopee",argv[0])
 
 
     """
@@ -51,6 +50,9 @@ def main(argv):
 
     """
     And here we go...
+    In some of the dependent bits, like FERRYTools, have converted prints to logging
+    calls -- doesn't make a lot of sense for this though since its primarily a display
+    tool -- keeping the print statements and if's on options.debug
     """
 
     if not options.username:
@@ -71,7 +73,8 @@ def main(argv):
 
 
 
-    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath)
+    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert,
+                     capath=options.capath, debug=options.debug)
 
 
     print("\nDisplaying details for user: ", options.username)

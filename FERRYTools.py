@@ -6,6 +6,7 @@ Assuming python3 here.
 
 import os
 import sys
+import logging
 
 try:
     import urllib.request as urllib2
@@ -18,15 +19,40 @@ from LPCScriptsConfig import *
 
 class FERRYTools(urllib2.HTTPSHandler):
 
-    def __init__(self, hosturl=FERRYHOSTURL, cert=None, capath=None):
+    def __init__(self, hosturl=FERRYHOSTURL, cert=None,
+                 capath=None, logger=None, debug=False):
 
         urllib2.HTTPSHandler.__init__(self)
         self.cert = cert
         self.capath = capath
         self.hosturl = hosturl
+        self.debug = debug
 
 
-# if we have a cert (ether passed from arguments or found to exist in the standard place)
+        self.logger = logging.getLogger("FerryTools")
+        if not self.debug:
+            self.logger.setLevel(logging.INFO)
+        else:
+            self.logger.setLevel(logging.DEBUG)
+        self.logger.addHandler(logging.StreamHandler())
+
+        if not os.path.exists(LOGDIR):
+            self.logger.debug("Log dir %s doesn't exist -- creating!", LOGDIR)
+            os.mkdir(LOGDIR)
+        self.logpath=os.path.join(LOGDIR,DEFLOGFILE)
+        self.logfh=logging.FileHandler(self.logpath)
+        self.logger.addHandler(self.logfh)
+
+        self.logger.debug("No Logging set, using defaults")
+
+#        if logger is not None and isinstance(logger,logging):
+#            self.logger=logger
+
+
+
+
+
+# if we have a cert (either passed from arguments or found to exist in the standard place)
 # we'll go and try to establish a proper SSL context -- otherwise we punt and go
 # the unverified route -- this looks to be the way to go if operating from a whitelisted
 # host.  self.cert assumed to be None if we didn't get one.
@@ -45,32 +71,35 @@ class FERRYTools(urllib2.HTTPSHandler):
             self.context = ssl._create_unverified_context()
 
 
+
+
+
+
+
 #getUser API call, returns dictionary
 
     def genericFerryQuery(self, query, debug=False):
         replyJson = {}
         queryUrl = self.hosturl+query
-        if debug:
-            print("Request: %s" % queryUrl)
+
+        self.logger.debug("Request: %s" % queryUrl)
         try:
             reply = urllib2.urlopen(queryUrl, context=self.context).read().decode('utf8')
         except (urllib2.HTTPError) as err:
-            print("Failed to open: %s" % queryUrl)
-            print("Error code %i" % err)
+            self.logger.critical("Failed to open: %s" % queryUrl)
+            self.logger.critical("Error code %i" % err)
             sys.exit(1)
         except (ConnectionRefusedError) as err:
-            print("Failed to open: %s" % queryUrl)
-            print("Error code %i" % err)
+            self.logger.critical("Failed to open: %s" % queryUrl)
+            self.logger.critical("Error code %i" % err)
             sys.exit(1)
 
 
-        if debug:
-            print("Returns:")
-            print(reply)
+        self.logger.debug("Returns:")
+        self.logger.debug(reply)
         replyJson = json.loads(str(reply))
-        if debug:
-            print("Json:")
-            print(replyJson)
+        self.logger.debug("Json:")
+        self.logger.debug(replyJson)
         # seems ferry errors are a dict independent of whatever you are expecting
         if (type(replyJson) is dict and "ferry_error" in replyJson.keys()):
             print("Failure trying to deal with: %s" % queryUrl)

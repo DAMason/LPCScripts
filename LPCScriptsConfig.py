@@ -29,3 +29,11 @@ CMSDEFAULTPOOLUSER = "cms-crab-user"
 
 # supplemental gridmap for special DN mappings
 HARDWIREDGRIDMAP = "grid-mapfile-hardwires"
+
+# logging setup -- fallback in case this wasn't set up in another way
+# relative to current dir if it doesn't include a leading /
+LOGDIR = "log"
+# log file name
+DEFLOGFILE = "LPCScript.log"
+# Number of logfiles to keep
+NOLDLOGS = 100
