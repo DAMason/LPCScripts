@@ -5,6 +5,7 @@ Bits and pieces needed to deal with voms DN list
 
 import os
 import sys
+import logging
 
 try:
     import urllib.request as urllib2
