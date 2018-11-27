@@ -24,6 +24,7 @@ The meat of the thing
 def main(argv):
 
 
+
     """
     Options
     """
@@ -32,7 +33,7 @@ def main(argv):
 
     parser.add_option("-s", "--server", action="store", type="string",
                       default=FERRYHOSTURL, dest="hosturl",
-                      help="Server host URL")
+                      help="FERRY Server host URL")
 
     parser.add_option("-p", "--capath", action="store", type="string",
                       default=CAPATH, dest="capath",
@@ -68,38 +69,78 @@ def main(argv):
         options.cert=None
 
 
-    if options.debug:
-        print("server: ", options.hosturl)
-        print("capath: ", options.capath)
-        print("cert: ", options.cert)
-        print("output: ", options.outputfile)
-        print("input: ", options.inputfile)
-        print("debug: ", options.debug)
+    path, execname = os.path.split(sys.argv[0])
+    if len(execname) == 0:
+        execname="GridMap"
 
 
-    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath)
+# setting up logging -- end up passing this to *Tools so everybody logs to the same place
+
+    logger = logging.getLogger(execname)
+
+    logformatter = logging.Formatter('%(levelname)s %(message)s')
+    filelogformatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+
+
+    if not options.debug:
+        logger.setLevel(logging.INFO)
+    else:
+        logger.setLevel(logging.DEBUG)
+    logsh = logging.StreamHandler()
+
+    logsh.setFormatter(logformatter)
+    logger.addHandler(logsh)
+
+
+    if not os.path.exists(LOGDIR):
+        logger.debug("Log dir %s doesn't exist -- creating!", LOGDIR)
+        os.mkdir(LOGDIR)
+    logpath = os.path.join(LOGDIR,"GridMap.log")
+    logfh = logging.FileHandler(logpath)
+
+    logfh.setFormatter(filelogformatter)
+    logger.addHandler(logfh)
+
+    logger.debug("Parsing Options")
+
+
+
+    logger.debug("server: %s", options.hosturl)
+    logger.debug("capath: %s", options.capath)
+    logger.debug("cert: %s", options.cert)
+    logger.debug("output: %s", options.outputfile)
+    logger.debug("input: %s", options.inputfile)
+    logger.debug("debug: %s", options.debug)
+
+
+# Get the FERRY bits
+
+    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath,
+                     logobj=logger)
 
     replyJson = Ferry.getGridMap(options.debug)
 
     fnalmap = {}
 
+# ATM if we can't get a hold of FERRY looks like we map everyone to the default user
+#     except the hardwired maps
+
     if not "ferry_error" in replyJson:
 
         for user in replyJson:
 
-#   important to strip off the cilogon certs
+#   important for the LPC to strip off the cilogon certs
 
            if not "cilogon" in user['userdn']:
                 fnalmap[user['userdn']] = user['mapped_uname']
 
-                if options.debug:
-                    print ("%s  %s" %(user['mapped_uname'], user['userdn']))
+                logger.debug("%s  %s" %(user['mapped_uname'], user['userdn']))
 
 
 
-    Voms=VOMSTools(cert=options.cert, capath=options.capath)
+    Voms=VOMSTools(cert=options.cert, capath=options.capath, logobj=logger)
 
-    VomsDNList = Voms.getDNs(debug=options.debug)
+    VomsDNList = Voms.getDNs()
 
     for dn in VomsDNList:
 
@@ -107,7 +148,8 @@ def main(argv):
             fnalmap[dn]=CMSDEFAULTPOOLUSER
 
 #   pulling in the hardwired gridmap file if it exists.  Do this last since we're
-#   overriding what is in so far
+#   overriding what is in so far.  Expecting the hw gridmap file to be formatted like
+#   an actual gridmap file.
 
     hwmap = {}
     if os.path.exists(options.inputfile):
@@ -117,10 +159,10 @@ def main(argv):
                 hwuname=line.split()[-1]
                 if options.debug:
                   print ("user: %s, dn: %s" % (hwuname,hwdn))
-                fnalmap[hwdn] = hwuname
+                fnalmap[hwdn[0]] = hwuname
 
     else:
-        print("No hardwired input file: %s found, proceeding without...", options.inputfile)
+        logger.info("No hardwired input file: %s found, proceeding without...", options.inputfile)
 
 
 
@@ -137,13 +179,6 @@ def main(argv):
 
 if __name__ == '__main__':
 
-#  """
-#  Lets get this out of the way in the beginning.  Don't want to screw with the urllib changes
-#  pre python2.7, so we just go for python3 off the bat.
-#  """
-#  if (sys.version_info < (3, 0)):
-#      print ("run as: python3 detailsCMSUser.py ...")
-#      sys.exit()
 
 
     main(sys.argv[1:])

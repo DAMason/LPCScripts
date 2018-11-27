@@ -17,10 +17,17 @@ import ssl
 import json
 from LPCScriptsConfig import *
 
+
 class FERRYTools(urllib2.HTTPSHandler):
 
+
+
+#Set up logging and the SSL bits to talk to FERRY
+
+
+
     def __init__(self, hosturl=FERRYHOSTURL, cert=None,
-                 capath=None, logger=None, debug=False):
+                 capath=None, logobj=None, debug=False):
 
         urllib2.HTTPSHandler.__init__(self)
         self.cert = cert
@@ -28,25 +35,42 @@ class FERRYTools(urllib2.HTTPSHandler):
         self.hosturl = hosturl
         self.debug = debug
 
-
-        self.logger = logging.getLogger("FerryTools")
-        if not self.debug:
-            self.logger.setLevel(logging.INFO)
+        if logobj is not None and isinstance(logobj,logging.getLoggerClass()):
+            self.logger=logobj
         else:
-            self.logger.setLevel(logging.DEBUG)
-        self.logger.addHandler(logging.StreamHandler())
+            path, execname = os.path.split(sys.argv[0])
+            if len(execname) == 0:
+                execname="FERRYTools"
+            self.logger = logging.getLogger(execname)
+            self.logformatter =logging.Formatter(
+                '%(asctime)s %(name)s %(levelname)s %(message)s')
+            self.logsh = logging.StreamHandler()
+            self.logsh.setFormatter(self.logformatter)
+            self.logger.addHandler(self.logsh)
 
-        if not os.path.exists(LOGDIR):
-            self.logger.debug("Log dir %s doesn't exist -- creating!", LOGDIR)
-            os.mkdir(LOGDIR)
-        self.logpath=os.path.join(LOGDIR,DEFLOGFILE)
-        self.logfh=logging.FileHandler(self.logpath)
-        self.logger.addHandler(self.logfh)
 
-        self.logger.debug("No Logging set, using defaults")
 
-#        if logger is not None and isinstance(logger,logging):
-#            self.logger=logger
+            if not self.debug:
+                self.logger.setLevel(logging.INFO)
+            else:
+                self.logger.setLevel(logging.DEBUG)
+
+            if not os.path.exists(LOGDIR):
+                self.logger.debug("Log dir %s doesn't exist -- creating!", LOGDIR)
+                os.mkdir(LOGDIR)
+            self.logpath = os.path.join(LOGDIR,DEFLOGFILE)
+            self.logfh = logging.FileHandler(self.logpath)
+
+
+            self.logfh.setFormatter(self.logformatter)
+            self.logger.addHandler(self.logfh)
+
+
+        self.logger.debug("Starting SSL business")
+
+
+
+
 
 
 
@@ -72,11 +96,8 @@ class FERRYTools(urllib2.HTTPSHandler):
 
 
 
+# Generic method to interact with FERRY and try to log what happens
 
-
-
-
-#getUser API call, returns dictionary
 
     def genericFerryQuery(self, query, debug=False):
         replyJson = {}
@@ -112,6 +133,11 @@ class FERRYTools(urllib2.HTTPSHandler):
         # don't actually abort on FERRY errors
         #  sys.exit(1)
         return replyJson
+
+
+# individual API calls, essentially converting from a python method to the appropriate
+# REST call.
+
 
     def getUserInfo(self, username, debug=False):
 
