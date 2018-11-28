@@ -8,9 +8,11 @@ users on the T1
 from __future__ import print_function
 import os
 import sys
+import shutil
 import json
 import ssl
 import re
+import datetime
 from optparse import OptionParser
 from LPCScriptsConfig import *
 from FERRYTools import *
@@ -125,6 +127,8 @@ def main(argv):
 # ATM if we can't get a hold of FERRY looks like we map everyone to the default user
 #     except the hardwired maps
 
+
+    logging.debug("FERRY mapped IDs")
     if not "ferry_error" in replyJson:
 
         for user in replyJson:
@@ -157,15 +161,21 @@ def main(argv):
             for line in hwinput:
                 hwdn=re.findall(r'\"(.+?)\"',line)
                 hwuname=line.split()[-1]
-                if options.debug:
-                  print ("user: %s, dn: %s" % (hwuname,hwdn))
+                logger.debug("user: %s, dn: %s" % (hwuname,hwdn))
                 fnalmap[hwdn[0]] = hwuname
 
     else:
         logger.info("No hardwired input file: %s found, proceeding without...", options.inputfile)
 
+# paranoid backup into the log dir with timestamp
 
-
+    if os.path.exists(options.outputfile):
+        oldfilesize = os.path.getsize(options.outputfile)
+        backupfile = options.outputfile + str(time.time())
+        backuppath = os.path.join(LOGDIR,backupfile)
+        logging.debug("%s exists, making a backup to %s before writing new gridmap",
+                      options.outputfile, backuppath)
+        shutil.move(options.outputfile,backuppath)
 
     f = open(options.outputfile, 'w')
 
@@ -175,6 +185,14 @@ def main(argv):
 
     f.close()
 
+    newfilesize = os.path.getsize(options.outputfile)
+
+    sizediff = newfilesize - oldfilesize
+    logging.debug("Gridmap size change by %i (%2.2f) bytes" % (sizediff, sizediff/oldfilesize*100.0))
+
+    if newfilesize < oldfilesize:
+        logging.info("Gridmap size SHRANK by %i (%2.2f) bytes" % (abs(sizediff),
+                     abs(sizediff)/oldfilesize*100.0))
 
 
 if __name__ == '__main__':

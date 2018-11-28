@@ -10,6 +10,7 @@ import logging
 
 try:
     import urllib.request as urllib2
+    from urllib.error import URLError, HTTPError
 except ImportError:
     import urllib2
 
@@ -106,13 +107,17 @@ class FERRYTools(urllib2.HTTPSHandler):
         self.logger.debug("Request: %s" % queryUrl)
         try:
             reply = urllib2.urlopen(queryUrl, context=self.context).read().decode('utf8')
-        except (urllib2.HTTPError) as err:
+        except (HTTPError) as err:
             self.logger.critical("Failed to open: %s" % queryUrl)
-            self.logger.critical("Error code %i" % err)
+            self.logger.critical("Error code %s" % err)
             sys.exit(1)
         except (ConnectionRefusedError) as err:
             self.logger.critical("Failed to open: %s" % queryUrl)
             self.logger.critical("Error code %i" % err)
+            sys.exit(1)
+        except (URLError) as err:
+            self.logger.critical("Failed to open: %s" % queryUrl)
+            self.logger.critical("Error code %s" % err)
             sys.exit(1)
 
 

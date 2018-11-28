@@ -34,6 +34,8 @@ class VOMSTools(urllib2.HTTPSHandler):
         self.debug = debug
 
 
+# if given a logger use it, otherwise set one up
+
         if logobj is not None and isinstance(logobj,logging.getLoggerClass()):
             self.logger=logobj
         else:
@@ -79,6 +81,9 @@ class VOMSTools(urllib2.HTTPSHandler):
         self.context.load_verify_locations(capath=self.capath)
         self.context.load_cert_chain(HOSTCERT,HOSTKEY)
 
+
+
+
 # Really only one call -- returning a list of DN's that are members of the CMS VO.
 
     def getDNs(self):
@@ -110,6 +115,9 @@ class VOMSTools(urllib2.HTTPSHandler):
         self.logger.debug(dnList)
 
         return (dnList)
+
+
+
 
 if __name__ == '__main__':
 
