@@ -109,6 +109,7 @@ def main(argv):
 
     logging.debug("Getting FERRY LPC IDs from passwd file")
 
+    replyJson = {}
 
     replyJson = Ferry.getPasswordInfo(options.debug)
 
@@ -141,6 +142,8 @@ def main(argv):
 #  we should probably bail if this fails too -- one could argue we write a file with
 #  at least the FNAL usernames, but presumably this happened successfully in the past
 #  so better to just not update with something incomplete
+
+    replyCERNJson = {}
 
     replyCERNJson = Ferry.getCERNUserNames(options.debug)
 
