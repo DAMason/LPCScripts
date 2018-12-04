@@ -210,14 +210,14 @@ class FERRYTools(urllib2.HTTPSHandler):
         return replyJson
 
 
-    def getCERNUserNames(self, username=None, debug=False):
+    def getCERNUserNames(self, username="", debug=False):
 
         replyJson = {}
 
         query = "/getUserExternalAffiliationAttributes"
 
-        if username is not None:
-           query = "/getUserExternalAffiliationAttributes?username="+username
+        if len(username) > 0:
+           query = "/getUserExternalAffiliationAttributes?username=" + username
 
         replyJson = self.genericFerryQuery(query, debug)
 
