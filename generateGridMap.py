@@ -131,6 +131,11 @@ def main(argv):
 
     logging.debug("Getting FERRY mapped IDs")
 
+
+    if len(replyJson) == 0:
+        logger.critical("Empty reply from FERRY, aborting!")
+        sys.exit(3)
+
     if "ferry_error" in replyJson:
         # means something is wrong, so we don't want to mess with the existing gridmap
         # without some human eyes somewhere.
@@ -139,9 +144,6 @@ def main(argv):
         logger.critical(replyJson)
         sys.exit(2)
 
-    if len(replyJson) == 0:
-        logger.critical("Empty reply from FERRY, aborting!")
-        sys.exit(3)
 
     for user in replyJson:
 
