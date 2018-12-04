@@ -128,18 +128,28 @@ def main(argv):
 #     except the hardwired maps
 
 
-    logging.debug("FERRY mapped IDs")
-    if not "ferry_error" in replyJson:
+    logging.debug("Getting FERRY mapped IDs")
 
-        for user in replyJson:
+    if "ferry_error" in replyJson:
+        # means something is wrong, so we don't want to mess with the existing gridmap
+        # without some human eyes somewhere.
+        logger.critical("FERRY came back with an error, aborting!")
+        logger.critical("Returned json:")
+        logger.critical(replyJson)
+        sys.exit(2)
+
+    if len(replyJson) == 0:
+        logger.critical("Empty reply from FERRY, aborting!")
+        sys.exit(3)
+
+    for user in replyJson:
 
 #   important for the LPC to strip off the cilogon certs
 
-           if not "cilogon" in user['userdn']:
-                fnalmap[user['userdn']] = user['mapped_uname']
+        if not "cilogon" in user['userdn']:
+            fnalmap[user['userdn']] = user['mapped_uname']
 
-                logger.debug("%s  %s" %(user['mapped_uname'], user['userdn']))
-
+            logger.debug("%s  %s" %(user['mapped_uname'], user['userdn']))
 
 
     Voms=VOMSTools(cert=options.cert, capath=options.capath, logobj=logger)

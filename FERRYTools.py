@@ -128,14 +128,14 @@ class FERRYTools(urllib2.HTTPSHandler):
         self.logger.debug(replyJson)
         # seems ferry errors are a dict independent of whatever you are expecting
         if (type(replyJson) is dict and "ferry_error" in replyJson.keys()):
-            print("Failure trying to deal with: %s" % queryUrl)
+            self.logger.info("Failure trying to deal with: %s" % queryUrl)
          # dealing with {"ferry_error",None}
             if replyJson['ferry_error'] is not None:
-                print("Ferry Error:    " + str(replyJson['ferry_error']))
+                self.logger.info("Ferry Error:    " + str(replyJson['ferry_error']))
             else:
                 print(replyJson)
 
-        # don't actually abort on FERRY errors
+        # don't actually abort on FERRY errors -- depends on who's using this
         #  sys.exit(1)
         return replyJson
 
