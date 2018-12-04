@@ -210,7 +210,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         return replyJson
 
 
-    def getCERNUserNames(self, username=None, debug=False)
+    def getCERNUserNames(self, username=None, debug=False):
 
         replyJson = {}
 
