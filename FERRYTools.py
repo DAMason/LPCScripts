@@ -156,7 +156,8 @@ class FERRYTools(urllib2.HTTPSHandler):
     def getUserShellandHomedir(self, username, debug=False):
 
         replyJson = {}
-        query = "/getUserShellAndHomeDir?username="+username+"&resourcename="+DEFAULTSTORAGERESOURCE
+        query = "/getUserShellAndHomeDir?username="+username+"&resourcename="
+                 +DEFAULTSTORAGERESOURCE
         replyJson = self.genericFerryQuery(query, debug)
 
         return replyJson
@@ -207,6 +208,20 @@ class FERRYTools(urllib2.HTTPSHandler):
         replyJson = self.genericFerryQuery(query, debug)
 
         return replyJson
+
+
+    def getCERNUserNames(self, username=None, debug=False)
+
+        replyJson = {}
+
+        query = "/getUserExternalAffiliationAttributes"
+
+        if username is not None:
+           query = "/getUserExternalAffiliationAttributes?username="+username
+
+        replyJson = self.genericFerryQuery(query, debug)
+
+
 
 
 
