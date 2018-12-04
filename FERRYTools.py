@@ -156,7 +156,7 @@ class FERRYTools(urllib2.HTTPSHandler):
     def getUserShellandHomedir(self, username, debug=False):
 
         replyJson = {}
-        query = "/getUserShellAndHomeDir?username=" + username + "&resourcename=" +
+        query = "/getUserShellAndHomeDir?username=" + username + "&resourcename=" + \
                  DEFAULTSTORAGERESOURCE
         replyJson = self.genericFerryQuery(query, debug)
 
