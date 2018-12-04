@@ -140,7 +140,7 @@ def main(argv):
 #  at least the FNAL usernames, but presumably this happened successfully in the past
 #  so better to just not update with something incomplete
 
-    replyCERNJson = Ferry.getCernUserNames(options.debug)
+    replyCERNJson = Ferry.getCERNUserNames(options.debug)
 
 
     if "ferry_error" in replyCERNJson:
