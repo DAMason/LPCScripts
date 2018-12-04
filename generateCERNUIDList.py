@@ -111,7 +111,7 @@ def main(argv):
 
     replyJson = {}
 
-    replyJson = Ferry.getPasswordInfo(options.debug)
+    replyJson = Ferry.getPasswordInfo(debug=options.debug)
 
     if len(replyJson) == 0:
         logger.critical("Empty reply from FERRY, aborting!")
@@ -145,7 +145,7 @@ def main(argv):
 
     replyCERNJson = {}
 
-    replyCERNJson = Ferry.getCERNUserNames(options.debug)
+    replyCERNJson = Ferry.getCERNUserNames(debug=options.debug)
 
 
     if len(replyCERNJson) == 0:
