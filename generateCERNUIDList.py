@@ -130,7 +130,7 @@ def main(argv):
     for user in replyJson["cms"]["resources"]["lpcinteractive"]:
         # to start off we assume uid's are the same, then will override with any
         # CERN ID's we pull down later
-        cernuidlist{user["username"]} = user["username"]
+        cernuidlist[user["username"]] = user["username"]
 
 
 
