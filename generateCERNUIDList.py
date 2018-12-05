@@ -223,7 +223,7 @@ def main(argv):
 
 #   f is the list and m is the map file -- now we just spin over the thing and write.
 
-    nCERNUSers = 0
+    nCERNUsers = 0
 
     for fnal,cern in cernuidlist.items():
             print ("%s %s" % (fnal, cern), file=m)
@@ -232,7 +232,7 @@ def main(argv):
 
     f.close()
 
-    logger.info("$i users written to %s" % (nCERNUsers, options.outputfile))
+    logger.info("%i users written to %s" % (nCERNUsers, options.outputfile))
 
 
     newfilesize = os.path.getsize(options.outputfile)

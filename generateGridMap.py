@@ -207,7 +207,7 @@ def main(argv):
 
     f.close()
 
-    logger.info("$i users written to %s" % (nGridMapUsers, options.outputfile))
+    logger.info("%i users written to %s" % (nGridMapUsers, options.outputfile))
 
     newfilesize = os.path.getsize(options.outputfile)
 
