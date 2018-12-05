@@ -184,7 +184,7 @@ def main(argv):
 
 # paranoid backup into the log dir with timestamp
 
-    oldfilesize = 0
+    oldfilesize = 1
 
     if os.path.exists(options.outputfile):
         oldfilesize = os.path.getsize(options.outputfile)

@@ -1,0 +1,7 @@
+# pyc files
+*.pyc
+# config files that we don't want in the wild
+LPCScriptsConfig.py
+grid-mapfile-hardwires
+log
+cert

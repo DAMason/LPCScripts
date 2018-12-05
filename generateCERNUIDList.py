@@ -192,7 +192,7 @@ def main(argv):
 
 # paranoid backup into the log dir with timestamp
 
-    oldfilesize = 0
+    oldfilesize = 1
 
     if os.path.exists(options.outputfile):
         oldfilesize = os.path.getsize(options.outputfile)
@@ -208,7 +208,7 @@ def main(argv):
 #  and for the .map version
 
     outputmapfilename = options.outputfile + ".map"
-    oldmapfilesize = 0
+    oldmapfilesize = 1
 
     if os.path.exists(outputmapfilename):
         oldmapfilesize = os.path.getsize(outputmapfilename)
