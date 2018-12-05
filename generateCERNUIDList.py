@@ -41,7 +41,7 @@ def main(argv):
 
 
     parser.add_option("-o", "--output", action="store", type="string",
-                      default="grid-mapfile", dest="outputfile",
+                      default="CERNuids", dest="outputfile",
                       help="output file")
 
 
