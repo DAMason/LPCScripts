@@ -5,6 +5,7 @@ import os
 import sys
 import json
 import ssl
+import time
 from optparse import OptionParser
 from LPCScriptsConfig import *
 from FERRYTools import *
@@ -61,7 +62,7 @@ def main(argv):
 
     path, execname = os.path.split(sys.argv[0])
     if len(execname) == 0:
-        execname="GridMap"
+        execname="CERNUIDList"
 
 
 
@@ -161,8 +162,80 @@ def main(argv):
         logger.critical(replyCERNJson)
         sys.exit(2)
 
+    accountAttributes={}
+
+    for k,attrib in replyCERNJson.items():
+        logging.debug("%s" % attrib)
+        for a in attrib:
+           if a['attribute'] == 'cern_username':
+               accountAttributes[k] = a['value']
+               loggind.debug ("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
 
 
+#  now should have the list of LPC user ID's, mappings of those with CERN
+#  ID's as well, so now go through and substitute.
+
+    for fnal,cern in accountAttributes.items():
+       if fnal in cernuidlist:
+          cernuidlist[fnal]=cern
+       else:
+          logging.error("%s was not in passwd file! CERN ID: %s",
+                         fnal, cern)
+
+#  now we actually have a map of FNAL to CERN uid's to the extent people have
+#  given us the CERN UID's  Going to make two files -- one is a map file (probably
+#  useful for EOS) and then the list of CERN uid's.for CRAB or whatever.
+
+#  the first guy going to just take options.outputfile and append .map to the end
+
+# paranoid backup into the log dir with timestamp
+
+    if os.path.exists(options.outputfile):
+        oldfilesize = os.path.getsize(options.outputfile)
+        backupfile = options.outputfile + str(time.time())
+        backuppath = os.path.join(LOGDIR,backupfile)
+        logging.debug("%s exists, making a backup to %s before writing new uid list",
+                      options.outputfile, backuppath)
+        shutil.move(options.outputfile,backuppath)
+
+    f = open(options.outputfile, 'w')
+
+
+#  and for the .map version
+
+    outputmapfilename = options.outputfile + ".map"
+
+    if os.path.exists(outputmapfilename):
+        oldmapfilesize = os.path.getsize(outputmapfilename)
+        backupfile = outputmapfilename + str(time.time())
+        backuppath = os.path.join(LOGDIR,backupfile)
+        logging.debug("%s exists, making a backup to %s before writing new uid list",
+                      outputmapfilename, backuppath)
+        shutil.move(outputmapfilename,backuppath)
+
+    m = open(outputmapfilename, "w")
+
+#   f is the list and m is the map file -- now we just spin over the thing and write.
+
+    for fnal,cern in cernuidlist.items():
+          print ("%s %s" % (fnal, cern), file=m)
+          print (cern,file=f)
+
+    f.close()
+
+        newfilesize = os.path.getsize(options.outputfile)
+
+    sizediff = newfilesize - oldfilesize
+    logging.debug("UID list size change by %i (%2.2f) bytes" % (sizediff,
+                  sizediff/oldfilesize*100.0))
+
+    if newfilesize < oldfilesize:
+        logging.info("UID list size SHRANK by %i (%2.2f) bytes" % (abs(sizediff),
+                     abs(sizediff)/oldfilesize*100.0))
+
+    m.close()
+
+    # sorta moot that this changed the same way...
 
 
 if __name__ == '__main__':
