@@ -105,6 +105,8 @@ def main(argv):
     logfh.setFormatter(filelogformatter)
     logger.addHandler(logfh)
 
+    logger.info ("Gridmap generation beginning...")
+
     logger.debug("Parsing Options")
 
 
@@ -130,7 +132,7 @@ def main(argv):
 #     except the hardwired maps
 
 
-    logging.debug("Getting FERRY mapped IDs")
+    logger.debug("Getting FERRY mapped IDs")
 
 
     if len(replyJson) == 0:
@@ -196,16 +198,21 @@ def main(argv):
 
     f = open(options.outputfile, 'w')
 
+    nGridMapUsers = 0
+
     for dn,user in fnalmap.items():
        print ('"%s" %s'%(dn,user),file=f)
+       nGridMapUsers += 1
 
 
     f.close()
 
+    logger.info("$i users written to %s" % (nGridMapUsers, options.outputfile))
+
     newfilesize = os.path.getsize(options.outputfile)
 
     sizediff = newfilesize - oldfilesize
-    logger.debug("Gridmap size change by %i (%2.2f) bytes" % (sizediff,
+    logger.info("Gridmap size change by %i (%2.2f) bytes" % (sizediff,
                   sizediff/oldfilesize*100.0))
 
     if newfilesize < oldfilesize:

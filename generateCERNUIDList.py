@@ -97,6 +97,7 @@ def main(argv):
 
     logger.debug("Parsing Options")
 
+    logger.info ("CERN UID list generation beginning...")
 
 
     logger.debug("server: %s", options.hosturl)
@@ -110,7 +111,7 @@ def main(argv):
     Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath,
                      logobj=logger)
 
-    logging.debug("Getting FERRY LPC IDs from passwd file")
+    logger.debug("Getting FERRY LPC IDs from passwd file")
 
     replyJson = {}
 
@@ -140,7 +141,7 @@ def main(argv):
 
 
 
-    logging.debug("Getting FERRY CERN IDs")
+    logger.debug("Getting FERRY CERN IDs")
 
 #  we should probably bail if this fails too -- one could argue we write a file with
 #  at least the FNAL usernames, but presumably this happened successfully in the past
@@ -222,11 +223,17 @@ def main(argv):
 
 #   f is the list and m is the map file -- now we just spin over the thing and write.
 
+    nCERNUSers = 0
+
     for fnal,cern in cernuidlist.items():
-          print ("%s %s" % (fnal, cern), file=m)
-          print (cern,file=f)
+            print ("%s %s" % (fnal, cern), file=m)
+            print (cern,file=f)
+            nCERNUsers += 1
 
     f.close()
+
+    logger.info("$i users written to %s" % (nCERNUsers, options.outputfile))
+
 
     newfilesize = os.path.getsize(options.outputfile)
 
