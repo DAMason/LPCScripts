@@ -98,7 +98,8 @@ def main(argv):
     if not os.path.exists(LOGDIR):
         logger.debug("Log dir %s doesn't exist -- creating!", LOGDIR)
         os.mkdir(LOGDIR)
-    logpath = os.path.join(LOGDIR,"GridMap.log")
+    logfilename=execname+".log"
+    logpath = os.path.join(LOGDIR,logfilename)
     logfh = logging.FileHandler(logpath)
 
     logfh.setFormatter(filelogformatter)
