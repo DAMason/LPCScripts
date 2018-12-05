@@ -169,7 +169,7 @@ def main(argv):
         for a in attrib:
            if a['attribute'] == 'cern_username':
                accountAttributes[k] = a['value']
-               loggind.debug ("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
+               logging.debug ("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
 
 
 #  now should have the list of LPC user ID's, mappings of those with CERN
