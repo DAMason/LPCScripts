@@ -190,7 +190,7 @@ def main(argv):
         oldfilesize = os.path.getsize(options.outputfile)
         backupfile = options.outputfile + str(time.time())
         backuppath = os.path.join(LOGDIR,backupfile)
-        logging.debug("%s exists, making a backup to %s before writing new gridmap",
+        logger.debug("%s exists, making a backup to %s before writing new gridmap",
                       options.outputfile, backuppath)
         shutil.move(options.outputfile,backuppath)
 
@@ -205,11 +205,11 @@ def main(argv):
     newfilesize = os.path.getsize(options.outputfile)
 
     sizediff = newfilesize - oldfilesize
-    logging.debug("Gridmap size change by %i (%2.2f) bytes" % (sizediff,
+    logger.debug("Gridmap size change by %i (%2.2f) bytes" % (sizediff,
                   sizediff/oldfilesize*100.0))
 
     if newfilesize < oldfilesize:
-        logging.info("Gridmap size SHRANK by %i (%2.2f) bytes" % (abs(sizediff),
+        logger.info("Gridmap size SHRANK by %i (%2.2f) bytes" % (abs(sizediff),
                      abs(sizediff)/oldfilesize*100.0))
 
 

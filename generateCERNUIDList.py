@@ -167,11 +167,11 @@ def main(argv):
     accountAttributes={}
 
     for k,attrib in replyCERNJson.items():
-        logging.debug("%s" % attrib)
+        logger.debug("%s" % attrib)
         for a in attrib:
            if a['attribute'] == 'cern_username':
                accountAttributes[k] = a['value']
-               logging.debug ("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
+               logger.debug ("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
 
 
 #  now should have the list of LPC user ID's, mappings of those with CERN
@@ -181,7 +181,7 @@ def main(argv):
        if fnal in cernuidlist:
           cernuidlist[fnal]=cern
        else:
-          logging.error("%s was not in passwd file! CERN ID: %s",
+          logger.error("%s was not in passwd file! CERN ID: %s",
                          fnal, cern)
 
 #  now we actually have a map of FNAL to CERN uid's to the extent people have
@@ -198,7 +198,7 @@ def main(argv):
         oldfilesize = os.path.getsize(options.outputfile)
         backupfile = options.outputfile + str(time.time())
         backuppath = os.path.join(LOGDIR,backupfile)
-        logging.debug("%s exists, making a backup to %s before writing new uid list",
+        logger.debug("%s exists, making a backup to %s before writing new uid list",
                       options.outputfile, backuppath)
         shutil.move(options.outputfile,backuppath)
 
@@ -214,7 +214,7 @@ def main(argv):
         oldmapfilesize = os.path.getsize(outputmapfilename)
         backupfile = outputmapfilename + str(time.time())
         backuppath = os.path.join(LOGDIR,backupfile)
-        logging.debug("%s exists, making a backup to %s before writing new uid list",
+        logger.debug("%s exists, making a backup to %s before writing new uid list",
                       outputmapfilename, backuppath)
         shutil.move(outputmapfilename,backuppath)
 
@@ -231,11 +231,11 @@ def main(argv):
     newfilesize = os.path.getsize(options.outputfile)
 
     sizediff = newfilesize - oldfilesize
-    logging.debug("UID list size change by %i (%2.2f) bytes" % (sizediff,
+    logger.debug("UID list size change by %i (%2.2f) bytes" % (sizediff,
                   sizediff/oldfilesize*100.0))
 
     if newfilesize < oldfilesize:
-        logging.info("UID list size SHRANK by %i (%2.2f) bytes" % (abs(sizediff),
+        logger.info("UID list size SHRANK by %i (%2.2f) bytes" % (abs(sizediff),
                      abs(sizediff)/oldfilesize*100.0))
 
     m.close()
