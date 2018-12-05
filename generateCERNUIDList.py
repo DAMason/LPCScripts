@@ -3,6 +3,7 @@
 from __future__ import print_function
 import os
 import sys
+import shutil
 import json
 import ssl
 import time
@@ -189,7 +190,7 @@ def main(argv):
 #  the first guy going to just take options.outputfile and append .map to the end
 
 # paranoid backup into the log dir with timestamp
-i
+
     oldfilesize = 0
 
     if os.path.exists(options.outputfile):
