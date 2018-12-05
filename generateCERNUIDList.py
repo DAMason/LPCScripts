@@ -189,6 +189,8 @@ def main(argv):
 #  the first guy going to just take options.outputfile and append .map to the end
 
 # paranoid backup into the log dir with timestamp
+i
+    oldfilesize = 0
 
     if os.path.exists(options.outputfile):
         oldfilesize = os.path.getsize(options.outputfile)
@@ -204,6 +206,7 @@ def main(argv):
 #  and for the .map version
 
     outputmapfilename = options.outputfile + ".map"
+    oldmapfilesize = 0
 
     if os.path.exists(outputmapfilename):
         oldmapfilesize = os.path.getsize(outputmapfilename)
