@@ -223,7 +223,7 @@ def main(argv):
 
     f.close()
 
-        newfilesize = os.path.getsize(options.outputfile)
+    newfilesize = os.path.getsize(options.outputfile)
 
     sizediff = newfilesize - oldfilesize
     logging.debug("UID list size change by %i (%2.2f) bytes" % (sizediff,
