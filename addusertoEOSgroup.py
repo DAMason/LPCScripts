@@ -174,7 +174,7 @@ def main(argv):
 
     grouppath="/eos/uscms/store/user"+str(options.group)
 
-    j=setacls(rolist=gidList, rwlist=uidList, path=grouppath)
+    j=eos.setacls(rolist=gidList, rwlist=uidList, path=grouppath)
 
 
 
