@@ -147,7 +147,7 @@ class FERRYTools(urllib2.HTTPSHandler):
     def getUserInfo(self, username, debug=False):
 
         replyJson = {}
-        query = "/getUserInfo?username="+username
+        query = "/getUserInfo?username=" + username
         replyJson = self.genericFerryQuery(query, debug)
 
 
@@ -208,6 +208,19 @@ class FERRYTools(urllib2.HTTPSHandler):
         replyJson = self.genericFerryQuery(query, debug)
 
         return replyJson
+
+
+    def getGroupMembers(self, groupname="", debug=False):
+
+        replyJson={}
+
+        if len(groupname)> 0:
+           query = "/getGroupMembers?groupname=" + groupname
+           replyJson = self.genericFerryQuery(query, debug)
+        else:
+           self.logger.error( "getGroupMembers no group given!")
+
+
 
 
     def getCERNUserNames(self, username="", debug=False):

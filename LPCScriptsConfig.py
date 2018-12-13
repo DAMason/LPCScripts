@@ -37,3 +37,13 @@ LOGDIR = "log"
 DEFLOGFILE = "LPCScript.log"
 # Number of logfiles to keep
 NOLDLOGS = 100
+
+
+
+# EOS MGM
+EOSMGMHOST = "cmseosmgm01.fnal.gov"
+
+# EOS shell location (batch option)
+EOSSHELL = "/usr/bin/eos -b"
+
+
