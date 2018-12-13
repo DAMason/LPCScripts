@@ -171,11 +171,11 @@ def main(argv):
 
     rawOutput=eos.fetchacls(path=grouppath)
 
-    logging.debug(rawOutput)
+    logger.debug(rawOutput)
 
     jsonOutput=json.loads(str(rawOutput))
 
-    logging.debug(jsonOutput)
+    logger.debug(jsonOutput)
 
 
 
