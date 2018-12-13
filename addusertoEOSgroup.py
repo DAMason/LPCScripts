@@ -159,7 +159,8 @@ def main(argv):
 
         logger.debug(user)
 
-        uidlist.append("u:"+user{uid})
+        uidstring="u:"+str(user{uid})
+        uidlist.append(uidstring)
 
     logger.debug(uid list: %s, uidlist)
 
