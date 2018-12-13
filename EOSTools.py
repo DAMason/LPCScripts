@@ -99,7 +99,7 @@ class EOSTools:
             self.logger.error ("No path given, not fetching anything!")
             return -1
 
-        eoscommand = "attr ls {path}".format{path=path)
+        eoscommand = "attr ls {path}".format(path=path)
 
         self.logger.debug("EOS command: %s", eoscommand)
 
