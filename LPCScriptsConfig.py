@@ -43,7 +43,7 @@ NOLDLOGS = 100
 # EOS MGM
 EOSMGMHOST = "cmseosmgm01.fnal.gov"
 
-# EOS shell location (batch option)
-EOSSHELL = "/usr/bin/eos -b"
+# EOS shell location (batch and json output)
+EOSSHELL = "/usr/bin/eos -b -j"
 
 

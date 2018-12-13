@@ -168,7 +168,17 @@ def main(argv):
 
     grouppath="/eos/uscms/store/user/"+str(options.group)
 
-    j=eos.fetchacls(path=grouppath)
+    rawOutput=""
+
+    rawOutput=eos.fetchacls(path=grouppath)
+
+    logging.debug(rawOutput)
+
+    jsonOutput=json.loads(str(rawOutput))
+
+    logging.debug(jsonOutput)
+
+
 
     j=eos.setacls(rolist=gidList, rwlist=uidList, path=grouppath)
 

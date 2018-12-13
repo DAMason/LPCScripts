@@ -9,6 +9,7 @@ Modifications of quotas & such need to be done by root on the mgm.
 
 import os
 import sys
+import re
 import logging
 
 from LPCScriptsConfig import *
@@ -64,10 +65,25 @@ class EOSTools:
 
 # exec wrapper that either locally or via ssh runs the passed EOS command on the mgm
 
-    def mgmexec(self,debug=False):
+    def mgmexec(self, execstring="", debug=False):
+
+#       defang some obvious things
+        re.sub("[;`]", "", execstring)
+
+# for now we do this via ssh'ing into the mgm and running the shell
+
+        fullcommand = "ssh -l root {mgm} {eosshell} '{command}'".format(
+                       mgm=self.mgmnode, eosshell=EOSSHELL, command=execstring)
+
+        self.logger.debug("Full SSH command: %s", fullcommand)
+
+        try:
+            rawoutput = os.popen(fullcommand).read()
+        except:
+            self.logger.error ("failed to execute %s", fullcommand)
 
 
-        return 0
+        return rawoutput
 
 
     def fetchuserquotas(self, user=None):
@@ -83,24 +99,15 @@ class EOSTools:
             self.logger.error ("No path given, not fetching anything!")
             return -1
 
-        eoscommand = "{eoscommand} 'attr ls {path}".format(
-                       eoscommand=EOSSHELL, path=path)
+        eoscommand = "attr ls {path}".format{path=path)
 
         self.logger.debug("EOS command: %s", eoscommand)
 
-        fullcommand = "ssh {mgm} {eoscommand}".format(
-                       mgm=mgmnode, eoscommand=eoscommand)
-        self.logger.debug("Full SSH command: %s", fullcommand)
-
-        rawoutput=""
-        try:
-            rawoutput = os.popen(fullcommand).read()
-        except:
-            self.logger.error ("failed to execute %s", fullcommand)
+        rawoutput=self.mgmexec(eoscommand)
 
         self.logger.debug(rawoutput)
 
-        return 0
+        return rawoutput   #hopefully a json
 
 #  Sets the acls for a group dir -- expecting lists of uid's presumably retrieved from
 #  FERRY, and a path to apply the resulting ACL's to.
