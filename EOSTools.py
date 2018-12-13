@@ -138,11 +138,13 @@ class EOSTools:
 
         self.logger.debug ("rolist given %s", rolist)
         for ro in rolist:
-            aclstring = aclstring + ro + ":" + ROACLSTRING
+            aclstring = aclstring + ro + ":" + ROACLSTRING + ","
 
         self.logger.debug ("rwlist given %s", rwlist)
         for rw in rwlist:
-            aclstring = aclstring + rw + ":" + RWACLSTRING
+            aclstring = aclstring + rw + ":" + RWACLSTRING + ","
+
+        aclstring = aclstring[:-1]
 
         self.logger.debug("Full ACL string: %s", aclstring)
 
