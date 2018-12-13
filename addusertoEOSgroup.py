@@ -153,7 +153,7 @@ def main(argv):
         logger.critical(replyJson)
         sys.exit(2)
 
-    uidlist=[]
+    uidList=[]
 
     for user in replyJson:
 
