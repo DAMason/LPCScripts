@@ -95,7 +95,7 @@ class EOSTools:
 
     def fetchacls(self, path=None):
 
-        if not path
+        if not path:
             self.logger.error ("No path given, not fetching anything!")
             return -1
 
