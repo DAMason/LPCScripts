@@ -119,7 +119,7 @@ class EOSTools:
         self.logger.debug("Full ACL string: %s", aclstring)
 
         aclsetcommand = "{eoscommand} 'attr -r set sys.acl={aclstring} {path}'".format(
-                        EOSSHELL, aclstring, path)
+                        eoscommand=EOSSHELL, aclstring=aclstring, path=path)
 
         self.logger.debug("ACL Command: %s", aclsetcommand)
 
