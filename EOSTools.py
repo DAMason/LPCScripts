@@ -77,7 +77,28 @@ class EOSTools:
 
 #   Fetches acls for a path to check against.
 
-    def getacls(self, path=None):
+    def fetchacls(self, path=None):
+
+        if not path
+            self.logger.error ("No path given, not fetching anything!")
+            return -1
+
+        eoscommand = "{eoscommand} 'attr ls {path}".format(
+                       eoscommand=EOSSHELL, path=path)
+
+        self.logger.debug("EOS command: %s", eoscommand)
+
+        fullcommand = "ssh {mgm} {eoscommand}".format(
+                       mgm=mgmnode, eoscommand=eoscommand)
+        self.logger.debug("Full SSH command: %s", fullcommand)
+
+        rawoutput=""
+        try:
+            rawoutput = os.popen(fullcommand).read()
+        except:
+            self.logger.error ("failed to execute %s", fullcommand)
+
+        self.logger.debug(rawoutput)
 
         return 0
 
