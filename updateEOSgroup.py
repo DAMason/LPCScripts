@@ -116,7 +116,6 @@ def main(argv):
     logger.debug("capath: %s", options.capath)
     logger.debug("cert: %s", options.cert)
     logger.debug("group: %s", options.group)
-    logger.debug("user: %s", options.username)
     logger.debug("debug: %s", options.debug)
 
 
