@@ -135,6 +135,8 @@ def main(argv):
 
     groupusers = {}
 
+    replyJson = {}
+
     replyJson = Ferry.getGroupMembers(groupname=options.group, debug=options.debug)
 
     logger.debug("Fetching userlist for group: %s", options.group)
@@ -151,9 +153,30 @@ def main(argv):
         logger.critical(replyJson)
         sys.exit(2)
 
+    uidlist=[]
+
     for user in replyJson:
 
         logger.debug(user)
+
+        uidlist.append("u:"+user{uid})
+
+    logger.debug(uid list: %s, uidlist)
+
+    # we by default give ro access to the us_cms group (gid:5063)
+
+    gidlist=["g:5063"]
+
+    # now we go to EOS
+
+    eos = EOSTools(mgmnode=EOSMGMHOST, logobj=logger, debug=options.debug)
+
+    j=setacls(rolist=gidList, rwlist=uidList, path=options.path)
+
+
+
+
+
 
 if __name__ == '__main__':
 

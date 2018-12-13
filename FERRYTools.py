@@ -220,7 +220,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         else:
            self.logger.error( "getGroupMembers no group given!")
 
-
+        return replyJson
 
 
     def getCERNUserNames(self, username="", debug=False):
