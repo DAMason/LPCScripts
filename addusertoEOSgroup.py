@@ -17,7 +17,7 @@ import datetime
 from optparse import OptionParser
 from LPCScriptsConfig import *
 from FERRYTools import *
-from VOMSTools import *
+from EOSTools import *
 
 
 
@@ -159,20 +159,22 @@ def main(argv):
 
         logger.debug(user)
 
-        uidstring="u:"+str(user{uid})
-        uidlist.append(uidstring)
+        uidstring="u:"+str(user["uid"])
+        uidList.append(uidstring)
 
-    logger.debug(uid list: %s, uidlist)
+    logger.debug("uid list: %s"", uidList)
 
     # we by default give ro access to the us_cms group (gid:5063)
 
-    gidlist=["g:5063"]
+    gidList=["g:5063"]
 
     # now we go to EOS
 
     eos = EOSTools(mgmnode=EOSMGMHOST, logobj=logger, debug=options.debug)
 
-    j=setacls(rolist=gidList, rwlist=uidList, path=options.path)
+    grouppath="/eos/uscms/store/user"+str(options.group)
+
+    j=setacls(rolist=gidList, rwlist=uidList, path=grouppath)
 
 
 

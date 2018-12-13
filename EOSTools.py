@@ -79,7 +79,7 @@ class EOSTools:
 
     def getacls(self, path=None):
 
-
+        return 0
 
 #  Sets the acls for a group dir -- expecting lists of uid's presumably retrieved from
 #  FERRY, and a path to apply the resulting ACL's to.
