@@ -162,7 +162,7 @@ def main(argv):
         uidstring="u:"+str(user["uid"])
         uidList.append(uidstring)
 
-    logger.debug("uid list: %s"", uidList)
+    logger.debug("uid list: %s", uidList)
 
     # we by default give ro access to the us_cms group (gid:5063)
 
