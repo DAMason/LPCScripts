@@ -175,6 +175,10 @@ def main(argv):
 
     jsonOutput=json.loads(str(rawOutput))
 
+    acllist=jsonOutput["attr"]["ls"][0]["sys"]["acl"]
+
+    logger.info("Old acl list %s", acllist)
+
     logger.debug(jsonOutput)
 
 
