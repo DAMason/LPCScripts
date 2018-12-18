@@ -81,6 +81,10 @@ def main(argv):
 
 
         for uid,user in replyJson.items():
+
+            if options.debug:
+                 print (user)
+
             for resource in user:
                  if resource["unit"] == "B":
                      quotaTB = resource["value"]/1000./1000./1000./1000.
