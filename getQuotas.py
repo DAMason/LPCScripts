@@ -74,7 +74,11 @@ def main(argv):
 
     replyJson = Ferry.getRecentQuotas(timestamp=options.timesince, debug=options.debug)
 
+    if options.debug:
+        print (replyJson)
+
     if not "ferry_error" in replyJson:
+
 
         for uid,user in replyJson.items():
             for resource in user:
