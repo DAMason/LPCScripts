@@ -45,7 +45,7 @@ def main(argv):
     aweekago = adayago * 7
 
 
-    parser.add_option("-t", "--timesince", action="store_true", dest="timesince",
+    parser.add_option("-t", "--timesince", action="store", dest="timesince",
                       default=aweekago,
                       help="timestamp of earliest quota")
 
