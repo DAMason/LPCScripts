@@ -65,7 +65,10 @@ def main(argv):
         print("timesince: ", options.timesince)
 
 
-
+    if not os.path.exists(options.cert):
+        print("cert: ", options.cert,
+              " not found -- proceeding to assume host is in whitelist...")
+        options.cert=None
 
     Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath)
 
@@ -79,7 +82,7 @@ def main(argv):
                      quotaTB = resource["value"]/1000./1000./1000./1000.
                      print (resource["path"] + ": " + quotaTB)
                  else:
-                     print (uid + " " resource["path"] + ": " + resource["value"] + resource["unit"])
+                     print (uid + " " + resource["path"] + ": " + resource["value"] + resource["unit"])
 
 
 if __name__ == '__main__':

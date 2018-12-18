@@ -47,6 +47,11 @@ def main(argv):
     And here we go...
     """
 
+    if not os.path.exists(options.cert):
+        print("cert: ", options.cert,
+              " not found -- proceeding to assume host is in whitelist...")
+        options.cert=None
+
     if options.debug:
         print("server: ", options.hosturl)
         print("capath: ", options.capath)
