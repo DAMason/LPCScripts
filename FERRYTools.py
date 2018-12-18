@@ -242,7 +242,7 @@ class FERRYTools(urllib2.HTTPSHandler):
 
         replyJson = {}
 
-        if len(username) > 0:
+        if timestamp > 0:
            query = "/getAllQuotas?last_updated=" + timestamp
            replyJson = self.genericFerryQuery(query, debug)
 
