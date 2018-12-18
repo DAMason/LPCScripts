@@ -238,6 +238,18 @@ class FERRYTools(urllib2.HTTPSHandler):
 
 
 
+    def getRecentQuotas(self, timestamp=0, debug=False):
+
+        replyJson = {}
+
+        if len(username) > 0:
+           query = "/getAllQuotas?last_updated=" + timestamp
+           replyJson = self.genericFerryQuery(query, debug)
+
+        return replyJson
+
+
+
 
 
 if __name__ == '__main__':
