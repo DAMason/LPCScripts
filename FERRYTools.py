@@ -282,6 +282,8 @@ class FERRYTools(urllib2.HTTPSHandler):
                 if unit == "cms":
                     isinCMS = True
 
+        return isinCMS
+
 
 
 
