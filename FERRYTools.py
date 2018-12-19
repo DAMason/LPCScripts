@@ -278,6 +278,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         if len(username) > 0:
             replyJson=self.getMemberships(username=username, debug=debug)
             for unit,alternativename in replyJson:
+                logging.debug("username: %s, unit: %s", username,unit)
                 if unit == "cms":
                     isinCMS = True
 
