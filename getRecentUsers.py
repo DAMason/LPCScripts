@@ -84,8 +84,8 @@ def main(argv):
             if options.debug:
                  print(user)
             if Ferry.isInCMS(username=user.username, debug=options.debug):
-                print(user.username + "  " + user.uid + "  " + user.full_name + "  " +
-                      user.expiration_date)
+                print(user['username'] + "  " + user['uid'] + "  " +
+                      user['full_name'] + "  " + user['expiration_date'])
 
 
 
