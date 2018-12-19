@@ -249,6 +249,41 @@ class FERRYTools(urllib2.HTTPSHandler):
         return replyJson
 
 
+    def getRecentUsers(self, timestamp=0, debug=False):
+
+        replyJson = {}
+
+        if timestamp > 0:
+           query = "/getAllUsers?last_updated=" + str(int(timestamp))
+           replyJson = self.genericFerryQuery(query, debug)
+
+        return replyJson
+
+
+    def getMemberships(self, username="", debug=False):
+
+        replyJson = {}
+
+        if len(username) > 0:
+           query = "/getMemberAffiliations?username=" + username
+           replyJson = self.genericFerryQuery(query, debug)
+
+        return replyJson
+
+
+    def isInCMS(self, username="", debug=False):
+
+        isinCMS = False
+        replyJson = []
+        if len(username) > 0:
+            replyJson=self.getMemberships(username=username, debug=debug)
+            for unit,alternativename in replyJson:
+                if unit == "cms":
+                    isinCMS = True
+
+
+
+
 
 
 
