@@ -276,10 +276,10 @@ class FERRYTools(urllib2.HTTPSHandler):
         isinCMS = False
         replyJson = []
         if len(username) > 0:
-            replyJson=self.getMemberships(username=username, debug=debug)
-            for unit,alternativename in replyJson:
-                self.logger.debug("username: %s, unit: %s", username,unit)
-                if unit == "cms":
+            replyJson=self.getMemberships(username, debug)
+            for affil in replyJson:
+                self.logger.debug("username: %s, unit: %s", username,affil['unitname']))
+                if affil['unitname'] == "cms":
                     isinCMS = True
 
         return isinCMS
