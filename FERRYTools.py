@@ -278,7 +278,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         if len(username) > 0:
             replyJson=self.getMemberships(username, debug)
             self.logger.debug(replyJson)
-            if "ferry_error" not in replyJson:
+            if not "ferry_error" in replyJson:
                 for affil in replyJson:
                     self.logger.debug("username: %s, unit: %s",
                                       username,affil['unitname'])
