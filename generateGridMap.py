@@ -200,7 +200,7 @@ def main(argv):
 
     nGridMapUsers = 0
 
-    for dn,user in fnalmap.items():
+    for dn,user in sorted(fnalmap.items()):
        print ('"%s" %s'%(dn,user),file=f)
        nGridMapUsers += 1
 

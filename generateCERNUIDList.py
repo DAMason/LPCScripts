@@ -225,7 +225,7 @@ def main(argv):
 
     nCERNUsers = 0
 
-    for fnal,cern in cernuidlist.items():
+    for fnal,cern in sorted(cernuidlist.items()):
             print ("%s %s" % (fnal, cern), file=m)
             print (cern,file=f)
             nCERNUsers += 1
