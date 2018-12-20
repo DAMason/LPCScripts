@@ -280,10 +280,11 @@ class FERRYTools(urllib2.HTTPSHandler):
             self.logger.debug(replyJson)
             if not "ferry_error" in replyJson:
                 for affil in replyJson:
-                    self.logger.debug("username: %s, unit: %s",
-                                      username,affil['unitname'])
-                    if affil['unitname'] == "cms":
-                        isinCMS = True
+                    if 'unitname' in affil:
+                        self.logger.debug("username: %s, unit: %s",
+                                          username,affil['unitname'])
+                        if affil['unitname'] == "cms":
+                            isinCMS = True
 
         return isinCMS
 
