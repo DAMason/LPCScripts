@@ -117,7 +117,8 @@ def main(argv):
               " not found -- proceeding to assume host is in whitelist...")
         options.cert=None
 
-    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath)
+    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath,
+                     logobj=logger)
 
     replyJson = Ferry.getRecentUsers(timestamp=options.timesince, debug=options.debug)
 
@@ -128,6 +129,7 @@ def main(argv):
 
 
         userlist = []
+        useruidlist = []
 
         for user in replyJson:
             if options.debug:
