@@ -39,11 +39,9 @@ def main(argv):
                       help="full path to cert")
 
     parser.add_option("-d", "--debug", action="store_true", dest="debug",
-                      default=False,
                       help="debug output")
 
-    parser.add_option("-t", "--sterile", action="store_true", dest="sterile",
-                      default=False,
+    parser.add_option("-n", "--nothing", action="store_true", dest="sterile",
                       help="check only -- don't perform any action")
 
     adayago = time.time()-(60.0*60.0*24.0)
