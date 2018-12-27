@@ -129,7 +129,7 @@ def main(argv):
             if options.debug:
                  logger.debug("anybody: %s", user)
             if Ferry.isInCMS(username=user['username'], debug=options.debug):
-                logger.info("New cms user: " str(user['username']) + "  " +
+                logger.info("New cms user: " + str(user['username']) + "  " +
                             str(user['uid']) + "  " + str(user['full_name']) + "  " +
                             str(user['expiration_date']))
 
