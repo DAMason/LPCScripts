@@ -41,7 +41,7 @@ def main(argv):
     parser.add_option("-d", "--debug", action="store_true", dest="debug",
                       help="debug output")
 
-    parser.add_option("-n", "--nothing", action="store_true", dest="sterile",
+    parser.add_option("-n", "--nothing", action="store_true", dest="donothing",
                       help="check only -- don't perform any action")
 
     adayago = time.time()-(60.0*60.0*24.0)
@@ -95,19 +95,19 @@ def main(argv):
     logfh.setFormatter(filelogformatter)
     logger.addHandler(logfh)
 
-    logger.info ("Gridmap generation beginning...")
+    logger.info ("New user checking beginning...")
 
     logger.debug("Parsing Options")
 
 
 
     if options.debug:
-        logger.debug("server: ", options.hosturl)
-        logger.debug("capath: ", options.capath)
-        logger.debug("cert: ", options.cert)
-        logger.debug("sterile: ", options.sterile)
-        logger.debug("debug: ", options.debug)
-        logger.debug("timesince: ", options.timesince)
+        logger.debug("server: %s", options.hosturl)
+        logger.debug("capath: %s", options.capath)
+        logger.debug("cert: %s", options.cert)
+        logger.debug("donothing: %s", options.donothing)
+        logger.debug("debug: %s", options.debug)
+        logger.debug("timesince: %s", options.timesince)
 
 
     if not os.path.exists(options.cert):
@@ -125,6 +125,8 @@ def main(argv):
     if not "ferry_error" in replyJson:
 
 
+        userlist = []
+
         for user in replyJson:
             if options.debug:
                  logger.debug("anybody: %s", user)
@@ -132,6 +134,11 @@ def main(argv):
                 logger.info("New cms user: " + str(user['username']) + "  " +
                             str(user['uid']) + "  " + str(user['full_name']) + "  " +
                             str(user['expiration_date']))
+
+                userlist.append(user['username'])
+                useruidlist.append(user['uid'])
+
+#                if not os.path.exists()
 
 
 
