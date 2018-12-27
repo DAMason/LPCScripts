@@ -125,22 +125,50 @@ def main(argv):
 
     logger.debug(replyJson)
 
-    if not "ferry_error" in replyJson:
+    if len(replyJson) == 0:
+        logger.critical("Empty reply from FERRY, aborting!")
+        sys.exit(3)
+
+    if "ferry_error" in replyJson:
+        # means something is wrong, so we don't want to mess with the existing gridmap
+        # without some human eyes somewhere.
+        logger.critical("FERRY came back with an error, aborting!")
+        logger.critical("Returned json:")
+        logger.critical(replyJson)
+        sys.exit(2)
 
 
-        userlist = []
-        useruidlist = []
+    userlist = []
+    useruidlist = []
 
-        for user in replyJson:
-            if options.debug:
-                 logger.debug("anybody: %s", user)
-            if Ferry.isInCMS(username=user['username'], debug=options.debug):
-                logger.info("New cms user: " + str(user['username']) + "  " +
-                            str(user['uid']) + "  " + str(user['full_name']) + "  " +
-                            str(user['expiration_date']))
+    for user in replyJson:
+        logger.debug("anybody: %s", user)
+        if Ferry.isInCMS(username=user['username'], debug=options.debug):
+            logger.info("New cms user: " + str(user['username']) + "  " +
+                        str(user['uid']) + "  " + str(user['full_name']) + "  " +
+                        str(user['expiration_date']))
 
-                userlist.append(user['username'])
-                useruidlist.append(user['uid'])
+            userlist.append(user['username'])
+            useruidlist.append(user['uid'])
+
+    logger.info("Walking through new users:")
+
+    for user in userlist:
+
+        replyJson = {}
+
+        replyJson = Ferry.getUserShellandHomedir(user, options.debug)
+        homedir = replyJson[0]['homedir']
+
+        if os.path.exists(homedir):
+
+            logger.info("Homedir: %s exists", homedir)
+
+        else:
+
+            logger.info("Homedir: %s DOES NOT EXIST", homedir)
+
+
 
 #                if not os.path.exists()
 
