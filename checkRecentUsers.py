@@ -39,7 +39,7 @@ def main(argv):
                       help="full path to cert")
 
     parser.add_option("-d", "--debug", action="store_true", dest="debug",
-                      defualt=False,
+                      default=False,
                       help="debug output")
 
     parser.add_option("-n", "--nothing", action="store_true", dest="donothing",
