@@ -108,7 +108,8 @@ class VOMSTools(urllib2.HTTPSHandler):
         dnList=[]
         for item in replydict.getiterator():
            if item.tag == 'getGridmapUsersReturn':
-              dnList.append(item.text)
+              if item.text is not None:
+                  dnList.append(item.text)
 
 
         self.logger.debug("Parsed xml:")
