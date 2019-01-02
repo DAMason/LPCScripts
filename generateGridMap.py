@@ -211,14 +211,20 @@ def main(argv):
 
     newfilesize = os.path.getsize(options.outputfile)
 
-    sizediff = newfilesize - oldfilesize
-    logger.info("Gridmap size change by %i (%2.2f) bytes" % (sizediff,
+
+    if oldfilesize > 0:
+
+        sizediff = newfilesize - oldfilesize
+        logger.info("Gridmap size change by %i (%2.2f) bytes" % (sizediff,
                   sizediff/oldfilesize*100.0))
 
-    if newfilesize < oldfilesize:
-        logger.info("Gridmap size SHRANK by %i (%2.2f) bytes" % (abs(sizediff),
-                     abs(sizediff)/oldfilesize*100.0))
+        if newfilesize < oldfilesize:
+            logger.info("Gridmap size SHRANK by %i (%2.2f) bytes" % (abs(sizediff),
+                         abs(sizediff)/oldfilesize*100.0))
 
+    else:
+
+        logger.info("Old Gridmap had zero length.  New one: %i bytes" % newfilesize)
 
 if __name__ == '__main__':
 
