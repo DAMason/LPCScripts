@@ -295,7 +295,7 @@ def main(argv):
 
 #      then EOS -- relies being able to log into the MGM
 
-            eosdir = ""/eos/uscms/store/user/" + sanitizedusername
+            eosdir = "/eos/uscms/store/user/" + sanitizedusername
             eosexecstring = "mkdir " + eosdir
             logger.debug(eosexecstring)
             #rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
