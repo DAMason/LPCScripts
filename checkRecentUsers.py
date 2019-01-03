@@ -234,7 +234,57 @@ def main(argv):
             j = scriptexec(command=["mkdir", "-p", realhomedir+"/.globus"],
                            debug=options.debug, logobj=logger)
 
-#                if not os.path.exists()
+#           NFS stuff
+
+            nfsdir = "/uscms_data/d3/" + sanitizedusername
+
+            linknfsdir = "/uscms_data/d1/" + sanitizedusername
+
+            j = scriptexec(command=["mkdir", "-p", nfsdir],
+                           debug=options.debug, logobj=logger)
+
+#           this is hardwired at the moment
+            quotastring = "limit -u bsoft=100g bhard=120g " + sanitizedusername
+
+            j = scriptexec (command=["xfs_quota", "-x", "-c", '"'+quotastring+'"',
+                                     "/uscms_data/d3"],
+                            debug=options.debug, logobj=logger)
+
+
+            j = scriptexec(command=["ln", "-s", nfsdir, linknfsdir],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["ln", "-s", linknfsdir, realhomedir+"/nobackup"],
+                           debug=options.debug, logobj=logger)
+
+#           setting permissions
+
+            j = scriptexec(command=["chown", "-R", sanitizedusername+".us_cms",
+                                    realhomedir],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["chown", "-R", sanitizedusername+".us_cms",
+                                    nfsdir],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["chown", "-R", sanitizedusername+".us_cms",
+                                    linknfsdir],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["chmod", "755", realhomedir],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["chmod", "700", realhomedir+"/.globus"],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["chmod", "755", realhomedir+"/work"],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["chmod", "700", realhomedir+"/private"],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["chmod", "755", nfsdir],
+                           debug=options.debug, logobj=logger)
 
 
 
@@ -265,7 +315,7 @@ def scriptexec(command = [], debug=False, logobj=None):
     output = ""
     try:
         output = subprocess.check_output(command, stderr=subprocess.STDOUT)
-        logger.info(output)
+        logger.info(str(output))
     except subprocess.CalledProcessError as e:
         logger.info("Exec Error: %s" % e.output)
     except Exception as e:
