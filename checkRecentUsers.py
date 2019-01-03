@@ -330,7 +330,7 @@ def main(argv):
 
 # feeds subprocess and logs results
 
-def scriptexec(command = [], debug=False, logobj=None, donothing=):
+def scriptexec(command = [], debug=False, logobj=None):
 
     if logobj is not None and isinstance(logobj,logging.getLoggerClass()):
         logger=logobj
