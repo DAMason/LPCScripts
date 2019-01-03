@@ -306,8 +306,8 @@ def main(argv):
             #rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
             logger.info ("EOS returns: %s" % rawoutput)
 
-            eosexecstring = "quota set -u " + sanitizedusername + "-v 4TB -i 500000" +
-                            "/eos/uscms/store/user"
+            eosexecstring = "quota set -u " + sanitizedusername + "-v 4TB -i 500000 "
+            eosexecstring = eosexecstring + "/eos/uscms/store/user"
             logger.debug(eosexecstring)
             #rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
             logger.info ("EOS returns: %s" % rawoutput)
