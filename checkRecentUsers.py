@@ -255,6 +255,8 @@ def scriptexec(command = [], debug=False, logobj=None):
         logger.info(output)
     except subprocess.CalledProcessError as e:
         logger.info("Exec Error: %s" % e.output)
+    except Exception as e:
+        logger.info("Other error: %s" % e.output)
 
 
     return 0
