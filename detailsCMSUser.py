@@ -92,6 +92,15 @@ def main(argv):
     print("Home dir         ", replyJson[0]['homedir'])
     print("Shell            ", replyJson[0]['shell'])
 
+
+    replyJson = Ferry.getCERNUserNames(username=options.username,debug=options.debug)
+
+    cernusername=options.username
+
+    if "ferry_error" not in replyJson:
+        print replyJson[options.username][0]["value"]
+
+
     print("\nStorage Quotas:")
 
     replyJson = Ferry.getUserQuotas(options.username, options.debug)
