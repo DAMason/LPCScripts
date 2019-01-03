@@ -97,7 +97,7 @@ def main(argv):
 
     cernusername=options.username
 
-    if "ferry_error" not in replyJson:
+    if not "ferry_error" in replyJson:
         print(replyJson[options.username][0]["value"])
 
 
