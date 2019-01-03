@@ -6,6 +6,7 @@ import time
 import sys
 import json
 import ssl
+import subprocess
 from shlex import quote
 from optparse import OptionParser
 from LPCScriptsConfig import *
@@ -236,6 +237,7 @@ def scriptexec(command = [], debug=False, logobj=None):
         print ("%s" % command)
         return 1
 
+#   sticking this in here for debugging
     command = ["echo"] + command
 
     logger.debug("Command Array: %s" % command)
@@ -247,8 +249,12 @@ def scriptexec(command = [], debug=False, logobj=None):
 
     logger.info ("Executing: %s" % commandstring)
 
-
-
+    output = ""
+    try:
+        output = subprocess.check_output(command, stderr=subprocess.STDOUT)
+        logger.info(output)
+    except subprocess.CalledProcessError, e:
+        logger.info("Exec Error: %s" % e.output)
 
 
     return 0
