@@ -253,7 +253,7 @@ def scriptexec(command = [], debug=False, logobj=None):
     try:
         output = subprocess.check_output(command, stderr=subprocess.STDOUT)
         logger.info(output)
-    except subprocess.CalledProcessError, e:
+    except subprocess.CalledProcessError as e:
         logger.info("Exec Error: %s" % e.output)
 
 
