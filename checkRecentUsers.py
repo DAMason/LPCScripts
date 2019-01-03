@@ -215,7 +215,7 @@ def main(argv):
 
             usernamefirstchar = sanitizedusername[0]
             realhomedir = "/uscms/homes/" + usernamefirstchar + "/" + sanitizedusername
-            j=scriptexec(command=["mkdir", "realhomedir"], debug=options.debug,
+            j=scriptexec(command=["mkdir", realhomedir], debug=options.debug,
                          logobj=logger)
 
 
@@ -236,7 +236,18 @@ def scriptexec(command = [], debug=False, logobj=None):
         print ("%s" % command)
         return 1
 
+    command = ["echo"] + command
+
     logger.debug("Command Array: %s" % command)
+
+    commandstring = ""
+
+    for a in command:
+        commandstring = commandstring + a + " "
+
+    logger.info ("Executing: %s" % commandstring)
+
+
 
 
 
