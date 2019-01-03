@@ -6,6 +6,7 @@ import time
 import sys
 import json
 import ssl
+from shlex import quote
 from optparse import OptionParser
 from LPCScriptsConfig import *
 from FERRYTools import *
@@ -153,6 +154,10 @@ def main(argv):
 
     logger.info("Walking through new users:")
 
+#   Here we go through the latest users and start checking that the relevant physical
+#   bits and pieces are where they need to be.
+
+
     for user in userlist:
 
         replyJson = {}
@@ -167,6 +172,48 @@ def main(argv):
         else:
 
             logger.info("Homedir: %s DOES NOT EXIST", homedir)
+
+            sanitizedusername=quote(user)
+
+            logger.debug("Sanitizing username %s into: %s" % (user,sanitizedusername))
+
+#           We're not going to rely on discovering these things from FERRY just yet
+#           First make the /uscms/homes guy, then make the link.
+
+#            Historically:
+
+#            mkdir /uscms/homes/u/username
+#            ln -s /uscms/homes/u/username /uscms/home/username
+#            mkdir -p /uscms/homes/u/username/work
+#            mkdir -p /uscms/homes/u/username/private
+#            mkdir -p /uscms/homes/u/username/.globus
+#
+#            mkdir -p /uscms/data/d3/username
+#            ln -s /uscms_data/d3/user /uscms_data/d1/username
+#            ln -s /uscms_data/d1/user /uscms/homes/u/username/nobackup
+
+#            chown -R user.us_cms /uscms/homes/u/username
+#            chown -R user.us_cms /uscms_data/d3/username
+#            chown -R user.us_cms /uscms_data/d1/username
+
+#            chmod 700 /uscms/homes/u/username/.globus
+#            chmod 755 /uscms/homes/u/username
+#            chmod 755 /uscms/homes/u/username/work
+#            chmod 700 /uscms/homes/u/username/private
+#            chmod 755 /uscms_data/d3/username
+
+
+
+
+#            EOS things:
+
+
+#            /usr/bin/eos -b mkdir /eos/uscms/store/user/username
+#            /usr/bin/eos -b chown hkaur:us_cms /eos/uscms/store/user/username
+#            ls -ald /eos/uscms/store/user/username
+#            /usr/bin/eos -b quota set -u username -v 4TB -i 500000 /eos/uscms/store/user/
+
+
 
 
 
