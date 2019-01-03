@@ -11,6 +11,8 @@ from shlex import quote
 from optparse import OptionParser
 from LPCScriptsConfig import *
 from FERRYTools import *
+from EOSTools import *
+
 
 
 """
@@ -158,6 +160,10 @@ def main(argv):
 #   Here we go through the latest users and start checking that the relevant physical
 #   bits and pieces are where they need to be.
 
+#   get ready to do stuff with EOS if necessary
+
+    eos = EOSTools(mgmnode=EOSMGMHOST, logobj=logger, debug=options.debug)
+
 
     for user in userlist:
 
@@ -210,7 +216,7 @@ def main(argv):
 
 
 #            /usr/bin/eos -b mkdir /eos/uscms/store/user/username
-#            /usr/bin/eos -b chown hkaur:us_cms /eos/uscms/store/user/username
+#            /usr/bin/eos -b chown username:us_cms /eos/uscms/store/user/username
 #            ls -ald /eos/uscms/store/user/username
 #            /usr/bin/eos -b quota set -u username -v 4TB -i 500000 /eos/uscms/store/user/
 
@@ -285,6 +291,32 @@ def main(argv):
 
             j = scriptexec(command=["chmod", "755", nfsdir],
                            debug=options.debug, logobj=logger)
+
+
+#      then EOS -- relies being able to log into the MGM
+
+            eosdir = ""/eos/uscms/store/user/" + sanitizedusername
+            eosexecstring = "mkdir " + eosdir
+            logger.debug(eosexecstring)
+            #rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
+            logger.info ("EOS returns: %s" % rawoutput)
+
+            eosexecstring = "chown " + sanitizedusername + ":us_cms " + eosdir
+            logger.debug(eosexecstring)
+            #rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
+            logger.info ("EOS returns: %s" % rawoutput)
+
+            eosexecstring = "quota set -u " + sanitizedusername + "-v 4TB -i 500000" +
+                            "/eos/uscms/store/user"
+            logger.debug(eosexecstring)
+            #rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
+            logger.info ("EOS returns: %s" % rawoutput)
+
+
+
+
+
+
 
 
 
