@@ -315,7 +315,7 @@ def scriptexec(command = [], debug=False, logobj=None):
     output = ""
     try:
         output = subprocess.check_output(command, stderr=subprocess.STDOUT)
-        logger.info(str(output))
+        logger.info("Output: %s" % str(output))
     except subprocess.CalledProcessError as e:
         logger.info("Exec Error: %s" % e.output)
     except Exception as e:
