@@ -214,12 +214,25 @@ def main(argv):
 #            ls -ald /eos/uscms/store/user/username
 #            /usr/bin/eos -b quota set -u username -v 4TB -i 500000 /eos/uscms/store/user/
 
+
+
             usernamefirstchar = sanitizedusername[0]
             realhomedir = "/uscms/homes/" + usernamefirstchar + "/" + sanitizedusername
-            j=scriptexec(command=["mkdir", realhomedir], debug=options.debug,
-                         logobj=logger)
+            j = scriptexec(command=["mkdir", realhomedir], debug=options.debug,
+                           logobj=logger)
 
+            oldhomedir = "/uscms/home/" + sanitizedusername
+            j = scriptexec(command=["ln", "-s", realhomedir, oldhomedir],
+                           debug=options.debug, logobj=logger)
 
+            j = scriptexec(command=["mkdir", "-p", realhomedir+"/work"],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["mkdir", "-p", realhomedir+"/private"],
+                           debug=options.debug, logobj=logger)
+
+            j = scriptexec(command=["mkdir", "-p", realhomedir+"/.globus"],
+                           debug=options.debug, logobj=logger)
 
 #                if not os.path.exists()
 
