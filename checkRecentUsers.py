@@ -300,18 +300,18 @@ def main(argv):
             eosdir = "/eos/uscms/store/user/" + sanitizedusername
             eosexecstring = "mkdir " + eosdir
             logger.debug(eosexecstring)
-            #rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
+            rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
             logger.info ("EOS returns: %s" % rawoutput)
 
             eosexecstring = "chown " + sanitizedusername + ":us_cms " + eosdir
             logger.debug(eosexecstring)
-            #rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
+            rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
             logger.info ("EOS returns: %s" % rawoutput)
 
             eosexecstring = "quota set -u " + sanitizedusername + " -v 4TB -i 500000 "
             eosexecstring = eosexecstring + "/eos/uscms/store/user"
             logger.debug(eosexecstring)
-            #rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
+            rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
             logger.info ("EOS returns: %s" % rawoutput)
 
 
@@ -335,7 +335,7 @@ def scriptexec(command = [], debug=False, logobj=None):
         return 1
 
 #   sticking this in here for debugging
-    command = ["echo"] + command
+#    command = ["echo"] + command
 
     logger.debug("Command Array: %s" % command)
 
