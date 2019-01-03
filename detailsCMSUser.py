@@ -102,10 +102,7 @@ def main(argv):
     except:
         print("No CERN Affiliation set in FERRY")
 
-    print("CERN Username: %s", cernusername)
-
-#    if not "ferry_error" in replyJson:
-#        print("CERN Username: %s" % replyJson[options.username][0]["value"])
+    print("CERN Username: %s" % cernusername)
 
 
     print("\nStorage Quotas:")
