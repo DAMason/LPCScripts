@@ -178,144 +178,149 @@ def main(argv):
 
         else:
 
-            logger.info("Homedir: %s DOES NOT EXIST", homedir)
+            if not options.donothing:
 
-            sanitizedusername=quote(user)
+                logger.info("Homedir: %s DOES NOT EXIST", homedir)
 
-            logger.debug("Sanitizing username %s into: %s" % (user,sanitizedusername))
+                sanitizedusername=quote(user)
 
-#           We're not going to rely on discovering these things from FERRY just yet
-#           First make the /uscms/homes guy, then make the link.
+                logger.debug("Sanitizing username %s into: %s" % (user,sanitizedusername))
 
-#            Historically:
+#               We're not going to rely on discovering these things from FERRY just yet
+#               First make the /uscms/homes guy, then make the link.
 
-#            mkdir /uscms/homes/u/username
-#            ln -s /uscms/homes/u/username /uscms/home/username
-#            mkdir -p /uscms/homes/u/username/work
-#            mkdir -p /uscms/homes/u/username/private
-#            mkdir -p /uscms/homes/u/username/.globus
+#                Historically:
+
+#                mkdir /uscms/homes/u/username
+#                ln -s /uscms/homes/u/username /uscms/home/username
+#                mkdir -p /uscms/homes/u/username/work
+#                mkdir -p /uscms/homes/u/username/private
+#                mkdir -p /uscms/homes/u/username/.globus
 #
-#            mkdir -p /uscms/data/d3/username
-#            ln -s /uscms_data/d3/user /uscms_data/d1/username
-#            ln -s /uscms_data/d1/user /uscms/homes/u/username/nobackup
+#                mkdir -p /uscms/data/d3/username
+#                ln -s /uscms_data/d3/user /uscms_data/d1/username
+#                ln -s /uscms_data/d1/user /uscms/homes/u/username/nobackup
 
-#            chown -R user.us_cms /uscms/homes/u/username
-#            chown -R user.us_cms /uscms_data/d3/username
-#            chown -R user.us_cms /uscms_data/d1/username
+#                chown -R user.us_cms /uscms/homes/u/username
+#                chown -R user.us_cms /uscms_data/d3/username
+#                chown -R user.us_cms /uscms_data/d1/username
 
-#            chmod 700 /uscms/homes/u/username/.globus
-#            chmod 755 /uscms/homes/u/username
-#            chmod 755 /uscms/homes/u/username/work
-#            chmod 700 /uscms/homes/u/username/private
-#            chmod 755 /uscms_data/d3/username
-
-
-
-
-#            EOS things:
-
-
-#            /usr/bin/eos -b mkdir /eos/uscms/store/user/username
-#            /usr/bin/eos -b chown username:us_cms /eos/uscms/store/user/username
-#            ls -ald /eos/uscms/store/user/username
-#            /usr/bin/eos -b quota set -u username -v 4TB -i 500000 /eos/uscms/store/user/
+#                chmod 700 /uscms/homes/u/username/.globus
+#                chmod 755 /uscms/homes/u/username
+#                chmod 755 /uscms/homes/u/username/work
+#                chmod 700 /uscms/homes/u/username/private
+#                chmod 755 /uscms_data/d3/username
 
 
 
-            usernamefirstchar = sanitizedusername[0]
-            realhomedir = "/uscms/homes/" + usernamefirstchar + "/" + sanitizedusername
-            j = scriptexec(command=["mkdir", realhomedir], debug=options.debug,
+
+#                EOS things:
+
+
+#                /usr/bin/eos -b mkdir /eos/uscms/store/user/username
+#                /usr/bin/eos -b chown username:us_cms /eos/uscms/store/user/username
+#                ls -ald /eos/uscms/store/user/username
+#                /usr/bin/eos -b quota set -u username -v 4TB -i 500000 /eos/uscms/store/user/
+
+
+
+                usernamefirstchar = sanitizedusername[0]
+                realhomedir = "/uscms/homes/" + usernamefirstchar + "/"
+                realhomedir = realhomedir + sanitizedusername
+                j = scriptexec(command=["mkdir", realhomedir], debug=options.debug,
                            logobj=logger)
 
-            oldhomedir = "/uscms/home/" + sanitizedusername
-            j = scriptexec(command=["ln", "-s", realhomedir, oldhomedir],
+                oldhomedir = "/uscms/home/" + sanitizedusername
+                j = scriptexec(command=["ln", "-s", realhomedir, oldhomedir],
+                               debug=options.debug, logobj=logger)
+
+                j = scriptexec(command=["mkdir", "-p", realhomedir+"/work"],
                            debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["mkdir", "-p", realhomedir+"/work"],
+                j = scriptexec(command=["mkdir", "-p", realhomedir+"/private"],
                            debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["mkdir", "-p", realhomedir+"/private"],
+                j = scriptexec(command=["mkdir", "-p", realhomedir+"/.globus"],
+                               debug=options.debug, logobj=logger)
+
+#               NFS stuff
+
+                nfsdir = "/uscms_data/d3/" + sanitizedusername
+
+                linknfsdir = "/uscms_data/d1/" + sanitizedusername
+
+                j = scriptexec(command=["mkdir", "-p", nfsdir],
                            debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["mkdir", "-p", realhomedir+"/.globus"],
-                           debug=options.debug, logobj=logger)
+#               this is hardwired at the moment
+                quotastring = "limit -u bsoft=100g bhard=120g " + sanitizedusername
 
-#           NFS stuff
-
-            nfsdir = "/uscms_data/d3/" + sanitizedusername
-
-            linknfsdir = "/uscms_data/d1/" + sanitizedusername
-
-            j = scriptexec(command=["mkdir", "-p", nfsdir],
-                           debug=options.debug, logobj=logger)
-
-#           this is hardwired at the moment
-            quotastring = "limit -u bsoft=100g bhard=120g " + sanitizedusername
-
-            j = scriptexec (command=["xfs_quota", "-x", "-c", '"'+quotastring+'"',
-                                     "/uscms_data/d3"],
-                            debug=options.debug, logobj=logger)
+                j = scriptexec (command=["xfs_quota", "-x", "-c", '"'+quotastring+'"',
+                                         "/uscms_data/d3"],
+                                debug=options.debug, logobj=logger)
 
 
-            j = scriptexec(command=["ln", "-s", nfsdir, linknfsdir],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["ln", "-s", nfsdir, linknfsdir],
+                               debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["ln", "-s", linknfsdir, realhomedir+"/nobackup"],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["ln", "-s", linknfsdir, realhomedir+"/nobackup"],
+                               debug=options.debug, logobj=logger)
 
-#           setting permissions
+#               setting permissions
 
-            j = scriptexec(command=["chown", "-R", sanitizedusername+".us_cms",
-                                    realhomedir],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["chown", "-R", sanitizedusername+".us_cms",
+                                        realhomedir],
+                               debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["chown", "-R", sanitizedusername+".us_cms",
-                                    nfsdir],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["chown", "-R", sanitizedusername+".us_cms",
+                                        nfsdir],
+                               debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["chown", "-R", sanitizedusername+".us_cms",
-                                    linknfsdir],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["chown", "-R", sanitizedusername+".us_cms",
+                                        linknfsdir],
+                               debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["chmod", "755", realhomedir],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["chmod", "755", realhomedir],
+                               debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["chmod", "700", realhomedir+"/.globus"],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["chmod", "700", realhomedir+"/.globus"],
+                               debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["chmod", "755", realhomedir+"/work"],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["chmod", "755", realhomedir+"/work"],
+                              debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["chmod", "700", realhomedir+"/private"],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["chmod", "700", realhomedir+"/private"],
+                               debug=options.debug, logobj=logger)
 
-            j = scriptexec(command=["chmod", "755", nfsdir],
-                           debug=options.debug, logobj=logger)
+                j = scriptexec(command=["chmod", "755", nfsdir],
+                               debug=options.debug, logobj=logger)
 
 
 #      then EOS -- relies being able to log into the MGM
 
-            rawoutput=""
+                rawoutput=""
 
-            eosdir = "/eos/uscms/store/user/" + sanitizedusername
-            eosexecstring = "mkdir " + eosdir
-            logger.debug(eosexecstring)
-            rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
-            logger.info ("EOS returns: %s" % rawoutput)
+                eosdir = "/eos/uscms/store/user/" + sanitizedusername
+                eosexecstring = "mkdir " + eosdir
+                logger.debug(eosexecstring)
+                rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
+                logger.info ("EOS returns: %s" % rawoutput)
 
-            eosexecstring = "chown " + sanitizedusername + ":us_cms " + eosdir
-            logger.debug(eosexecstring)
-            rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
-            logger.info ("EOS returns: %s" % rawoutput)
+                eosexecstring = "chown " + sanitizedusername + ":us_cms " + eosdir
+                logger.debug(eosexecstring)
+                rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
+                logger.info ("EOS returns: %s" % rawoutput)
 
-            eosexecstring = "quota set -u " + sanitizedusername + " -v 4TB -i 500000 "
-            eosexecstring = eosexecstring + "/eos/uscms/store/user"
-            logger.debug(eosexecstring)
-            rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
-            logger.info ("EOS returns: %s" % rawoutput)
+                eosexecstring = "quota set -u " + sanitizedusername + " -v 4TB -i 500000 "
+                eosexecstring = eosexecstring + "/eos/uscms/store/user"
+                logger.debug(eosexecstring)
+                rawoutput = eos.mgmexec(execstring=eosexecstring, debug=options.debug)
+                logger.info ("EOS returns: %s" % rawoutput)
 
 
+            else:
 
+                logger.info ("donothing option set -- not taking any action...")
 
 
 
@@ -325,7 +330,7 @@ def main(argv):
 
 # feeds subprocess and logs results
 
-def scriptexec(command = [], debug=False, logobj=None):
+def scriptexec(command = [], debug=False, logobj=None, donothing=):
 
     if logobj is not None and isinstance(logobj,logging.getLoggerClass()):
         logger=logobj
