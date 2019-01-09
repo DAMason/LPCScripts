@@ -78,13 +78,12 @@ def main(argv):
     if options.debug:
         print (replyJson)
 
-#    if not "ferry_error" in replyJson:
+    if not "ferry_error" in replyJson:
 
 
-#        for user in replyJson:
+        for group in replyJson:
 #            if options.debug:
-#                 print(user)
-#            if Ferry.isInCMS(username=user['username'], debug=options.debug):
+            print(group)
 #                print(str(user['username']) + "  " + str(user['uid']) + "  " +
 #                      str(user['full_name']) + "  " + str(user['expiration_date']))
 
