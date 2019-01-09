@@ -79,6 +79,8 @@ def main(argv):
     if options.debug:
         print (replyJson)
 
+    accountAttributes={}
+
     if not "ferry_error" in replyJson:
 
         for k,attrib in replyJson.items():
