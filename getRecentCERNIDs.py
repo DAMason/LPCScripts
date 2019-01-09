@@ -82,7 +82,7 @@ def main(argv):
     if not "ferry_error" in replyJson:
 
         for k,attrib in replyJson.items():
-            if debug:
+            if options.debug:
                 print("%s" % attrib)
             for a in attrib:
                 if a['attribute'] == 'cern_username':
