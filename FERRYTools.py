@@ -243,7 +243,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         replyJson = {}
 
         if timestamp > 0:
-           query = "getGroupFile?unitname=cms&resourcename=lpcinteractive&last_updated="
+           query = "/getGroupFile?unitname=cms&resourcename=lpcinteractive&last_updated="
            query = query + str(int(timestamp))
            replyJson = self.genericFerryQuery(query, debug)
 
