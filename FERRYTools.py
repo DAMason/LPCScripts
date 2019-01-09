@@ -260,6 +260,19 @@ class FERRYTools(urllib2.HTTPSHandler):
         return replyJson
 
 
+    def getRecentAffiliations(self, timestamp=0, debug=False):
+
+        replyJson = {}
+
+        if timestamp > 0:
+           query = "/getUserExternalAffiliationAttributes?last_updated="
+           query = query + str(int(timestamp))
+           replyJson = self.genericFerryQuery(query, debug)
+
+        return replyJson
+
+
+
     def getMemberships(self, username="", debug=False):
 
         replyJson = {}
