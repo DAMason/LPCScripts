@@ -79,15 +79,16 @@ def main(argv):
     if options.debug:
         print (replyJson)
 
-#    if not "ferry_error" in replyJson:
+    if not "ferry_error" in replyJson:
+
+        for k,attrib in replyCERNJson.items():
+            logger.debug("%s" % attrib)
+            for a in attrib:
+                if a['attribute'] == 'cern_username':
+                    accountAttributes[k] = a['value']
+                    print ("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
 
 
-#        for user in replyJson:
-#            if options.debug:
-#                 print(user)
-#            if Ferry.isInCMS(username=user['username'], debug=options.debug):
-#                print(str(user['username']) + "  " + str(user['uid']) + "  " +
-#                      str(user['full_name']) + "  " + str(user['expiration_date']))
 
 
 
