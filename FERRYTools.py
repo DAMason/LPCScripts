@@ -238,6 +238,18 @@ class FERRYTools(urllib2.HTTPSHandler):
 
 
 
+    def getRecentGroups(self, timestamp=0, debug=False):
+
+        replyJson = {}
+
+        if timestamp > 0:
+           query = "getGroupFile?unitname=cms&resourcename=lpcinteractive&last_updated="
+           query = query + str(int(timestamp))
+           replyJson = self.genericFerryQuery(query, debug)
+
+        return replyJson
+
+
     def getRecentQuotas(self, timestamp=0, debug=False):
 
         replyJson = {}
