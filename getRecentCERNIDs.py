@@ -89,7 +89,8 @@ def main(argv):
             for a in attrib:
                 if a['attribute'] == 'cern_username':
                     accountAttributes[k] = a['value']
-                    print ("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
+                    if not accountAttributes[k] == k:
+                       print ("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
 
 
 
