@@ -42,7 +42,7 @@ def main(argv):
                       help="debug output")
 
     adayago = time.time()-(60.0*60.0*24.0)
-    aweekago = time.time()-(60.0*60.0*24.0*7.0)
+    aweekago = time.time()-adayago*7.0
 
 
     parser.add_option("-t", "--timesince", action="store", type="int",
@@ -70,7 +70,8 @@ def main(argv):
               " not found -- proceeding to assume host is in whitelist...")
         options.cert=None
 
-    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath)
+    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath
+                     debug=options.debug)
 
     replyJson = Ferry.getRecentQuotas(timestamp=options.timesince, debug=options.debug)
 
