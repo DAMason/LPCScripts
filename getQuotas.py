@@ -70,7 +70,7 @@ def main(argv):
               " not found -- proceeding to assume host is in whitelist...")
         options.cert=None
 
-    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath
+    Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath,
                      debug=options.debug)
 
     replyJson = Ferry.getRecentQuotas(timestamp=options.timesince, debug=options.debug)
