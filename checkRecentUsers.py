@@ -320,6 +320,8 @@ def main(argv):
 
             else:
 
+
+                logger.info ("Homedir: %s DOES NOT EXIST", homedir)
                 logger.info ("donothing option set -- not taking any action...")
 
 
@@ -330,7 +332,7 @@ def main(argv):
 
 # feeds subprocess and logs results
 
-def scriptexec(command = [], debug=False, logobj=None):
+def scriptexec(command = [], debug=False, logobj=Nonee):
 
     if logobj is not None and isinstance(logobj,logging.getLoggerClass()):
         logger=logobj
