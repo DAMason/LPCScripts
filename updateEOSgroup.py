@@ -197,13 +197,13 @@ def main(argv):
             initialuserlist.append(thing)
 
 
-    logging.info("Old user list in group %s" % options.group)
+    logger.info("Old user list in group %s" % options.group)
     for user in sorted(initialuserlist):
-        logging.info(user)
+        logger.info(user)
 
-    logging.info("New user list in group %s" % options.group)
+    logger.info("New user list in group %s" % options.group)
     for user in sorted(newuserList):
-        logging.info(user)
+        logger.info(user)
 
     j=eos.setacls(rolist=gidList, rwlist=uidList, path=grouppath)
 
