@@ -193,7 +193,7 @@ def main(argv):
     aclarray=acllist.split(',')
     for thing in aclarray:
         if "u:" in thing:
-            uidonly=re.sub("\D", "", thing)
+            uidonly=int(re.sub("\D", "", thing))
             initialuserlist.append(pwd.getpwuid(uidonly).pw_name)
 
 
