@@ -10,6 +10,7 @@ import os
 import time
 import sys
 import shutil
+import pwd
 import json
 import ssl
 import re
@@ -145,7 +146,8 @@ def main(argv):
         sys.exit(2)
 
 
-    uidList=[]
+    uidList = []
+    newuserList = []
 
     for user in replyJson:
 
@@ -153,6 +155,7 @@ def main(argv):
 
         uidstring="u:"+str(user["uid"])
         uidList.append(uidstring)
+        newuserList.append(user["username"])
 
     logger.debug("uid list: %s", uidList)
 
@@ -181,7 +184,26 @@ def main(argv):
 
     logger.debug(jsonOutput)
 
+    olduidlist=acllist
 
+# idea here is going to be to pull in the old list, parse & sort to compare with FERRY
+
+    initialuserlist=[]
+    # lets pull out the uid's in here
+        aclarray=acllist.split(',')
+        for thing in aclarray:
+            if "u:" in thing:
+                re.sub("\D", "", thing)
+                initialuserlist.append(thing)
+
+
+    logging.info("Old user list in group %s" % options.group)
+    for user in sorted(initialuserlist):
+        logging.info(user)
+
+    logging.info("New user list in group %s" % options.group)
+    for user in sorted(newuserList):
+        logging.info(user)
 
     j=eos.setacls(rolist=gidList, rwlist=uidList, path=grouppath)
 
