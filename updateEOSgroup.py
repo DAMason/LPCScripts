@@ -194,7 +194,7 @@ def main(argv):
     for thing in aclarray:
         if "u:" in thing:
             uidonly=re.sub("\D", "", thing)
-            initialuserlist.append(pwd.getpwuid(uidonly).pw_name
+            initialuserlist.append(pwd.getpwuid(uidonly).pw_name)
 
 
     logger.info("Old user list in group %s" % options.group)
