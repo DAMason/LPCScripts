@@ -190,7 +190,7 @@ def main(argv):
 
     initialuserlist=[]
     # lets pull out the uid's in here
-        aclarray=acllist.split(',')
+    aclarray=acllist.split(',')
         for thing in aclarray:
             if "u:" in thing:
                 re.sub("\D", "", thing)
