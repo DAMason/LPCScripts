@@ -191,10 +191,10 @@ def main(argv):
     initialuserlist=[]
     # lets pull out the uid's in here
     aclarray=acllist.split(',')
-        for thing in aclarray:
-            if "u:" in thing:
-                re.sub("\D", "", thing)
-                initialuserlist.append(thing)
+    for thing in aclarray:
+        if "u:" in thing:
+            re.sub("\D", "", thing)
+            initialuserlist.append(thing)
 
 
     logging.info("Old user list in group %s" % options.group)
