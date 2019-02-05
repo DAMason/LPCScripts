@@ -194,14 +194,20 @@ def main(argv):
     for thing in aclarray:
         if "u:" in thing:
             uidonly=int(re.sub("\D", "", thing))
-            initialuserlist.append(pwd.getpwuid(uidonly).pw_name)
+            reversename = uidonly
+            try:
+                reversename = pwd.getpwuid(uidonly).pw_name
+            except KeyError:
+                logger.warning("UID %s from acl list no longer exists!" % reversename)
+
+            initialuserlist.append(reversename)
 
 
-    logger.info("Old user list in group %s" % options.group)
+    logger.info("Old user list in group (from EOS) %s" % options.group)
     for user in sorted(initialuserlist):
         logger.info(user)
 
-    logger.info("New user list in group %s" % options.group)
+    logger.info("New user list in group (from FERRY) %s" % options.group)
     for user in sorted(newuserList):
         logger.info(user)
 
