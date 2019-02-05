@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 import os
+import pwd
 import time
 import sys
 import json
@@ -152,8 +153,17 @@ def main(argv):
                         str(user['uid']) + "  " + str(user['full_name']) + "  " +
                         str(user['expiration_date']))
 
-            userlist.append(user['username'])
-            useruidlist.append(user['uid'])
+            try:
+                pwd.getpwnam(user['username'])
+                userlist.append(user['username'])
+                useruidlist.append(user['uid'])
+            except KeyError:
+                logger.info("User %s does not exist on the system yet, skipping for now" %
+                            user['username'])
+
+
+
+
 
     logger.info("Walking through new users:")
 
