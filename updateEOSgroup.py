@@ -200,7 +200,7 @@ def main(argv):
             except KeyError:
                 logger.warning("UID %s from acl list no longer exists!" % reversename)
 
-            initialuserlist.append(reversename)
+            initialuserlist.append(str(reversename))
 
 
     logger.info("Old user list in group (from EOS) %s" % options.group)
