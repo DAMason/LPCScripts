@@ -162,15 +162,15 @@ class EOSTools:
             self.logger.debug("FNAL username: %s" % FNALname)
             self.logger.debug("CERN username: %s" % CERNname)
 
-            map1command = EOSSHELL + " map link /eos/uscms/store/user/"
+            map1command = EOSSHELL + " 'map link /eos/uscms/store/user/"
             map1command = map1command + CERNname + "/ "
             map1command = map1command + "/eos/uscms/store/user/"
-            map1command = map1command + FNALname + "/"
+            map1command = map1command + FNALname + "/'"
 
-            map2command = EOSSHELL + " map link /store/user/"
+            map2command = EOSSHELL + " 'map link /store/user/"
             map2command = map2command + CERNname + "/ "
             map2command = map2command + "/eos/uscms/store/user/"
-            map2command = map2command + FNALname + "/"
+            map2command = map2command + FNALname + "/'"
 
             self.logger.info("Map command 1: %s" % map1command)
             self.logger.info("Map command 2: %s" % map2command)
