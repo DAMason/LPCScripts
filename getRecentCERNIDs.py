@@ -57,12 +57,48 @@ def main(argv):
     And here we go...
     """
 
+    path, execname = os.path.split(sys.argv[0])
+    if len(execname) == 0:
+        execname="checkRecentCERNIDs.py"
+
+
+# setting up logging -- end up passing this to *Tools so everybody logs to the same place
+
+    logger = logging.getLogger(execname)
+
+    logformatter = logging.Formatter('%(levelname)s %(message)s')
+    filelogformatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+
+
+    if not options.debug:
+        logger.setLevel(logging.INFO)
+    else:
+        logger.setLevel(logging.DEBUG)
+    logsh = logging.StreamHandler()
+
+    logsh.setFormatter(logformatter)
+    logger.addHandler(logsh)
+
+
+    if not os.path.exists(LOGDIR):
+        logger.debug("Log dir %s doesn't exist -- creating!", LOGDIR)
+        os.mkdir(LOGDIR)
+    logfilename=execname+".log"
+    logpath = os.path.join(LOGDIR,logfilename)
+    logfh = logging.FileHandler(logpath)
+
+    logfh.setFormatter(filelogformatter)
+    logger.addHandler(logfh)
+
+    logger.info ("New user checking beginning...")
+
+
     if options.debug:
-        print("server: ", options.hosturl)
-        print("capath: ", options.capath)
-        print("cert: ", options.cert)
-        print("debug: ", options.debug)
-        print("timesince: ", options.timesince)
+        logger.debug("server: ", options.hosturl)
+        logger.debug("capath: ", options.capath)
+        logger.debug("cert: ", options.cert)
+        logger.debug("debug: ", options.debug)
+        logger.debug("timesince: ", options.timesince)
 
 
     if not os.path.exists(options.cert):
@@ -71,28 +107,32 @@ def main(argv):
         options.cert=None
 
     Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath,
-                     debug=options.debug)
+                     logobj=logger)
 
     replyJson = Ferry.getRecentAffiliations(timestamp=options.timesince,
                                             debug=options.debug)
 
-    if options.debug:
-        print (replyJson)
+    logger.debug(replyJson)
+
+
+#   get ready to do stuff with EOS if necessary
+
+    eos = EOSTools(mgmnode=EOSMGMHOST, logobj=logger, debug=options.debug)
+
 
     accountAttributes={}
 
     if not "ferry_error" in replyJson:
 
         for k,attrib in replyJson.items():
-            if options.debug:
-                print("%s" % attrib)
+            logger.debug("%s" % attrib)
             for a in attrib:
                 if a['attribute'] == 'cern_username':
                     accountAttributes[k] = a['value']
                     if not accountAttributes[k] == k:
-                       print ("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
-
-
+                       logger.info("FNAL ID: %s, CERN ID: %s" % (k,accountAttributes[k]))
+#                      need to add some checking and name sanitizing
+                       eos.makelinks(FNALname=k, CERNname=accountAttributes[k])
 
 
 
