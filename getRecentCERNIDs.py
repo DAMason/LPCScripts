@@ -6,9 +6,11 @@ import time
 import sys
 import json
 import ssl
+import logging
 from optparse import OptionParser
 from LPCScriptsConfig import *
 from FERRYTools import *
+from EOSTools import *
 
 
 """
