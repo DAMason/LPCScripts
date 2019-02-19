@@ -208,7 +208,7 @@ def main(argv):
     for user in sorted(initialuserlist):
         logger.info(user)
         if user not in newuserList:
-            droppeduser.append(user)
+            droppedusers.append(user)
             logger.info("%s not in new list, will be dropped" % user)
 
     addedusers=[]
