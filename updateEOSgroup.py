@@ -204,12 +204,20 @@ def main(argv):
 
 
     logger.info("Old user list in group (from EOS) %s" % options.group)
+    droppedusers=[]
     for user in sorted(initialuserlist):
         logger.info(user)
+        if user not in newuserList:
+            droppeduser.append(user)
+            logger.info("%s not in new list, will be dropped" % user)
 
+    addedusers=[]
     logger.info("New user list in group (from FERRY) %s" % options.group)
     for user in sorted(newuserList):
         logger.info(user)
+        if user not in initialuserlist:
+            addedusers.append(user)
+            logger.info("%s not in old ACL list, will be added" % user)
 
     j=eos.setacls(rolist=gidList, rwlist=uidList, path=grouppath)
 
