@@ -81,7 +81,7 @@ def main(argv):
     if not "ferry_error" in replyJson:
 
 
-        for uid,user in replyJson.items():
+        for uid,user in replyJson['user_quotas'].items():
 
             if options.debug:
                  print (user)
