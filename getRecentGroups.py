@@ -83,6 +83,8 @@ def main(argv):
 
         for group in replyJson:
 #            if options.debug:
+            updatediffdays=(time.time()-group['last_upated'])/3600.0/24.0
+            print("%s days ago:" % str(updatediffdays))
             print(group)
 #                print(str(user['username']) + "  " + str(user['uid']) + "  " +
 #                      str(user['full_name']) + "  " + str(user['expiration_date']))
