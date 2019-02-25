@@ -81,7 +81,23 @@ def main(argv):
     if not "ferry_error" in replyJson:
 
 
+        print("NEW USER QUOTAS: \n\n\n\n")
+
         for uid,user in replyJson['user_quotas'].items():
+
+            if options.debug:
+                 print (user)
+
+            for rid,resource in user.items():
+                 if resource["unit"] == "B":
+                     quotaTB = int(resource["value"])/1000./1000./1000./1000.
+                     print (resource["path"] + ": " + str(quotaTB) + " TB")
+                 else:
+                     print (uid + " " + resource["path"] + ": " + resource["value"] + resource["unit"])
+
+        print("NEW GROUP QUOTAS: \n\n\n\n")
+
+        for uid,user in replyJson['group_quotas'].items():
 
             if options.debug:
                  print (user)
