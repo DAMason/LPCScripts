@@ -111,7 +111,8 @@ def main(argv):
 #    for resource in replyJson:
 #        print(resource['resourcename'].ljust(10), end=' ')
     if options.debug:
-        print ("replyJson[options.username]: %s" % replyJson[options.username])
+        print ("replyJson["user_quotas"][options.username]: %s" %
+               replyJson["user_quotas"][options.username])
 
     for k,resource in replyJson["user_quotas"][options.username].items():
         if options.debug:
