@@ -113,7 +113,7 @@ def main(argv):
     if options.debug:
         print ("replyJson[options.username]: %s" % replyJson[options.username])
 
-    for k,resource in replyJson[options.username].items():
+    for k,resource in replyJson["user_quotas"][options.username].items():
         if options.debug:
             print ("resource %s" % resource)
 
