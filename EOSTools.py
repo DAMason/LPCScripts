@@ -36,7 +36,7 @@ class EOSTools:
         else:
             path, execname = os.path.split(sys.argv[0])
             if len(execname) == 0:
-                execname="FERRYTools"
+                execname="EOSTools"
             self.logger = logging.getLogger(execname)
             self.logformatter =logging.Formatter(
                 '%(asctime)s %(name)s %(levelname)s %(message)s')

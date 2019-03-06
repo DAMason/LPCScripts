@@ -47,3 +47,11 @@ EOSMGMHOST = "cmseosmgm01.fnal.gov"
 EOSSHELL = "/usr/bin/eos -b -j"
 
 
+
+# New user email options
+
+NEWUSEREMAILSENDER = "dmason@fnal.gov"
+NEWUSEREMAILTEXTLOC = "NewUserEmail.txt"
+
+
+
