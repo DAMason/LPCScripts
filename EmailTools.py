@@ -67,7 +67,7 @@ class EmailTools:
             return 1
 
         emailtextstring = "Subject: Welcome to the CMS LPC CAF (Central Analysis Facility)\n"
-        emailtextstring += "Bcc: DAMason@gmail.com\n\n"
+        emailtextstring += "Bcc: lpc-support@fnal.gov\n\n"
 
 
         try:
@@ -82,7 +82,7 @@ class EmailTools:
 
         emailtextstring = emailtextstring % (user)
 
-        self.logger.debug("Email text pulled in: \n %s" % emailtextstring)
+        self.logger.debug("Email text pulled in: \n%s" % emailtextstring)
 
         useremail = user + '@fnal.gov'
 
@@ -96,9 +96,9 @@ class EmailTools:
 
         try:
             smtpserver.sendmail(FromAddr, ToAddr, emailtextstring)
-        except OSError as eerr:
+        except SMTPException as err:
             self.logger.error("Problem sending email")
-            self.logger.error("OS Error: {0}".format(err))
+            self.logger.error("SMTPException: {0}".format(err))
 
 
         smtpserver.set_debuglevel(5)
