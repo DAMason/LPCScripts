@@ -66,12 +66,12 @@ class EmailTools:
             self.logger.error("User ID: %s got lost -- aborting email!" % user )
             return 1
 
-        emailtextstring="Subject: Welcome to the LPC \n\n"
+        emailtextstring="Subject: Welcome to the CMS LPC CAF (Central Analysis Facility)\n"
 
         try:
             f = open(NEWUSEREMAILTEXTLOC, 'r')
             for line in f:
-                emailtextstring = emailtextstring + line
+                emailtextstring = emailtextstring + line%(user)
         except OSError as err:
             self.logger.error("Failing to read new user text file %s" % NEWUSEREMAILTEXTLOC)
             self.logger.error("EMail text string so far: %s" % emailtextstring)
@@ -82,18 +82,19 @@ class EmailTools:
 
         useremail = user + '@fnal.gov'
 
-        self.logger.debug("Preparing to email %s " % useremail)
+        self.logger.info("Preparing to email %s " % useremail)
 
-        FromAddr = NEWUSEREMAILSENDER
+        FromAddr = "do-not-reply@fnal.gov"
         ToAddr = useremail
 
         smtpserver = smtplib.SMTP(SMTPSERVER)
 
+
         try:
             smtpserver.sendmail(FromAddr, ToAddr, emailtextstring)
-        except:
+        except OSError as eerr:
             self.logger.error("Problem sending email")
-
+            self.logger.error("OS Error: {0}".format(err))
 
 
         smtpserver.set_debuglevel(5)
@@ -102,8 +103,23 @@ class EmailTools:
         return 0
 
 
+    def addToUAFList(self, user=""):
+
+        if user == "":
+            self.logger.error("User ID: %s got lost -- aborting email!" % user )
+            return 1
+
+        useremail = user + '@fnal.gov'
+
+        FromAddr = NEWUSEREMAILSENDER
+
+        self.logger.info("Preparing to add %s to UAF list" % useremail)
 
 
+
+
+
+        return 0
 
 
 if __name__ == '__main__':
