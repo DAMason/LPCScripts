@@ -66,7 +66,11 @@ class EmailTools:
             self.logger.error("User ID: %s got lost -- aborting email!" % user )
             return 1
 
-        emailtextstring = "Subject: Welcome to the CMS LPC CAF (Central Analysis Facility)\n"
+        self.logger.info("Preparing to email %s " % useremail)
+        recips = [useremail]
+        emailtextstring = "To: %s\n" % useremail
+        emailtextstring += "Subject: Welcome to the CMS LPC CAF (Central Analysis Facility)\n"
+        recips.append("lpc-support@fnal.gov")
         emailtextstring += "Bcc: lpc-support@fnal.gov\n\n"
 
 
@@ -86,10 +90,9 @@ class EmailTools:
 
         useremail = user + '@fnal.gov'
 
-        self.logger.info("Preparing to email %s " % useremail)
 
         FromAddr = "do-not-reply@fnal.gov"
-        ToAddr = useremail
+        ToAddr = recips                # this is a list, including Bcc!
 
         smtpserver = smtplib.SMTP(SMTPSERVER)
 
