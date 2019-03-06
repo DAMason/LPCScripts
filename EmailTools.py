@@ -67,6 +67,8 @@ class EmailTools:
             return 1
 
         emailtextstring="Subject: Welcome to the CMS LPC CAF (Central Analysis Facility)\n"
+        emailtextstring="Bcc: DAMason@gmail.com\n\n"
+
 
         try:
             f = open(NEWUSEREMAILTEXTLOC, 'r')
