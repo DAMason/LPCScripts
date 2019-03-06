@@ -1,0 +1,59 @@
+Welcome to the CMS LPC CAF (Central Analysis Facility),
+Please take note of the following useful information. Note that the lpc.fnal.gov 
+and uscms.org web links will never ask for your password, and you should not 
+send your password by email.
+
+1) An account has been created for you on the cmslpc cluster with username "%s".
+To configure your computer (/etc/krb5.conf and ~/.ssh/config files) and connect, 
+please consult the following web page:
+  http://uscms.org/uscms_at_work/physics/computing/getstarted/uaf.shtml
+
+2) If you did not provide your Personal grid certificate during account application,
+you will need to provide it in a separate ServiceNow request, information how to
+do so can be found here:
+  http://uscms.org/uscms_at_work/computing/LPC/usingEOSAtLPC.shtml
+
+3) Other useful computing links including information on how to setup software,
+what disks are available, how to run batch jobs, and monitor system status can 
+be found at this link:
+  http://lpc.fnal.gov/computing/index.shtml
+
+4) If you have questions or problems with your Fermilab Kerberos, Services,
+or Windows computing accounts please submit a ServiceDesk ticket via one 
+of the following methods:
+
+ Web: http://servicedesk.fnal.gov/
+ Email: servicedesk@fnal.gov
+ Phone: 630-840-2345
+ 
+5) *To get help*:
+For CMS LPC CAF specific problems, you may use the dedicated ServiceNow portal
+with your Fermilab Services username and password:
+ https://fermi.service-now.com/lpc/?id=lpc_index
+Resource for getting help for CMS LPC computing are collected here:
+  http://lpc.fnal.gov/computing/gethelp.shtml
+
+ To ensure rapid response to your question please include as much detail
+as possible. This includes the name of the system you are having problems
+with, commands you are running, and exact error messages.  
+
+6) Welcome to the LPC (Large Hadron Collider Physics Center)!
+There are a number of regularly scheduled events for both local and remote users, 
+more can be found here:
+  http://lpc.fnal.gov/bulletin/LPCbulletin.shtml
+More about participating in LPC activities can be found here:
+  http://lpc.fnal.gov/visiting/index.shtml
+In particular you may find the lpc-all and lpc-residents lists useful for event
+information. The lpc-howto list is for computing community support.
+
+7) Should you have a visit to the LPC, you are strongly encouraged to talk to 
+our LPC Physics support contact to learn more about how the LPC can enhance 
+your analysis, CMS service work, and collaborative efforts. 
+http://lpc.fnal.gov/contactus/index.shtml
+
+Welcome to the CMS LPC CAF!
+
+Sincerely,
+  CMSLPC Support team
+  
+*** Please do not respond to this email address as it is not monitored.
