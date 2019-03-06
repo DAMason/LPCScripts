@@ -66,6 +66,8 @@ class EmailTools:
             self.logger.error("User ID: %s got lost -- aborting email!" % user )
             return 1
 
+        useremail = user + '@fnal.gov'
+
         self.logger.info("Preparing to email %s " % useremail)
         recips = [useremail]
         emailtextstring = "To: %s\n" % useremail
@@ -88,7 +90,6 @@ class EmailTools:
 
         self.logger.debug("Email text pulled in: \n%s" % emailtextstring)
 
-        useremail = user + '@fnal.gov'
 
 
         FromAddr = "do-not-reply@fnal.gov"
