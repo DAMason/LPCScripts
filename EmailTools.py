@@ -71,12 +71,14 @@ class EmailTools:
         try:
             f = open(NEWUSEREMAILTEXTLOC, 'r')
             for line in f:
-                emailtextstring = emailtextstring + line%(user)
+                emailtextstring = emailtextstring + line
         except OSError as err:
             self.logger.error("Failing to read new user text file %s" % NEWUSEREMAILTEXTLOC)
             self.logger.error("EMail text string so far: %s" % emailtextstring)
             self.logger.error("OS Error: {0}".format(err))
             return 1
+
+        emailtextstring = emailtextstring % (user)
 
         self.logger.debug("Email text pulled in: \n %s" % emailtextstring)
 
