@@ -66,7 +66,7 @@ class EmailTools:
             self.logger.error("User ID: %s got lost -- aborting email!" % user )
             return 1
 
-        emailtextstring += "Subject: Welcome to the CMS LPC CAF (Central Analysis Facility)\n"
+        emailtextstring = "Subject: Welcome to the CMS LPC CAF (Central Analysis Facility)\n"
         emailtextstring += "Bcc: DAMason@gmail.com\n\n"
 
 
