@@ -194,7 +194,7 @@ if __name__ == '__main__':
                       help="add user to UAF list")
 
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet",
-                      default=True,
+                      default=False,
                       help="UAF addition is quiet")
 
     helpstring="Bcc new user email to %s" % NEWUSERBCCLIST
