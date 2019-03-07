@@ -98,7 +98,7 @@ class EmailTools:
 
 
 
-        FromAddr = NOREPLYEMALSENDER
+        FromAddr = NOREPLYEMAILSENDER
         ToAddr = recips                # this is a list, including Bcc!
 
         smtpserver = smtplib.SMTP(SMTPSERVER)
@@ -219,7 +219,7 @@ if __name__ == '__main__':
             print ("Quietly")
 
         pwdentry=pwd.getpwnam(options.uafadd)
-        fullname=pwdentry['gecos']
+        fullname=pwdentry[4]   "gecos -- user full name/comment from passwd file"
         print ("Full name supposed to be: %s" % fullname)
         j=thingy.addToUAFList(user=options.uafadd,
                               userfullname=fullname,
