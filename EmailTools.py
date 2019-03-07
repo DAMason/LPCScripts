@@ -207,7 +207,7 @@ if __name__ == '__main__':
     if len(options.newuser)>0:
         print ("doing userAccountMadeMail for user %s" % options.newuser)
         if options.bcc:
-            print ("With Bcc to: %s" % NEWUSERBCCLIST
+            print ("With Bcc to: %s" % NEWUSERBCCLIST)
         j=thingy.userAccountMadeMail(user=options.newuser, BCC=options.bcc)
 
     if len(options.uafadd)>0:
