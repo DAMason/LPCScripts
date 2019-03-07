@@ -152,6 +152,9 @@ class EmailTools:
         else:
             emailtextstring += "ADD CMS_UAF_USERS %s %s" % (useremail, userfullname)
 
+        smtpserver = smtplib.SMTP(SMTPSERVER)
+
+
 
         try:
             smtpserver.sendmail(FromAddr, ToAddr, emailtextstring)
