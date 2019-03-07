@@ -72,8 +72,11 @@ class EmailTools:
         recips = [useremail]
         emailtextstring = "To: %s\n" % useremail
         emailtextstring += "Subject: Welcome to the CMS LPC CAF (Central Analysis Facility)\n"
-        recips.append("lpc-support@fnal.gov")
-        emailtextstring += "Bcc: lpc-support@fnal.gov\n\n"
+        if len(NEWUSERBCCLIST) > 0:
+            recips.append(NEWUSERBCCLIST)
+            emailtextstring += "Bcc: %s\n" % NEWUSERBCCLIST
+
+        emailtextstring += "\n"
 
 
         try:
@@ -92,7 +95,7 @@ class EmailTools:
 
 
 
-        FromAddr = "do-not-reply@fnal.gov"
+        FromAddr = NOREPLYEMALSENDER
         ToAddr = recips                # this is a list, including Bcc!
 
         smtpserver = smtplib.SMTP(SMTPSERVER)
@@ -112,6 +115,10 @@ class EmailTools:
         return 0
 
 
+
+
+# to add new user to the UAF list
+
     def addToUAFList(self, user="", userfullname=""):
 
         if user == "":
@@ -129,7 +136,7 @@ class EmailTools:
 
 
         FromAddr = NEWUSEREMAILSENDER
-        ToAddr = "listserv@fnal.gov"
+        ToAddr = LISTSERVADDRESS
 
         self.logger.info("Preparing to add %s to UAF list" % useremail)
 
@@ -158,3 +165,4 @@ if __name__ == '__main__':
 
 
     j=thingy.userAccountMadeMail(user="dmason")
+    j=thingy.addToUAFList(user=user, userfullname=fullname)

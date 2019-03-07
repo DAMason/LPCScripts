@@ -52,8 +52,10 @@ EOSSHELL = "/usr/bin/eos -b -j"
 
 NOREPLYEMAILSENDER = "do-not-reply@fnal.gov"
 NEWUSEREMAILSENDER = "dmason@fnal.gov"
-NEWUSERBCCLIST = ""
+NEWUSERBCCLIST = "lpc-support@fnal.gov"
 NEWUSEREMAILTEXTLOC = "NewUserEmail.txt"
+SMTPSERVER = "smtp.fnal.gov"
+LISTSERVADDRESS = "listserv@fnal.gov"
 
 
 

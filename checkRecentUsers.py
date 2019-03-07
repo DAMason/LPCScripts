@@ -338,12 +338,12 @@ def main(argv):
 
 #      done with the physical stuff, finally do the email bits
 
-                email.userAccountMadeMail(user=sanitizedusername)
+                j = email.userAccountMadeMail(user=sanitizedusername)
 
                 fullname=''
                 if user in userfullnamemap:
                     fullname=userfullnamemap[user]
-                email.addToUAFList(user=user, userfullname=fullname)
+                j = email.addToUAFList(user=user, userfullname=fullname)
 
 
             else:
