@@ -192,9 +192,10 @@ if __name__ == '__main__':
                       default=True,
                       help="UAF addition is quiet")
 
+                      helpstring="Bcc new user email to %s" % NEWUSERBCCLIST
     parser.add_option("-b", "--bcc", action="store_true", dest="bcc",
                       default=False,
-                      help="Bcc new user email to %s", NEWUSERBCCLIST)
+                      help=helpstring)
 
 
     (options,args) = parser.parse_args()
