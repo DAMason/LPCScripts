@@ -128,7 +128,7 @@ class EmailTools:
 
         if user == "":
             self.logger.error("User full name: %s got lost" % userfullname)
-            self.logger.error("replacing with *"")
+            self.logger.error("replacing with *")
             userfullname="*"   # supposedly this is an anonymous subscription
                                # also supposedly should never happen
 
@@ -208,7 +208,7 @@ if __name__ == '__main__':
         print ("doing userAccountMadeMail for user %s" % options.newuser)
         if options.bcc:
             print ("With Bcc to: %s" % NEWUSERBCCLIST
-        j=thingy.userAccountMadeMail(user="dmason", BCC=options.bcc)
+        j=thingy.userAccountMadeMail(user=options.newuser, BCC=options.bcc)
 
     if len(options.uafadd)>0:
         print ("doing addToUAFList for user %s" % options.newuser)
