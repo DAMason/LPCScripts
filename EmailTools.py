@@ -11,6 +11,8 @@ import re
 import pwd
 import logging
 import smtplib
+from optparse import OptionParser
+
 
 from LPCScriptsConfig import *
 
