@@ -127,8 +127,9 @@ class EmailTools:
 
         if user == "":
             self.logger.error("User full name: %s got lost" % userfullname)
-            self.logger.error("replacing with username %s" % user)
-            userfullname=user
+            self.logger.error("replacing with *"")
+            userfullname="*"   # supposedly this is an anonymous subscription
+                               # also supposedly should never happen
 
 
 
