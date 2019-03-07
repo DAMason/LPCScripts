@@ -106,7 +106,7 @@ class EmailTools:
 
         try:
             smtpserver.sendmail(FromAddr, ToAddr, emailtextstring)
-        except SMTPException as err:
+        except smtplib.SMTPException as err:
             self.logger.error("Problem sending email")
             self.logger.error("SMTPException: {0}".format(err))
             return 1
@@ -155,7 +155,7 @@ class EmailTools:
 
         try:
             smtpserver.sendmail(FromAddr, ToAddr, emailtextstring)
-        except SMTPException as err:
+        except smtplib.SMTPException as err:
             self.logger.error("Problem sending email")
             self.logger.error("SMTPException: {0}".format(err))
             return 1
