@@ -13,6 +13,7 @@ from optparse import OptionParser
 from LPCScriptsConfig import *
 from FERRYTools import *
 from EOSTools import *
+from EmailTools import *
 
 
 
@@ -145,6 +146,7 @@ def main(argv):
 
     userlist = []
     useruidlist = []
+    userfullnamemap = {}
 
     for user in replyJson:
         logger.debug("anybody: %s", user)
@@ -152,6 +154,7 @@ def main(argv):
             logger.info("New cms user: " + str(user['username']) + "  " +
                         str(user['uid']) + "  " + str(user['full_name']) + "  " +
                         str(user['expiration_date']))
+            userfullnamemap[user['username']]=user['full_name']
 
             try:
                 pwd.getpwnam(user['username'])
@@ -173,6 +176,11 @@ def main(argv):
 #   get ready to do stuff with EOS if necessary
 
     eos = EOSTools(mgmnode=EOSMGMHOST, logobj=logger, debug=options.debug)
+
+
+#   also set up mail bits
+
+    email = EmailTools(logobj=logger, debug=options.debug)
 
 
     for user in userlist:
@@ -328,6 +336,16 @@ def main(argv):
                 logger.info ("EOS returns: %s" % rawoutput)
 
 
+#      done with the physical stuff, finally do the email bits
+
+                email.userAccountMadeMail(user=sanitizedusername)
+
+                fullname=''
+                if user in userfullnamemap:
+                    fullname=userfullnamemap[user]
+                email.addToUAFList(user=user, userfullname=fullname)
+
+
             else:
 
 
@@ -369,8 +387,10 @@ def scriptexec(command = [], debug=False, logobj=None):
         logger.info("Output: %s" % str(output))
     except subprocess.CalledProcessError as e:
         logger.info("Exec Error: %s" % e.output)
+        return 2
     except Exception as e:
         logger.info("Other error: %s" % e)
+        return 3
 
 
     return 0

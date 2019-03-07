@@ -50,7 +50,9 @@ EOSSHELL = "/usr/bin/eos -b -j"
 
 # New user email options
 
+NOREPLYEMAILSENDER = "do-not-reply@fnal.gov"
 NEWUSEREMAILSENDER = "dmason@fnal.gov"
+NEWUSERBCCLIST = ""
 NEWUSEREMAILTEXTLOC = "NewUserEmail.txt"
 
 

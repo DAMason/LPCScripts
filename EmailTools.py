@@ -103,29 +103,51 @@ class EmailTools:
         except SMTPException as err:
             self.logger.error("Problem sending email")
             self.logger.error("SMTPException: {0}".format(err))
-
+            return 1
 
         smtpserver.set_debuglevel(5)
         smtpserver.close()
+        self.logger.info("No errors caught -- presumably email has been sent")
 
         return 0
 
 
-    def addToUAFList(self, user=""):
+    def addToUAFList(self, user="", userfullname=""):
 
         if user == "":
             self.logger.error("User ID: %s got lost -- aborting email!" % user )
             return 1
 
+        if user == "":
+            self.logger.error("User full name: %s got lost" % userfullname)
+            self.logger.error("replacing with username %s" % user)
+            userfullname=user
+
+
+
         useremail = user + '@fnal.gov'
 
+
         FromAddr = NEWUSEREMAILSENDER
+        ToAddr = "listserv@fnal.gov"
 
         self.logger.info("Preparing to add %s to UAF list" % useremail)
 
+        emailtextstring = "To: %s\n" % ToAddr
+        emailtextstring += "From: %s \n" % FromAddr
+        emailtextstring += "Subject: add new user to the list\n\n"
+        emailtextstring += "ADD CMS_UAF_USERS %s %s" % (useremail, userfullname)
 
+        try:
+            smtpserver.sendmail(FromAddr, ToAddr, emailtextstring)
+        except SMTPException as err:
+            self.logger.error("Problem sending email")
+            self.logger.error("SMTPException: {0}".format(err))
+            return 1
 
-
+        smtpserver.set_debuglevel(5)
+        smtpserver.close()
+        self.logger.info("No errors caught -- presumably email has been sent")
 
         return 0
 
