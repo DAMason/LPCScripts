@@ -8,6 +8,7 @@ Assuming python3 here
 import os
 import sys
 import re
+import pwd
 import logging
 import smtplib
 
@@ -58,7 +59,7 @@ class EmailTools:
 # bits to send new user email
 
 
-    def userAccountMadeMail(self, user=""):
+    def userAccountMadeMail(self, user="", BCC=False):
 
 
 
@@ -72,7 +73,7 @@ class EmailTools:
         recips = [useremail]
         emailtextstring = "To: %s\n" % useremail
         emailtextstring += "Subject: Welcome to the CMS LPC CAF (Central Analysis Facility)\n"
-        if len(NEWUSERBCCLIST) > 0:
+        if BCC and len(NEWUSERBCCLIST) > 0:
             recips.append(NEWUSERBCCLIST)
             emailtextstring += "Bcc: %s\n" % NEWUSERBCCLIST
 
@@ -119,7 +120,7 @@ class EmailTools:
 
 # to add new user to the UAF list
 
-    def addToUAFList(self, user="", userfullname=""):
+    def addToUAFList(self, user="", userfullname="", quiet=False):
 
         if user == "":
             self.logger.error("User ID: %s got lost -- aborting email!" % user )
@@ -144,7 +145,11 @@ class EmailTools:
         emailtextstring = "To: %s\n" % ToAddr
         emailtextstring += "From: %s \n" % FromAddr
         emailtextstring += "Subject: add new user to the list\n\n"
-        emailtextstring += "ADD CMS_UAF_USERS %s %s" % (useremail, userfullname)
+        if quiet:
+            emailtextstring += "QUIET ADD CMS_UAF_USERS %s %s" % (useremail, userfullname)
+        else:
+            emailtextstring += "ADD CMS_UAF_USERS %s %s" % (useremail, userfullname)
+
 
         try:
             smtpserver.sendmail(FromAddr, ToAddr, emailtextstring)
@@ -162,8 +167,57 @@ class EmailTools:
 
 if __name__ == '__main__':
 
-    thingy = EmailTools(debug=True)
+
+    """
+    Options
+    """
+    usage = "Usage: %prog [options] thing\n"
+    parser = OptionParser(usage=usage)
 
 
-    j=thingy.userAccountMadeMail(user="dmason")
-    j=thingy.addToUAFList(user=user, userfullname=fullname)
+
+    parser.add_option("-d", "--debug", action="store_true", dest="debug",
+                      default=False,
+                      help="debug output")
+
+    parser.add_option("-n", "--newuser", action="store", dest="newuser",
+                      type="string", default="",
+                      help="new user email with username")
+
+    parser.add_option("-u", "--uaf", action="store", dest="uafadd",
+                      type="string", default="",
+                      help="add user to UAF list")
+
+    parser.add_option("-q", "--quiet", action="store_true", dest="quiet",
+                      default=True,
+                      help="UAF addition is quiet")
+
+    parser.add_option("-b", "--bcc", action="store_true", dest="bcc",
+                      default=False,
+                      help="Bcc new user email to %s", NEWUSERBCCLIST)
+
+
+    (options,args) = parser.parse_args()
+
+
+
+
+    thingy = EmailTools(debug=options.debug)
+
+    if len(options.newuser)>0:
+        print ("doing userAccountMadeMail for user %s" % options.newuser)
+        if options.bcc:
+            print ("With Bcc to: %s" % NEWUSERBCCLIST
+        j=thingy.userAccountMadeMail(user="dmason", BCC=options.bcc)
+
+    if len(options.uafadd)>0:
+        print ("doing addToUAFList for user %s" % options.newuser)
+        if options.quiet:
+            print ("Quietly")
+
+        pwdentry=pwd.getpwnam(options.uafadd)
+        fullname=pwdentry['gecos']
+        print ("Full name supposed to be: %s" % fullname)
+        j=thingy.addToUAFList(user=options.uafadd,
+                              userfullname=fullname,
+                              quiet=options.quiet)
