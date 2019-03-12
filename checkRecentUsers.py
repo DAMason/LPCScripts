@@ -338,7 +338,7 @@ def main(argv):
 
 #      done with the physical stuff, finally do the email bits
 
-                j = email.userAccountMadeMail(user=sanitizedusername)
+                j = email.userAccountMadeMail(user=sanitizedusername, BCC=True)
 
                 fullname=''
                 if user in userfullnamemap:
