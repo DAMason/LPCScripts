@@ -44,6 +44,10 @@ def main(argv):
                       default=defaultcertloc, dest="cert",
                       help="full path to cert")
 
+    parser.add_option("-u", "--username", action="store", type="string",
+                      default=None, dest="username",
+                      help="username to force create (other info must be in FERRY)")
+
     parser.add_option("-d", "--debug", action="store_true", dest="debug",
                       default=False,
                       help="debug output")
@@ -53,7 +57,10 @@ def main(argv):
                       help="check only -- don't perform any action")
 
     adayago = time.time()-(60.0*60.0*24.0)
-    aweekago = time.time()-(60.0*60.0*24.0*7.0)
+          # so that we don't go before the BIG RESET of Apr 8 2019
+    aweekago = max(1554730693, time.time()-(60.0*60.0*24.0*7.0))
+
+
 
 
     parser.add_option("-t", "--timesince", action="store", type="int",
@@ -113,6 +120,7 @@ def main(argv):
         logger.debug("server: %s", options.hosturl)
         logger.debug("capath: %s", options.capath)
         logger.debug("cert: %s", options.cert)
+        logger.debug("username: %s", options.username)
         logger.debug("donothing: %s", options.donothing)
         logger.debug("debug: %s", options.debug)
         logger.debug("timesince: %s", options.timesince)
@@ -126,7 +134,15 @@ def main(argv):
     Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath,
                      logobj=logger)
 
-    replyJson = Ferry.getRecentUsers(timestamp=options.timesince, debug=options.debug)
+    if options.username is not None:
+
+        replyJson = Ferry.getUserInfo(username=options.username, debug=options.debug)
+        replyJson['username']=options.username
+
+    else:
+
+        replyJson = Ferry.getRecentUsers(timestamp=options.timesince, debug=options.debug)
+
 
 
     logger.debug(replyJson)
