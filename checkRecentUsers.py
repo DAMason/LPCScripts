@@ -134,6 +134,11 @@ def main(argv):
     Ferry=FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath,
                      logobj=logger)
 
+    # hacked this in to force account check/creation for a known user that the time based
+    # query doesn't pull up.  getUserInfo returns an array of users so next line does
+    # a minor tweak to make same format as what comes back from getRecentUsers -- then
+    # the rest behaves the same:
+
     if options.username is not None:
 
         replyJson = Ferry.getUserInfo(username=options.username, debug=options.debug)
