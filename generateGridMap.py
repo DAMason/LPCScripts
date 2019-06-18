@@ -1,4 +1,4 @@
- #!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Use a combination of FERRY and the CMS VOMS server to produce a gridmap file for CRAB
 users on the T1
