@@ -143,7 +143,7 @@ def main(argv):
 
     logger.info("New quota entries:")
 
-    for uid,user in replyJson['group_quotas'].items():
+    for uid,user in replyJson['user_quotas'].items():
 
         logger.debug(user)
 
