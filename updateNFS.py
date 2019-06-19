@@ -152,7 +152,7 @@ def main(argv):
             logger.debug(resource)
 
 
-            if rid == "NOBACKUP2" || rid == "NOBACKUP3":
+            if rid == "NOBACKUP2" or rid == "NOBACKUP3":
 
                 if resource["unit"] == "B":
                     quotaTB = int(resource["value"])/1000./1000./1000./1000.
