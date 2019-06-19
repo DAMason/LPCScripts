@@ -151,15 +151,75 @@ def main(argv):
 
             logger.debug(resource)
 
-            if resource["unit"] == "B":
-                quotaTB = int(resource["value"])/1000./1000./1000./1000.
-                logger.info(uid + " " + resource["path"] + ": " + str(quotaTB) + " TB")
-            else:
-                logger.info(uid + " " + resource["path"] + ": " + resource["value"] +
+
+            if rid == "NOBACKUP2" || rid == "NOBACKUP3":
+
+                if resource["unit"] == "B":
+                    quotaTB = int(resource["value"])/1000./1000./1000./1000.
+                    logger.info(uid + " " + resource["path"] + ": " + str(quotaTB) + " TB")
+                else:
+                    logger.info(uid + " " + resource["path"] + ": " + resource["value"] +
                             resource["unit"])
+
+#            FERRY is giving users quotas on both data2 and data3, but we're currently
+#            only adding them to data3.  Need to correct this.
+
+                if os.path.exists(resource["path"]):
+
+                     logger.info(resource["path"] + " exists.")
+
+
 
         logger.info("")
 
+
+# feeds subprocess and logs results
+
+def scriptexec(command = [], debug=False, logobj=None):
+
+    if logobj is not None and isinstance(logobj,logging.getLoggerClass()):
+        logger=logobj
+    else:
+        print ("scriptexec called without logobj -- skipping doing:")
+        print ("%s" % command)
+        return 1
+
+#   sticking this in here for debugging
+#    command = ["echo"] + command
+
+    logger.debug("Command Array: %s" % command)
+
+    commandstring = ""
+
+    for a in command:
+        commandstring = commandstring + a + " "
+
+    logger.info ("Executing: %s" % commandstring)
+
+    output = ""
+    try:
+        output = subprocess.check_output(command, stderr=subprocess.STDOUT)
+        logger.info("Output: %s" % str(output))
+    except subprocess.CalledProcessError as e:
+        logger.info("Exec Error: %s" % e.output)
+        return 2
+    except Exception as e:
+        logger.info("Other error: %s" % e)
+        return 3
+
+
+    return 0
+
+
+def fetchquota(path="", logobj=None):
+
+    quotaDict={}
+
+    command = ["quota", "-wp", "-f", path]
+
+
+
+    return quotaDict
 
 
 
