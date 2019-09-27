@@ -88,7 +88,7 @@ class FERRYTools(urllib2.HTTPSHandler):
 # host.  self.cert assumed to be None if we didn't get one.
 
         if self.cert is not None:
-            self.logger.debug("self.cert: " % self.cert)
+            self.logger.debug("self.cert: %s " % self.cert)
 
 #        from Robert Illingworth -- prior to v3.6:
             self.context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
