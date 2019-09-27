@@ -365,6 +365,12 @@ if __name__ == '__main__':
 
     (options,args) = parser.parse_args()
 
+    logger.debug("server: %s", options.hosturl)
+    logger.debug("capath: %s", options.capath)
+    logger.debug("cert: %s", options.cert)
+    logger.debug("username: %s", options.username)
+    logger.debug("timesince: %s", options.timesince)
+
 
     """
     And here we go...
