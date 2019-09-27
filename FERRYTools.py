@@ -144,12 +144,12 @@ class FERRYTools(urllib2.HTTPSHandler):
 #           SUCCESS
             if (replyJson['ferry_status'] == 'success'):
                 returnJson = replyJson['ferry_output']
-                logger.debug("Returning: %s" % returnJson)
+                self.logger.debug("Returning: %s" % returnJson)
 #           ERROR
             else:
-                logger.error("FERRY returned an error:")
-                logger.error("Ferry status: %s" % replyJson['ferry_status'])
-                logger.error("FERRY ERROR: %s" % replyJson['ferry_error'])
+                self.logger.error("FERRY returned an error:")
+                self.logger.error("Ferry status: %s" % replyJson['ferry_status'])
+                self.logger.error("FERRY ERROR: %s" % replyJson['ferry_error'])
 
         # don't actually abort on FERRY errors -- depends on who's using this
         #  sys.exit(1)
