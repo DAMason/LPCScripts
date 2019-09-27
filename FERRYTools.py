@@ -365,6 +365,10 @@ if __name__ == '__main__':
 
     (options,args) = parser.parse_args()
 
+    path, execname = os.path.split(sys.argv[0])
+    if len(execname) == 0:
+        execname="FERRYTools-TESTING"
+
 
 
 # setting up logging -- end up passing this to *Tools so everybody logs to the same place
