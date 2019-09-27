@@ -18,6 +18,9 @@ import ssl
 import json
 from LPCScriptsConfig import *
 
+from optparse import OptionParser
+
+
 
 class FERRYTools(urllib2.HTTPSHandler):
 
@@ -315,10 +318,61 @@ class FERRYTools(urllib2.HTTPSHandler):
 
 
 
+# if we're here we're debugging.  FERRY and API tests will commence
 
 
 
 
 if __name__ == '__main__':
 
-    thingy = FERRYTools(cert="/tmp/x509up_u0", capath="/etc/grid-security/certificates")
+
+    """
+    Options
+    """
+    usage = "Usage: %prog [options] thing\n"
+    parser = OptionParser(usage=usage)
+
+    parser.add_option("-s", "--server", action="store", type="string",
+                      default=FERRYHOSTURL, dest="hosturl",
+                      help="Server host URL")
+
+    parser.add_option("-p", "--capath", action="store", type="string",
+                      default=CAPATH, dest="capath",
+                      help="CA Path")
+
+    defaultcertloc = "/tmp/x509up_u"+str(os.getuid())
+
+    parser.add_option("-c", "--cert", action="store", type="string",
+                      default=defaultcertloc, dest="cert",
+                      help="full path to cert")
+
+    parser.add_option("-u", "--username", action="store", type="string",
+                      default=None, dest="username",
+                      help="username to force create (other info must be in FERRY)")
+
+
+    adayago = time.time()-(60.0*60.0*24.0)
+          # so that we don't go before the BIG RESET of Apr 8 2019
+    aweekago = max(1554730693, time.time()-(60.0*60.0*24.0*7.0))
+
+
+    parser.add_option("-t", "--timesince", action="store", type="int",
+                      dest="timesince",default=aweekago,
+                      help="timestamp of earliest quota")
+
+
+    (options,args) = parser.parse_args()
+
+
+    """
+    And here we go...
+    """
+
+
+
+
+    thingy = FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath
+             debug=True)
+
+
+
