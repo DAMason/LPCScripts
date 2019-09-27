@@ -379,10 +379,9 @@ if __name__ == '__main__':
     filelogformatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
 
 
-    if not options.debug:
-        logger.setLevel(logging.INFO)
-    else:
-        logger.setLevel(logging.DEBUG)
+#   testing -- always debug
+
+    logger.setLevel(logging.DEBUG)
     logsh = logging.StreamHandler()
 
     logsh.setFormatter(logformatter)
