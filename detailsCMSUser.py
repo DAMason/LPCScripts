@@ -83,14 +83,14 @@ def main(argv):
 
     replyJson = Ferry.getUserInfo(options.username, options.debug)
 
-    print("Full Name:       ", replyJson[0]['full_name'])
-    print("UID:             ", replyJson[0]['uid'])
-    print("Status:          ", replyJson[0]['status'])
-    print("Exp. Date        ", replyJson[0]['expiration_date'])
+    print("Full Name:       ", replyJson['full_name'])
+    print("UID:             ", replyJson['uid'])
+    print("Status:          ", replyJson['status'])
+    print("Exp. Date        ", replyJson['expiration_date'])
 
     replyJson = Ferry.getUserShellandHomedir(options.username, options.debug)
-    print("Home dir         ", replyJson[0]['homedir'])
-    print("Shell            ", replyJson[0]['shell'])
+    print("Home dir         ", replyJson['homedir'])
+    print("Shell            ", replyJson['shell'])
 
 
     replyJson = Ferry.getCERNUserNames(username=options.username,debug=options.debug)
