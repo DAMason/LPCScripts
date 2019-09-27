@@ -83,7 +83,7 @@ def main(argv):
 
     replyJson = Ferry.getUserInfo(options.username, options.debug)
 
-    print("Full Name:       ", replyJson['full_name'])
+    print("Full Name:       ", replyJson['fullname'])
     print("UID:             ", replyJson['uid'])
     print("Status:          ", replyJson['status'])
     print("Exp. Date        ", replyJson['expiration_date'])
