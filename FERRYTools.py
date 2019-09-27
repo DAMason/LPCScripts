@@ -108,6 +108,7 @@ class FERRYTools(urllib2.HTTPSHandler):
 
     def genericFerryQuery(self, query, debug=False):
         replyJson = {}
+        returnJson = {}
         queryUrl = self.hosturl+query
 
         self.logger.debug("Request: %s" % queryUrl)
@@ -132,18 +133,27 @@ class FERRYTools(urllib2.HTTPSHandler):
         replyJson = json.loads(str(reply))
         self.logger.debug("Json:")
         self.logger.debug(replyJson)
-        # seems ferry errors are a dict independent of whatever you are expecting
-        if (type(replyJson) is dict and "ferry_error" in replyJson.keys()):
-            self.logger.info("Failure trying to deal with: %s" % queryUrl)
-         # dealing with {"ferry_error",None}
-            if replyJson['ferry_error'] is not None:
-                self.logger.info("Ferry Error:    " + str(replyJson['ferry_error']))
+
+#       in FERRY2 now is supposed to always have a ferry_status, ferry_error,
+#       and then ferry_output
+
+        if (type(replyJson) is not dict):
+            self.logger.error("Failure trying to deal with %s" % queryUrl)
+            self.logger.error("reply isn't expected dict")
+        else:
+#           SUCCESS
+            if (replyJson['ferry_status'] == 'success'):
+                returnJson = replyJson['ferry_output']
+                logger.debug("Returning: %s" % returnJson)
+#           ERROR
             else:
-                print(replyJson)
+                logger.error("FERRY returned an error:")
+                logger.error("Ferry status: %s" % replyJson['ferry_status'])
+                logger.error("FERRY ERROR: %s" % replyJson['ferry_error'])
 
         # don't actually abort on FERRY errors -- depends on who's using this
         #  sys.exit(1)
-        return replyJson
+        return returnJson
 
 
 # individual API calls, essentially converting from a python method to the appropriate
