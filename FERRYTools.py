@@ -417,8 +417,9 @@ if __name__ == '__main__':
 #   Catching if there isn't a cert -- then passing None
 
     if not os.path.exists(options.cert):
-        logger.info("cert: ", options.cert,
-                    " not found -- proceeding to assume host is in whitelist...")
+        logger.info("cert: %s not found -- proceeding to assume host is in whitelist..."%
+                    options.cert)
+
         options.cert=None
 
 
