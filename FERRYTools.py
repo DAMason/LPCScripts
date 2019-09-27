@@ -365,6 +365,40 @@ if __name__ == '__main__':
 
     (options,args) = parser.parse_args()
 
+
+
+# setting up logging -- end up passing this to *Tools so everybody logs to the same place
+
+    logger = logging.getLogger(execname)
+
+    logformatter = logging.Formatter('%(levelname)s %(message)s')
+    filelogformatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
+
+
+    if not options.debug:
+        logger.setLevel(logging.INFO)
+    else:
+        logger.setLevel(logging.DEBUG)
+    logsh = logging.StreamHandler()
+
+    logsh.setFormatter(logformatter)
+    logger.addHandler(logsh)
+
+
+    if not os.path.exists(LOGDIR):
+        logger.debug("Log dir %s doesn't exist -- creating!", LOGDIR)
+        os.mkdir(LOGDIR)
+    logfilename=execname+".log"
+    logpath = os.path.join(LOGDIR,logfilename)
+    logfh = logging.FileHandler(logpath)
+
+    logfh.setFormatter(filelogformatter)
+    logger.addHandler(logfh)
+
+    logger.info ("Various FERRY tests beginning...")
+
+    logger.debug("Parsing Options")
+
     logger.debug("server: %s", options.hosturl)
     logger.debug("capath: %s", options.capath)
     logger.debug("cert: %s", options.cert)
@@ -380,7 +414,7 @@ if __name__ == '__main__':
 
 
     thingy = FERRYTools(hosturl=options.hosturl, cert=options.cert,
-                        capath=options.capath, debug=True)
+                        capath=options.capath, debug=True, logobj=logger)
 
 
 
