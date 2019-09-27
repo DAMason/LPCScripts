@@ -86,7 +86,7 @@ def main(argv):
     print("Full Name:       ", replyJson['fullname'])
     print("UID:             ", replyJson['uid'])
     print("Status:          ", replyJson['status'])
-    print("Exp. Date        ", replyJson['expiration_date'])
+    print("Exp. Date        ", replyJson['expirationdate'])
 
     replyJson = Ferry.getUserShellandHomedir(options.username, options.debug)
     print("Home dir         ", replyJson['homedir'])
