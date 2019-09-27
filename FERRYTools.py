@@ -371,8 +371,8 @@ if __name__ == '__main__':
 
 
 
-    thingy = FERRYTools(hosturl=options.hosturl, cert=options.cert, capath=options.capath
-             debug=True)
+    thingy = FERRYTools(hosturl=options.hosturl, cert=options.cert,
+                        capath=options.capath, debug=True)
 
 
 
