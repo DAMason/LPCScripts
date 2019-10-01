@@ -93,7 +93,7 @@ def main(argv):
                      quotaTB = int(resource["quota"])/1000./1000./1000./1000.
                      print (uid + " " + resource["path"] + ": " + str(quotaTB) + " TB")
                  else:
-                     print (uid + " " + resource["path"] + ": " + resource["value"] + resource["unit"])
+                     print (uid + " " + resource["path"] + ": " + resource["quota"] + resource["quotaunit"])
 
         print("NEW GROUP QUOTAS: \n\n\n\n")
 
@@ -107,7 +107,7 @@ def main(argv):
                      quotaTB = int(resource["quota"])/1000./1000./1000./1000.
                      print (uid + " " + resource["path"] + ": " + str(quotaTB) + " TB")
                  else:
-                     print (uid + " " + resource["path"] + ": " + resource["value"] + resource["unit"])
+                     print (uid + " " + resource["path"] + ": " + resource["quota"] + resource["quotaunit"])
 
 
 if __name__ == '__main__':
