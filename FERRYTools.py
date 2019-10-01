@@ -328,6 +328,7 @@ class FERRYTools(urllib2.HTTPSHandler):
             self.logger.debug(replyJson)
             if replyJson is not None:
                 for affil in replyJson:
+                    self.logger.debug(affil)
                     if 'unitname' in affil:
                         self.logger.debug("username: %s, unit: %s",
                                            username,affil['unitname'])
