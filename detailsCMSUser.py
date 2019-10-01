@@ -119,8 +119,8 @@ def main(argv):
             print ("resource %s" % resource)
 
         print(k.ljust(10), end=' ')
-        print(resource['value'].rjust(15), resource['unit'].ljust(5), end=' ')
-        print(resource['path'].ljust(30), resource['validuntil'].ljust(20))
+        print(resource['quota'].rjust(15), resource['quotaunit'].ljust(5), end=' ')
+        print(resource['path'].ljust(30), resource['expirationdate'].ljust(20))
 
 
 
