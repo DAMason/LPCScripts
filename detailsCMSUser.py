@@ -110,11 +110,11 @@ def main(argv):
     replyJson = Ferry.getUserQuotas(options.username, options.debug)
 #    for resource in replyJson:
 #        print(resource['resourcename'].ljust(10), end=' ')
-    if options.debug:
-        print ("replyJson[userquotas][options.username]: %s" %
-               replyJson["userquotas"][options.username])
 
-    for k,resource in replyJson["userquotas"][options.username].items():
+    if options.debug:
+        print ("replyJson: %s" % replyJson)
+
+    for k,resource in replyJson.items():
         if options.debug:
             print ("resource %s" % resource)
 

@@ -181,10 +181,17 @@ class FERRYTools(urllib2.HTTPSHandler):
     def getUserQuotas(self, username, debug=False):
 
         replyJson = {}
+        returnedthing = {}
         query = "/getStorageQuotas?username="+username
         replyJson = self.genericFerryQuery(query, debug)
 
-        return replyJson
+        if (username in replyJson['users']):
+            returnedthing=replyJson['users'][username]
+        else:
+              self.logger.error("something wrong with returned quota list")
+              self.logger.error(replyJson)
+
+        return returnedthing
 
     def getLPCEOSQuota(self, username, debug=False):
         replyJson = self.getUserQuotas(username, debug)
