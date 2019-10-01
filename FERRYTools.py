@@ -293,7 +293,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         replyJson = {}
 
         if timestamp > 0:
-           query = "/getUserExternalAffiliationAttributes?last_updated="
+           query = "/getUserExternalAffiliationAttributes?lastupdated="
            query = query + str(int(timestamp))
            replyJson = self.genericFerryQuery(query, debug)
 
@@ -319,13 +319,13 @@ class FERRYTools(urllib2.HTTPSHandler):
         if len(username) > 0:
             replyJson=self.getMemberships(username, debug)
             self.logger.debug(replyJson)
-            if not "ferry_error" in replyJson:
-                for affil in replyJson:
-                    if 'unitname' in affil:
-                        self.logger.debug("username: %s, unit: %s",
-                                          username,affil['unitname'])
-                        if affil['unitname'] == "cms":
-                            isinCMS = True
+#            if not "ferry_error" in replyJson:
+            for affil in replyJson:
+                if 'unitname' in affil:
+                    self.logger.debug("username: %s, unit: %s",
+                                       username,affil['unitname'])
+                    if affil['unitname'] == "cms":
+                        isinCMS = True
 
         return isinCMS
 
