@@ -314,7 +314,7 @@ class FERRYTools(urllib2.HTTPSHandler):
 
         if len(username) > 0:
            query = "/getMemberAffiliations?username=" + username
-           replyJson = self.genericFerryQuery(query, debug)
+           replyJson = self.genericFerryQuery(query, debug)['ferry_output']
 
         return replyJson
 
@@ -326,13 +326,13 @@ class FERRYTools(urllib2.HTTPSHandler):
         if len(username) > 0:
             replyJson=self.getMemberships(username, debug)
             self.logger.debug(replyJson)
-#            if not "ferry_error" in replyJson:
-            for affil in replyJson:
-                if 'unitname' in affil:
-                    self.logger.debug("username: %s, unit: %s",
-                                       username,affil['unitname'])
-                    if affil['unitname'] == "cms":
-                        isinCMS = True
+            if replyJson is not None:
+                for affil in replyJson:
+                    if 'unitname' in affil:
+                        self.logger.debug("username: %s, unit: %s",
+                                           username,affil['unitname'])
+                        if affil['unitname'] == "cms":
+                            isinCMS = True
 
         return isinCMS
 
