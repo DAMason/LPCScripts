@@ -83,7 +83,7 @@ def main(argv):
 
         print("NEW USER QUOTAS: \n\n\n\n")
 
-        for uid,user in replyJson['userquotas'].items():
+        for uid,user in replyJson['users'].items():
 
             if options.debug:
                  print (user)
@@ -97,7 +97,7 @@ def main(argv):
 
         print("NEW GROUP QUOTAS: \n\n\n\n")
 
-        for uid,user in replyJson['groupquotas'].items():
+        for uid,user in replyJson['groups'].items():
 
             if options.debug:
                  print (user)
