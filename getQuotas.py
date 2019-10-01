@@ -89,7 +89,7 @@ def main(argv):
                  print (user)
 
             for rid,resource in user.items():
-                 print ()"quotaunit: %s" % resource["quotaunit"])
+                 print ("quotaunit: %s" % resource["quotaunit"])
                  if resource["quotaunit"] == 'b':
                      quotaTB = int(resource["quota"])/1000./1000./1000./1000.
                      print (uid + " " + resource["path"] + ": " + str(quotaTB) + " TB")
