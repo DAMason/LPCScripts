@@ -209,7 +209,7 @@ def main(argv):
         replyJson = {}
 
         replyJson = Ferry.getUserShellandHomedir(user, options.debug)
-        homedir = replyJson[0]['homedir']
+        homedir = replyJson['homedir']
 
         if os.path.exists(homedir):
 
