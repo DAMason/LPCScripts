@@ -259,7 +259,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         replyJson = {}
 
         if timestamp > 0:
-           query = "/getGroupFile?unitname=cms&resourcename=lpcinteractive&last_updated="
+           query = "/getGroupFile?unitname=cms&resourcename=lpcinteractive&lastupdated="
            query = query + str(int(timestamp))
            replyJson = self.genericFerryQuery(query, debug)
 
@@ -271,7 +271,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         replyJson = {}
 
         if timestamp > 0:
-           query = "/getStorageQuotas?last_updated=" + str(int(timestamp))
+           query = "/getStorageQuotas?lastupdated=" + str(int(timestamp))
            replyJson = self.genericFerryQuery(query, debug)
 
         return replyJson
@@ -282,7 +282,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         replyJson = {}
 
         if timestamp > 0:
-           query = "/getAllUsers?last_updated=" + str(int(timestamp))
+           query = "/getAllUsers?lastupdated=" + str(int(timestamp))
            replyJson = self.genericFerryQuery(query, debug)
 
         return replyJson
