@@ -315,6 +315,7 @@ class FERRYTools(urllib2.HTTPSHandler):
         if len(username) > 0:
            query = "/getMemberAffiliations?username=" + username
            replyJson = self.genericFerryQuery(query, debug)['ferry_output']
+           self.logger.debug("getMemberships returning: %s" % replyJson)
 
         return replyJson
 
