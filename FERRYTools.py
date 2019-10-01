@@ -314,10 +314,11 @@ class FERRYTools(urllib2.HTTPSHandler):
 
         if len(username) > 0:
            query = "/getMemberAffiliations?username=" + username
-           replyJson = self.genericFerryQuery(query, debug)['ferry_output']
-           self.logger.debug("getMemberships returning: %s" % replyJson)
+           replyJson = self.genericFerryQuery(query, debug)
+           returnJson=replyJson['ferry_output']
+           self.logger.debug("getMemberships returning: %s" % returnJson)
 
-        return replyJson
+        return returnJson
 
 
     def isInCMS(self, username="", debug=False):
