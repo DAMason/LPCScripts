@@ -152,10 +152,10 @@ def main(argv):
 
 #   important for the LPC to strip off the cilogon certs
 
-        if not "cilogon" in user['userdn']:
-            fnalmap[user['userdn']] = user['mapped_uname']
+        if not "cilogon" in user['dn']:
+            fnalmap[user['dn']] = user['username']
 
-            logger.debug("%s  %s" %(user['mapped_uname'], user['userdn']))
+            logger.debug("%s  %s" %(user['username'], user['dn']))
 
 
     Voms=VOMSTools(cert=options.cert, capath=options.capath, logobj=logger)
