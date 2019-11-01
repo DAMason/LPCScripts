@@ -341,11 +341,11 @@ def main(argv):
                                debug=options.debug, logobj=logger)
 
                 j = scriptexec(command=["chown", sanitizedusername+".us_cms",
-                               realhomedir+"/.bash_profile",
+                               realhomedir+"/.bash_profile"],
                                debug=options.debug, logobj=logger)
 
                 j = scriptexec(command=["chmod", "644",
-                               realhomedir+"/.bash_profile",
+                               realhomedir+"/.bash_profile"],
                                debug=options.debug, logobj=logger)
 
 
