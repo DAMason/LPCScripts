@@ -334,6 +334,20 @@ def main(argv):
                 j = scriptexec(command=["chmod", "755", nfsdir],
                                debug=options.debug, logobj=logger)
 
+#      skeleton .bash_profile also committed along with this code -- copy to homedir
+
+                j = scriptexec(command=["cp", "./proto_bash_profile",
+                               realhomedir+"/.bash_profile"],
+                               debug=options.debug, logobj=logger)
+
+                j = scriptexec(command=["chown", sanitizedusername+".us_cms",
+                               realhomedir+"/.bash_profile",
+                               debug=options.debug, logobj=logger)
+
+                j = scriptexec(command=["chmod", "644",
+                               realhomedir+"/.bash_profile",
+                               debug=options.debug, logobj=logger)
+
 
 #      then EOS -- relies being able to log into the MGM
 
