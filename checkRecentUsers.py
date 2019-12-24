@@ -139,10 +139,12 @@ def main(argv):
     # a minor tweak to make same format as what comes back from getRecentUsers -- then
     # the rest behaves the same:
 
+    replyJson=[];
+    
     if options.username is not None:
 
-        replyJson = Ferry.getUserInfo(username=options.username, debug=options.debug)
-        replyJson['username']=options.username
+        replyJson.append(Ferry.getUserInfo(username=options.username, debug=options.debug))
+        replyJson[0]['username']=options.username
 
     else:
 
