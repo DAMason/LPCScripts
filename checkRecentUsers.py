@@ -142,7 +142,7 @@ def main(argv):
     if options.username is not None:
 
         replyJson = Ferry.getUserInfo(username=options.username, debug=options.debug)
-        replyJson['ferry_output']['username']=options.username
+        replyJson['username']=options.username
 
     else:
 
