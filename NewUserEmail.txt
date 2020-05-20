@@ -28,8 +28,8 @@ of the following methods:
  
 5) *To get help*:
 For CMS LPC CAF specific problems, you may use the dedicated ServiceNow portal
-with your Fermilab Services username and password:
- https://fermi.service-now.com/lpc/?id=lpc_index
+with your Fermilab Services username and password: 
+https://fermi.servicenowservices.com/lpc/?id=lpc_index
 Resource for getting help for CMS LPC computing are collected here:
   http://lpc.fnal.gov/computing/gethelp.shtml
 
