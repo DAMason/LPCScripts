@@ -146,7 +146,7 @@ def main(argv):
 #       normally this will be a list, so tacking the one user onto it
         replyJson.append(Ferry.getUserInfo(username=options.username, 
                                            debug=options.debug))
-        replyJson[0]['username']=options.username
+        replyJson[0]=options.username
 
     else:
 
