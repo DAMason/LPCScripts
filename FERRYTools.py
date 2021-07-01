@@ -295,7 +295,7 @@ class FERRYTools(urllib2.HTTPSHandler):
            
             replyJson = self.genericFerryQuery(query, debug)
 
-        return replyJson
+        return replyJson['cms']['resources']['lpcinteractive']
 
 
     def getRecentAffiliations(self, timestamp=0, debug=False):
