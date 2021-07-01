@@ -177,9 +177,9 @@ def main(argv):
         logger.debug("anybody: %s", user)
         if Ferry.isInCMS(username=user['username'], debug=options.debug):
             logger.info("New cms user: " + str(user['username']) + "  " +
-                        str(user['uid']) + "  " + str(user['fullname']) + "  " +
+                        str(user['uid']) + "  " + str(user['gecos']) + "  " +
                         str(user['expirationdate']))
-            userfullnamemap[user['username']]=user['fullname']
+            userfullnamemap[user['username']]=user['gecos']
 
             try:
                 pwd.getpwnam(user['username'])
