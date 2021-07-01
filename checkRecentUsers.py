@@ -177,7 +177,7 @@ def main(argv):
         logger.debug("anybody: %s", user)
         if Ferry.isInCMS(username=user['username'], debug=options.debug):
             logger.info("New cms user: " + str(user['username']) + "  " +
-                        str(user['uid']) + "  " + str(user['gecos']) + "  " 
+                        str(user['uid']) + "  " + str(user['gecos']))  # + "  " 
 #                        str(user['expirationdate']))  # not in passwd file 
             userfullnamemap[user['username']]=user['gecos']
 
