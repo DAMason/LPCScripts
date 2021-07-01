@@ -227,12 +227,10 @@ def main(argv):
 
             logger.debug("Sanitizing username %s into: %s" % (user,sanitizedusername))
             
-            eosidcheckstring="ssh cmseosmgm01.fnal.gov id "
-            j = scriptexec(command=[eosidcheckstring, sanitizedusername], debug=options.debug,
+            j = scriptexec(command=["ssh","eosmgm01.fnal.gov","id", sanitizedusername], debug=options.debug,
                            logobj=logger)
                            
-            nfsidcheckstring="ssh cmsnfs2.fnal.gov id "
-            j = scriptexec(command=[nfsidcheckstring, sanitizedusername], debug=options.debug,
+            j = scriptexec(command=["ssh","nfs2.fnal.gov", "id", sanitizedusername], debug=options.debug,
                            logobj=logger)
                            
                            
