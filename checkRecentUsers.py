@@ -226,9 +226,7 @@ def main(argv):
             sanitizedusername=quote(user)
 
             logger.debug("Sanitizing username %s into: %s" % (user,sanitizedusername))
-            
-            sshcommand="ssh cmseosmgm01"
-            
+                        
             j = scriptexec(command=["ssh","cmseosmgm01.fnal.gov","id", sanitizedusername], debug=options.debug,
                            logobj=logger)
                            
