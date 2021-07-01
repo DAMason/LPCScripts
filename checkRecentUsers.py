@@ -220,14 +220,28 @@ def main(argv):
             logger.info("Homedir: %s exists", homedir)
 
         else:
+             
+            logger.info("Homedir: %s DOES NOT EXIST", homedir)
+            
+            sanitizedusername=quote(user)
+
+            logger.debug("Sanitizing username %s into: %s" % (user,sanitizedusername))
+            
+            eosidcheckstring="ssh cmseosmgm01.fnal.gov id "
+            j = scriptexec(command=["eosidcheckstring", sanitizedusername], debug=options.debug,
+                           logobj=logger)
+                           
+            nfsidcheckstring="ssh cmsnfs2.fnal.gov id "
+            j = scriptexec(command=["nfsidcheckstring", sanitizedusername], debug=options.debug,
+                           logobj=logger)
+                           
+                           
 
             if not options.donothing:
 
-                logger.info("Homedir: %s DOES NOT EXIST", homedir)
+#                sanitizedusername=quote(user)
 
-                sanitizedusername=quote(user)
-
-                logger.debug("Sanitizing username %s into: %s" % (user,sanitizedusername))
+#                logger.debug("Sanitizing username %s into: %s" % (user,sanitizedusername))
 
 #               We're not going to rely on discovering these things from FERRY just yet
 #               First make the /uscms/homes guy, then make the link.
@@ -388,7 +402,6 @@ def main(argv):
             else:
 
 
-                logger.info ("Homedir: %s DOES NOT EXIST", homedir)
                 logger.info ("donothing option set -- not taking any action...")
 
 
