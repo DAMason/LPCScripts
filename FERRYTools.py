@@ -290,8 +290,8 @@ class FERRYTools(urllib2.HTTPSHandler):
 
         if timestamp > 0:
 #           query = "/getAllUsers?lastupdated=" + str(int(timestamp))
-            query = "/getPasswdFile?resourcename=lpcinteractive&lastupdated=" +
-                    str(int(timestamp))
+            query = "/getPasswdFile?resourcename=lpcinteractive&lastupdated=" 
+            query = query + str(int(timestamp))
            
             replyJson = self.genericFerryQuery(query, debug)
 
