@@ -152,10 +152,12 @@ def main(argv):
     for user in replyJson:
 
         logger.debug(user)
-
-        uidstring="u:"+str(user["uid"])
-        uidList.append(uidstring)
-        newuserList.append(user["username"])
+        # this is the actual action part -- uidList gets used at bottom in the actual EOS call
+        # only do this for CMS members -- meaning expired UID's will get dropped as well
+        if Ferry.isInCMS(username=user["username"], debug=options.debug):
+            uidstring="u:"+str(user["uid"])
+            uidList.append(uidstring)
+            newuserList.append(user["username"])
 
     logger.debug("uid list: %s", uidList)
 
@@ -222,6 +224,8 @@ def main(argv):
                 logger.info("%s not in old ACL list, will be added" % user)
             else:
                 logger.info("%s not in CMS, will not be added" % user)
+                
+                
  
     j=eos.setacls(rolist=gidList, rwlist=uidList, path=grouppath)
 
