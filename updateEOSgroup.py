@@ -210,7 +210,7 @@ def main(argv):
         if user not in newuserList:
             droppedusers.append(user)
             logger.info("%s not in new list, will be dropped" % user)
-        if not Ferry.isInCMS(self, username=user, debug=options.debug)
+        if not Ferry.isInCMS(self, username=user, debug=options.debug):
             if user not in droppedusers:
                 droppedusers.append(user)
             logger.info("%s not in CMS, will be dropped" % user)
