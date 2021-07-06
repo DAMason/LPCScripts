@@ -154,7 +154,10 @@ def main(argv):
         logger.debug(user)
         # this is the actual action part -- uidList gets used at bottom in the actual EOS call
         # only do this for CMS members -- meaning expired UID's will get dropped as well
-        if Ferry.isInCMS(username=user["username"], debug=options.debug):
+        inCMS=False
+        inCMS=Ferry.isInCMS(username=user["username"], debug=options.debug)
+        # also don't want to lose the group user from acl list
+        if (inCMS | (options.group == user["username"])):
             uidstring="u:"+str(user["uid"])
             uidList.append(uidstring)
             newuserList.append(user["username"])
