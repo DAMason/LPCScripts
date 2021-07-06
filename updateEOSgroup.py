@@ -222,7 +222,9 @@ def main(argv):
     for user in sorted(newuserList):
         logger.info(user)
         if user not in initialuserlist:
-            if Ferry.isInCMS(username=user, debug=options.debug):
+            inCMS=False
+            inCMS=Ferry.isInCMS(username=user, debug=options.debug)
+            if (inCMS | user == options.group):  # not losing group user
                 addedusers.append(user)
                 logger.info("%s not in old ACL list, will be added" % user)
             else:
