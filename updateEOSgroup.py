@@ -210,19 +210,19 @@ def main(argv):
         if user not in newuserList:
             droppedusers.append(user)
             logger.info("%s not in new list, will be dropped" % user)
-        if not Ferry.isInCMS(username=user, debug=options.debug):
-            if user not in droppedusers:
-                droppedusers.append(user)
-            logger.info("%s not in CMS, will be dropped" % user)
+
 
     addedusers=[]
     logger.info("New user list in group (from FERRY) %s" % options.group)
     for user in sorted(newuserList):
         logger.info(user)
         if user not in initialuserlist:
-            addedusers.append(user)
-            logger.info("%s not in old ACL list, will be added" % user)
-
+            if Ferry.isInCMS(username=user, debug=options.debug):
+                addedusers.append(user)
+                logger.info("%s not in old ACL list, will be added" % user)
+            else:
+                logger.info("%s not in CMS, will not be added" % user)
+ 
     j=eos.setacls(rolist=gidList, rwlist=uidList, path=grouppath)
 
 
