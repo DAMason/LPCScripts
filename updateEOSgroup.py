@@ -224,7 +224,7 @@ def main(argv):
         if user not in initialuserlist:
             inCMS=False
             inCMS=Ferry.isInCMS(username=user, debug=options.debug)
-            if (inCMS | user == options.group):  # not losing group user
+            if (inCMS | (user == options.group)):  # not losing group user
                 addedusers.append(user)
                 logger.info("%s not in old ACL list, will be added" % user)
             else:
